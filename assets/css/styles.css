@@ -549,16 +549,6 @@ img {
   background-color: var(--first-color);
 }
 
-.skills__html {
-  width: 90%;
-}
-
-
-
-.skills__com {
-  width: 90%;
-}
-
 .skills__close .skills__list {
   height: 0px;
   overflow: hidden;
@@ -645,6 +635,12 @@ img {
   color: var(--first-color);
 }
 
+.uil-trophy {
+  color: rgba(255, 217, 0, 0.836);
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
 
 /*==================== PORTFOLIO ====================*/
 .portfolio__container {
