@@ -14,7 +14,7 @@
     <meta name="author" content="Miguel Vázquez" />
     <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
 
-    <link rel="icon" href="./assets/img/favicon.png" />
+    <link rel="icon" href="./assets/img/favicon.ico" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
     <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
@@ -683,21 +683,27 @@
         <div class="portfolio__container container swiper-container">
           <div class="swiper-wrapper">
             <div class="portfolio__content grid swiper-slide">
-              <img src="./assets/img/project_01.png" alt="Hero Embbedings Screenshot" class="portfolio__img" />
+              <img src="./assets/img/project_raytracing.png" alt="Raytracing Screenshot" class="portfolio__img" />
 
               <div class="portfolio__data">
-                <h3 class="portfolio__title">Hero Embeddings</h3>
+                <h3 class="portfolio__title">Raytracing</h3>
                 <p class="portfolio__description">
-                  A 3D visualization of the multiverse of fictional heroes. Using cutting-edge NLP and
-                  data visualization, this project harnesses the power of BERT fine-tuning and embedding techniques to
-                  map out relationships between characters across franchises. Uncover hidden connections and explore
-                  the vast landscape of heroic narratives through an interactive, visually stunning interface.
+                  An implementation of a raytracer in Python. It is a version of the basic raytracing algorithm highly
+                  optimized through parallelization with pyTorch and GPU acceleration. It allows for realistic
+                  rendering of 3D scenes with shadows, reflections, and refractions, showcasing a variety of 3D shapes
+                  and materials. A perfect example of the power of parallel computing.
                 </p>
-                <a href="projects/3d_hero_embeddings_visualization_js.html" class="button button--flex button--small portfolio__button">
-                  View
+                <a
+                  href="https://miguelvc6.github.io/blog/raytracing.html"
+                  class="button button--flex button--small portfolio__button"
+                >
+                  Blog Post
                   <i class="uil uil-arrow-right button__icon"></i>
                 </a>
-                <a href="https://github.com/miguelvc6/heroes" class="button button--flex button--small portfolio__button">
+                <a
+                  href="https://github.com/miguelvc6/ray-tracing"
+                  class="button button--flex button--small portfolio__button"
+                >
                   GitHub
                   <i class="uil uil-github button__icon"></i>
                 </a>
@@ -705,16 +711,34 @@
             </div>
 
             <div class="portfolio__content grid swiper-slide">
-              <img src="./assets/img/placeholder2.webp" alt="Placeholder image 2" class="portfolio__img" />
+              <img
+                src="./assets/img/project_hero_embeddings.png"
+                alt="Hero Embeddings Screenshot"
+                class="portfolio__img"
+              />
 
               <div class="portfolio__data">
-                <h3 class="portfolio__title">Project 2</h3>
+                <h3 class="portfolio__title">Hero Embeddings</h3>
                 <p class="portfolio__description">
-                  Description of project 2. This is a placeholder for your second project.
+                  A 3D visualization of the multiverse of fictional heroes. Using cutting-edge NLP and data
+                  visualization, this project utilizes a transformer-based fine-tuned BERT model and embedding
+                  techniques to map out relationships between fictional characters across franchises. Uncover hidden
+                  connections and explore the vast landscape of heroic narratives through an interactive, visually
+                  stunning interface.
                 </p>
-                <a href="#" class="button button--flex button--small portfolio__button">
+                <a
+                  href="projects/3d_hero_embeddings_visualization_js.html"
+                  class="button button--flex button--small portfolio__button"
+                >
                   View
                   <i class="uil uil-arrow-right button__icon"></i>
+                </a>
+                <a
+                  href="https://github.com/miguelvc6/heroes"
+                  class="button button--flex button--small portfolio__button"
+                >
+                  GitHub
+                  <i class="uil uil-github button__icon"></i>
                 </a>
               </div>
             </div>
@@ -748,7 +772,18 @@
 
       <section class="blog section" id="blog">
         <h2 class="section__title">Blog</h2>
-        <span class="section__subtitle">Coming soon</span>
+        <span class="section__subtitle">My latest posts</span>
+
+        <div class="blog__container container">
+          <a href="./blog.html" class="blog__content">Go to Blog</a>
+          <div class="blog__posts">
+            <!-- Blog post buttons will be dynamically inserted here -->
+          </div>
+          <div class="blog__navigation">
+            <button class="blog__nav-button" id="prevPage"><</button>
+            <button class="blog__nav-button" id="nextPage">></button>
+          </div>
+        </div>
       </section>
 
       <section class="contact section" id="contact">

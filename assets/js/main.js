@@ -106,6 +106,59 @@ let swiperPortfolio = new Swiper(".portfolio__container", {
   },
 });
 
+/*==================== BLOG NAVIGATION ====================*/
+const blogPosts = [
+  { title: "Prompt Engineering", url: "./posts/2023-03-15-prompt-engineering/index.html" },
+  { title: "Hallucination", url: "./posts/2024-07-07-hallucination/index.html" },
+];
+
+const postsPerPage = 5;
+let currentPage = 1;
+
+function displayBlogPosts() {
+  const blogPostsContainer = document.querySelector('.blog__posts');
+  blogPostsContainer.innerHTML = '';
+
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const postsToDisplay = blogPosts.slice(startIndex, endIndex);
+
+  postsToDisplay.forEach(post => {
+      const postButton = document.createElement('a');
+      postButton.href = post.url;
+      postButton.className = 'blog__post-button';
+      postButton.textContent = post.title;
+      blogPostsContainer.appendChild(postButton);
+  });
+
+  updateNavigationButtons();
+}
+
+function updateNavigationButtons() {
+  const prevButton = document.getElementById('prevPage');
+  const nextButton = document.getElementById('nextPage');
+
+  prevButton.disabled = currentPage === 1;
+  nextButton.disabled = currentPage === Math.ceil(blogPosts.length / postsPerPage);
+}
+
+document.getElementById('prevPage').addEventListener('click', () => {
+  if (currentPage > 1) {
+      currentPage--;
+      displayBlogPosts();
+  }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+  if (currentPage < Math.ceil(blogPosts.length / postsPerPage)) {
+      currentPage++;
+      displayBlogPosts();
+  }
+});
+
+// Initial display
+displayBlogPosts();
+
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll("section[id]");
 
