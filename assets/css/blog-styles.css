@@ -261,7 +261,57 @@ img {
   box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.15);
 }
 
-/*==================== MAIN ====================*/
+
+/*========== Blog Layout ==========*/
+.blog-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.blog-post {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--scroll-bar-color);
+  border-radius: 0.5rem;
+  background-color: var(--container-color);
+  transition: background-color 0.3s ease;
+}
+
+.blog-post:hover {
+  background-color: var(--first-color-lighter);
+}
+
+.blog-post__title {
+  font-size: var(--h2-font-size);
+  color: var(--title-color);
+  margin-bottom: var(--mb-0-5);
+}
+
+.blog-post__summary {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+}
+
+.blog-post__link {
+  margin-top: var(--mb-0-5);
+  align-self: flex-start;
+  font-weight: var(--font-semi-bold);
+  color: var(--first-color);
+  text-decoration: none;
+}
+
+.blog-post__link:hover {
+  color: var(--first-color-alt);
+}
+
+.blog-post__footer {
+  font-size: var(--small-font-size);
+  color: var(--text-color);
+  margin-top: var(--mb-0-5);
+}
 
 
 /*========== BUTTONS ==========*/
@@ -512,49 +562,3 @@ img {
     padding: 0;
   }
 }
-
-/*========== Blog Layout ==========*/
-.blog-posts {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem 0;
-}
-
-.blog-post {
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-  border: 1px solid var(--scroll-bar-color);
-  border-radius: 0.5rem;
-  background-color: var(--container-color);
-  transition: background-color 0.3s ease;
-}
-
-.blog-post:hover {
-  background-color: var(--first-color-lighter);
-}
-
-.blog-post__title {
-  font-size: var(--h2-font-size);
-  color: var(--title-color);
-  margin-bottom: var(--mb-0-5);
-}
-
-.blog-post__summary {
-  font-size: var(--normal-font-size);
-  color: var(--text-color);
-}
-
-.blog-post__link {
-  margin-top: var(--mb-0-5);
-  align-self: flex-start;
-  font-weight: var(--font-semi-bold);
-  color: var(--first-color);
-  text-decoration: none;
-}
-
-.blog-post__link:hover {
-  color: var(--first-color-alt);
-}
-
