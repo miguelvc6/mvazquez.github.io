@@ -107,57 +107,72 @@ let swiperPortfolio = new Swiper(".portfolio__container", {
 });
 
 /*==================== BLOG NAVIGATION ====================*/
-const blogPosts = [
-  { title: "Prompt Engineering", url: "./posts/2023-03-15-prompt-engineering/index.html" },
-  { title: "Hallucination", url: "./posts/2024-07-07-hallucination/index.html" },
-];
-
+let blogPosts = [];
 const postsPerPage = 5;
 let currentPage = 1;
 
+async function fetchBlogPosts() {
+  try {
+    const postsResponse = await fetch("./blog/posts/index.json");
+    const postSlugs = await postsResponse.json();
+
+    const metadataPromises = postSlugs.map(async (slug) => {
+      const response = await fetch(`./blog/posts/${slug}/metadata.json`);
+      const metadata = await response.json();
+      return { ...metadata, slug };
+    });
+
+    blogPosts = await Promise.all(metadataPromises);
+    blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    displayBlogPosts();
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+  }
+}
+
 function displayBlogPosts() {
-  const blogPostsContainer = document.querySelector('.blog__posts');
-  blogPostsContainer.innerHTML = '';
+  const blogPostsContainer = document.querySelector(".blog__posts");
+  blogPostsContainer.innerHTML = "";
 
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
   const postsToDisplay = blogPosts.slice(startIndex, endIndex);
 
-  postsToDisplay.forEach(post => {
-      const postButton = document.createElement('a');
-      postButton.href = post.url;
-      postButton.className = 'blog__post-button';
-      postButton.textContent = post.title;
-      blogPostsContainer.appendChild(postButton);
+  postsToDisplay.forEach((post) => {
+    const postButton = document.createElement("a");
+    postButton.href = `./blog/output/${post.slug}/content.html`;
+    postButton.className = "blog__post-button";
+    postButton.textContent = post.title;
+    blogPostsContainer.appendChild(postButton);
   });
 
   updateNavigationButtons();
 }
 
 function updateNavigationButtons() {
-  const prevButton = document.getElementById('prevPage');
-  const nextButton = document.getElementById('nextPage');
+  const prevButton = document.getElementById("prevPage");
+  const nextButton = document.getElementById("nextPage");
 
   prevButton.disabled = currentPage === 1;
   nextButton.disabled = currentPage === Math.ceil(blogPosts.length / postsPerPage);
 }
 
-document.getElementById('prevPage').addEventListener('click', () => {
+document.getElementById("prevPage").addEventListener("click", () => {
   if (currentPage > 1) {
-      currentPage--;
-      displayBlogPosts();
+    currentPage--;
+    displayBlogPosts();
   }
 });
 
-document.getElementById('nextPage').addEventListener('click', () => {
+document.getElementById("nextPage").addEventListener("click", () => {
   if (currentPage < Math.ceil(blogPosts.length / postsPerPage)) {
-      currentPage++;
-      displayBlogPosts();
+    currentPage++;
+    displayBlogPosts();
   }
 });
 
-// Initial display
-displayBlogPosts();
+// Initial fetch and display
+fetchBlogPosts();
 
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll("section[id]");
