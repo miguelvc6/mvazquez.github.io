@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./assets/css/blog-styles.css" />
 
-    <title>Miguel - Blog</title>
+    <title>{{ title }} - Miguel's Blog</title>
   </head>
   <body>
     <!-- Header -->
@@ -82,60 +82,26 @@
     <!-- Main -->
     <main class="main">
       <div class="container">
-        <article class="blog-posts__header">
-          <h1 class="blog-posts__title">Blog</h1>
-          <span class="blog-posts__subtitle">My thoughts and ideas</span>
+        <article class="blog-post">
+          <header class="blog-post__header">
+            <h1 class="blog-post__title">{{ title }}</h1>
+            <p class="blog-post__meta">
+              Date: {{ date }} | Estimated Reading Time: {{ reading_time }} | Author: {{ author }}
+            </p>
+          </header>
+
+          <nav class="table-of-contents">
+            <h2>Table of Contents</h2>
+            <ul>
+              {% for level, title in toc %}
+              <li class="toc-level-{{ level }}"><a href="#{{ title|lower|replace(' ', '-') }}">{{ title }}</a></li>
+              {% endfor %}
+            </ul>
+          </nav>
+
+          <section class="blog-post__content">{{ content|safe }}</section>
         </article>
       </div>
-      <!-- Blog Posts -->
-      <div class="container">
-        <section class="blog-posts">
-          <article class="blog-post">
-            <a href="https://lilianweng.github.io/posts/2024-07-07-hallucination/" class="blog-post__wrapper">
-              <header class="blog-post__header">
-                <h2 class="blog-post__title">Extrinsic Hallucinations in LLMs</h2>
-              </header>
-              <section class="blog-post__summary">
-                <p>
-                  Hallucination in large language models usually refers to the model generating unfaithful, fabricated,
-                  inconsistent, or nonsensical content. As a term, hallucination has been somewhat generalized to cases
-                  when the model makes mistakes...
-                </p>
-                <p class="blog-post__footer">
-                  Date: 2024-07-07 | Estimated Reading Time: 10 minutes | Author: Lilian Weng
-                </p>
-              </section>
-              <span class="blog-post__link">Read More</span>
-            </a>
-          </article>
-        </section>
-
-        <section class="blog-posts">
-          <article class="blog-post">
-            <a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/" class="blog-post__wrapper">
-              <header class="blog-post__header">
-                <h2 class="blog-post__title">Prompt Engineering</h2>
-              </header>
-              <section class="blog-post__summary">
-                <p>
-                  Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with
-                  LLM to steer its behavior for desired outcomes without updating the model weights. It is an empirical
-                  science and the effect of prompt engineering methods can vary a lot among models, thus requiring
-                  heavy experimentation and heuristics.\nThis post only focuses on prompt engineering for
-                  autoregressive language models, so nothing with Cloze tests, image generation or multimodality
-                  models.
-                </p>
-              </section>
-              <span class="blog-post__link">Read More</span>
-            </a>
-          </article>
-        </section>
-      </div>
-      <footer class="page-footer">
-        <nav class="pagination">
-          <a class="next" href=""> »</a>
-        </nav>
-      </footer>
     </main>
 
     <!-- Footer -->
@@ -178,7 +144,5 @@
         <p class="footer__copy">&#169; Miguel 2024</p>
       </div>
     </footer>
-
-    <script src="./assets/js/main.js"></script>
   </body>
 </html>

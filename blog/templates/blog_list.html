@@ -89,53 +89,25 @@
       </div>
       <!-- Blog Posts -->
       <div class="container">
+        {% for post in posts %}
         <section class="blog-posts">
           <article class="blog-post">
-            <a href="https://lilianweng.github.io/posts/2024-07-07-hallucination/" class="blog-post__wrapper">
+            <a href="{{ post.url }}" class="blog-post__wrapper">
               <header class="blog-post__header">
-                <h2 class="blog-post__title">Extrinsic Hallucinations in LLMs</h2>
+                <h2 class="blog-post__title">{{ post.title }}</h2>
               </header>
               <section class="blog-post__summary">
-                <p>
-                  Hallucination in large language models usually refers to the model generating unfaithful, fabricated,
-                  inconsistent, or nonsensical content. As a term, hallucination has been somewhat generalized to cases
-                  when the model makes mistakes...
-                </p>
+                <p>{{ post.summary }}</p>
                 <p class="blog-post__footer">
-                  Date: 2024-07-07 | Estimated Reading Time: 10 minutes | Author: Lilian Weng
+                  Date: {{ post.date }} | Estimated Reading Time: {{ post.reading_time }} | Author: {{ post.author }}
                 </p>
               </section>
               <span class="blog-post__link">Read More</span>
             </a>
           </article>
         </section>
-
-        <section class="blog-posts">
-          <article class="blog-post">
-            <a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/" class="blog-post__wrapper">
-              <header class="blog-post__header">
-                <h2 class="blog-post__title">Prompt Engineering</h2>
-              </header>
-              <section class="blog-post__summary">
-                <p>
-                  Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with
-                  LLM to steer its behavior for desired outcomes without updating the model weights. It is an empirical
-                  science and the effect of prompt engineering methods can vary a lot among models, thus requiring
-                  heavy experimentation and heuristics.\nThis post only focuses on prompt engineering for
-                  autoregressive language models, so nothing with Cloze tests, image generation or multimodality
-                  models.
-                </p>
-              </section>
-              <span class="blog-post__link">Read More</span>
-            </a>
-          </article>
-        </section>
+        {% endfor %}
       </div>
-      <footer class="page-footer">
-        <nav class="pagination">
-          <a class="next" href=""> »</a>
-        </nav>
-      </footer>
     </main>
 
     <!-- Footer -->
