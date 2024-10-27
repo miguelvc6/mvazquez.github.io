@@ -20,6 +20,17 @@
     <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
 
     <title>Ray Tracing in One Weekend - Miguel's Blog</title>
+
+    <!-- Add Prism.js CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!-- Add any language support you need -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
   </head>
   <body>
     <!-- Header -->
@@ -128,52 +139,6 @@
                   <li>
                     <a href="#headers" aria-label="Headers">Headers</a>
                     
-                    </ul>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h1-header" aria-label="H1 Header">H1 Header</a>
-                    
-                    <ul>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h2-header" aria-label="H2 Header">H2 Header</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h3-header" aria-label="H3 Header">H3 Header</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h4-header" aria-label="H4 Header">H4 Header</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h5-header" aria-label="H5 Header">H5 Header</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#h6-header" aria-label="H6 Header">H6 Header</a>
-                    
                   </li>
                   
                   
@@ -219,50 +184,71 @@
 <h2 id="markdown-features">Markdown Features</h2>
 <h3 id="headers">Headers</h3>
 <p>Markdown allows you to create headers of different sizes:</p>
-<p>```markdown</p>
-<h1 id="h1-header">H1 Header</h1>
-<h2 id="h2-header">H2 Header</h2>
-<h3 id="h3-header">H3 Header</h3>
-<h4 id="h4-header">H4 Header</h4>
-<h5 id="h5-header">H5 Header</h5>
-<h6 id="h6-header">H6 Header</h6>
-<p>```</p>
+<pre><code class="language-markdown"># H1 Header
+## H2 Header
+### H3 Header
+#### H4 Header
+##### H5 Header
+###### H6 Header
+</code></pre>
 <h3 id="lists">Lists</h3>
 <p>Markdown supports both ordered and unordered lists:</p>
-<p>Unordered list using asterisks:
-* Item 1
-* Item 2
-* Item 3</p>
-<p>Unordered list using dashes:
-- First item
-- Second item
-- Third item</p>
-<p>Ordered list:
-1. First item
-2. Second item
-3. Third item</p>
-<p>Nested lists:
-1. First level
-   - Second level
-     * Third level
-2. Back to first level</p>
+<p>Unordered list using asterisks:</p>
+<ul>
+<li>
+<p>Item 1</p>
+</li>
+<li>
+<p>Item 2</p>
+</li>
+<li>
+<p>Item 3</p>
+</li>
+</ul>
+<p>Unordered list using dashes:</p>
+<ul>
+<li>
+<p>First item</p>
+</li>
+<li>
+<p>Second item</p>
+</li>
+<li>
+<p>Third item</p>
+</li>
+</ul>
+<p>Ordered list:</p>
+<ol>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ol>
+<p>Nested lists:</p>
+<ol>
+<li>First level<br/>
+   - Second level<ul>
+<li>Third level</li>
+</ul>
+</li>
+<li>Back to first level</li>
+</ol>
 <h3 id="text-formatting">Text Formatting</h3>
 <p>You can make text <strong>bold</strong>, <em>italic</em>, or <strong><em>both</em></strong>. You can also use ~~strikethrough~~.</p>
 <h3 id="links-and-images">Links and Images</h3>
 <p>Create links like <a href="https://example.com">this</a></p>
-<p>Add images:
+<p>Add images:<br/>
 <img alt="Alt text" src="image.jpg"/></p>
 <h3 id="code-blocks">Code Blocks</h3>
 <p>Inline code: <code>var example = true</code></p>
 <p>Code block with syntax highlighting:</p>
-<p><code>python
-def fibonacci(n, cache={}):
+<pre><code class="language-python">def fibonacci(n, cache={}):
     if n in cache:
         return cache[n]
     if n &lt;= 1:
         return n
     cache[n] = fibonacci(n-1, cache) + fibonacci(n-2, cache)
-    return cache[n]</code></p></section>
+    return cache[n]
+</code></pre></section>
 
           <footer class="article-navigation">
             

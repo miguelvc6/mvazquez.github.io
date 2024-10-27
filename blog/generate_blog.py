@@ -35,14 +35,48 @@ def process_blog_posts() -> None:
     dirs = [d for d in os.listdir("blog/posts") if os.path.isdir(os.path.join("blog/posts", d))]
     dirs.sort(reverse=True)
 
+    # Configure markdown with extra extensions for lists
+    md = markdown.Markdown(extensions=['fenced_code', 'nl2br', 'sane_lists'])
+    
     for post_dir in dirs:
         post_slugs.append(post_dir)
         with open(f"blog/posts/{post_dir}/content.md", "r", encoding="utf-8") as f:
             content = f.read()
+            
+        # Fix list formatting by ensuring proper line breaks and indentation
+        lines = content.split('\n')
+        processed_lines = []
+        for line in lines:
+            # Count leading spaces to preserve indentation
+            leading_spaces = len(line) - len(line.lstrip())
+            if line.lstrip().startswith(('* ', '- ', '1. ')):
+                if leading_spaces > 0:
+                    # Preserve indentation for nested items
+                    processed_lines.append(' ' * leading_spaces + line.lstrip())
+                else:
+                    # Add extra line break before top-level items
+                    processed_lines.append('\n' + line)
+            else:
+                processed_lines.append(line)
+        
+        content = '\n'.join(processed_lines)
+        
         with open(f"blog/posts/{post_dir}/metadata.json", "r", encoding="utf-8") as f:
             metadata = json.load(f)
 
-        html_content = markdown.markdown(content)
+        html_content = md.convert(content)
+        
+        # Process code blocks to add language class
+        soup = BeautifulSoup(html_content, "html.parser")
+        for pre in soup.find_all('pre'):
+            if pre.code and 'language-' in pre.code.get('class', []):
+                language = pre.code['class'][0].replace('language-', '')
+                pre['data-language'] = language
+                # Add Prism.js classes
+                pre['class'] = pre.get('class', []) + ['line-numbers']
+                pre.code['class'] = ['language-' + language]
+        
+        html_content = str(soup)
         toc, html_content = generate_toc(html_content)
 
         # Generate individual blog post HTML

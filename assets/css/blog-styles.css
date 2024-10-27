@@ -23,7 +23,7 @@
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
   --big-font-size: 2rem;
-  --h1-font-size: 2.25rem;    /* Increased from 1.5rem */
+  --h1-font-size: 2.25rem; /* Increased from 1.5rem */
   --h2-font-size: 1.25rem;
   --h3-font-size: 1.125rem;
   --normal-font-size: 0.938rem;
@@ -50,7 +50,7 @@
 @media screen and (min-width: 968px) {
   :root {
     --big-font-size: 3rem;
-    --h1-font-size: 2.75rem;  /* Increased from 2.25rem */
+    --h1-font-size: 2.75rem; /* Increased from 2.25rem */
     --h2-font-size: 1.5rem;
     --h3-font-size: 1.25rem;
     --normal-font-size: 1rem;
@@ -119,6 +119,7 @@ h4 {
   font-weight: var(--font-semi-bold);
 }
 
+/* Remove the general list-style: none from base styles */
 ul {
   list-style: none;
 }
@@ -312,7 +313,7 @@ img {
 
 /*========== Blog Post Table of Contents ==========*/
 .table-of-contents {
-  margin: 2rem 2px 40px;  /* Added top margin */
+  margin: 2rem 2px 40px; /* Added top margin */
   border: 1px solid var(--scroll-bar-color);
   background: var(--first-color-second);
   border-radius: 8px;
@@ -715,4 +716,118 @@ h3 {
 
 h4 {
   font-size: var(--normal-font-size);
+}
+
+/*========== Blog Post Content ==========*/
+.blog-post__content {
+  line-height: 1.8;
+  margin-top: 2rem;
+}
+
+.blog-post__content p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-post__content h1,
+.blog-post__content h2,
+.blog-post__content h3,
+.blog-post__content h4 {
+  margin: 2rem 0 1rem;
+}
+
+/* Update blog post content list styles */
+.blog-post__content ul,
+.blog-post__content ol {
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+}
+
+.blog-post__content ul {
+  list-style: disc;
+}
+
+.blog-post__content ul ul {
+  list-style: circle;
+  margin: 0.5rem 0;
+}
+
+.blog-post__content ul ul ul {
+  list-style: square;
+}
+
+.blog-post__content ol {
+  list-style: decimal;
+}
+
+.blog-post__content ol ol {
+  list-style: lower-alpha;
+  margin: 0.5rem 0;
+}
+
+.blog-post__content ol ol ol {
+  list-style: lower-roman;
+}
+
+.blog-post__content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-post__content li > ul,
+.blog-post__content li > ol {
+  margin-top: 0.5rem;
+}
+
+/* Preserve list-style: none for navigation and other UI lists */
+.nav__list,
+.footer__links,
+.table-of-contents ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Code blocks */
+.blog-post__content pre {
+  background: var(--first-color-second);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+/* Style for nested code blocks */
+.blog-post__content pre pre {
+  background: var(--body-color);
+  margin: 0.5rem 0;
+  border: 1px solid var(--scroll-bar-color);
+}
+
+/* Language label for code blocks */
+.blog-post__content pre::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  color: var(--text-color-light);
+  font-size: 0.8em;
+  padding: 0.2rem 0.5rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0.3rem;
+}
+
+/* Adjust Prism.js theme colors to match your theme */
+:root {
+  --prism-background: var(--first-color-second);
+  --prism-color: var(--text-color);
+  --prism-inline-background: var(--first-color-second);
+  --prism-inline-color: var(--text-color);
+}
+
+/* Override Prism.js styles for dark mode */
+.dark-theme pre[class*="language-"] {
+  background: var(--container-color);
+}
+
+.dark-theme code[class*="language-"] {
+  color: var(--text-color);
 }
