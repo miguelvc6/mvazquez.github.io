@@ -22,10 +22,14 @@
     <title>{{ title }} - Miguel's Blog</title>
 
     <!-- Add Prism.js CSS and JS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
     <!-- Add any language support you need -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
@@ -194,5 +198,36 @@
         <p class="footer__copy">&#169; Miguel 2024</p>
       </div>
     </footer>
+
+    <script>
+      // Theme
+      const themeButton = document.getElementById('theme-button')
+      const darkTheme = 'dark-theme'
+      const iconTheme = 'uil-sun'
+
+      // Previously selected theme (checking from localStorage)
+      const selectedTheme = localStorage.getItem('selected-theme')
+      const selectedIcon = localStorage.getItem('selected-icon')
+
+      // Get current theme
+      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+
+      // Validate if user previously chose a theme
+      if (selectedTheme) {
+        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+      }
+
+      // Activate / deactivate the theme manually with the button
+      themeButton.addEventListener('click', () => {
+        // Add or remove the dark / icon theme
+        document.body.classList.toggle(darkTheme)
+        themeButton.classList.toggle(iconTheme)
+        // Save the theme and the current icon that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        localStorage.setItem('selected-icon', getCurrentIcon())
+      })
+    </script>
   </body>
 </html>

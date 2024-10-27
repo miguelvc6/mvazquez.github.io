@@ -73,7 +73,7 @@ def process_blog_posts() -> None:
                 language = pre.code['class'][0].replace('language-', '')
                 pre['data-language'] = language
                 # Add Prism.js classes
-                pre['class'] = pre.get('class', []) + ['line-numbers']
+                pre['class'] = pre.get('class', []) + ['line-numbers', 'toolbar-top']
                 pre.code['class'] = ['language-' + language]
         
         html_content = str(soup)
