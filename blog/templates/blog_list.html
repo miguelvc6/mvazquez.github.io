@@ -84,27 +84,27 @@
     <!-- Main -->
     <main class="main">
       <div class="container">
-        <article class="blog-posts__header">
-          <h1 class="blog-posts__title">Blog</h1>
-          <span class="blog-posts__subtitle">My thoughts and ideas</span>
+        <article class="blog-cards__header">
+          <h1 class="blog-cards__title">Blog</h1>
+          <span class="blog-cards__subtitle">My thoughts and ideas</span>
         </article>
       </div>
       <!-- Blog Posts -->
       <div class="container">
         {% for post in posts %}
-        <section class="blog-posts">
-          <article class="blog-post__item">
-            <a href="{{ post.url }}" class="blog-post__wrapper">
-              <header class="blog-post__header">
-                <h2 class="blog-post__title">{{ post.title }}</h2>
+        <section class="blog-cards">
+          <article class="blog-card__item">
+            <a href="{{ post.url }}" class="blog-card__wrapper">
+              <header class="blog-card__header">
+                <h2 class="blog-card__title">{{ post.title }}</h2>
               </header>
-              <section class="blog-post__summary">
+              <section class="blog-card__summary">
                 <p>{{ post.summary }}</p>
-                <p class="blog-post__footer">
+                <p class="blog-card__footer">
                   Date: {{ post.date }} | Estimated Reading Time: {{ post.reading_time }} | Author: {{ post.author }}
                 </p>
               </section>
-              <span class="blog-post__link">Read More</span>
+              <span class="blog-card__link">Read More</span>
             </a>
           </article>
         </section>

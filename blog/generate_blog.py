@@ -7,15 +7,21 @@ from jinja2 import Environment, FileSystemLoader
 from typing import List, Tuple
 
 
-def generate_toc(html_content: str) -> List[Tuple[int, str]]:
+def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
     """Generate table of contents from HTML content."""
     soup = BeautifulSoup(html_content, "html.parser")
     toc = []
+    
     for header in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
         level = int(header.name[1])
         title = header.get_text()
+        # Create ID for the header
+        header_id = title.lower().replace(' ', '-')
+        header['id'] = header_id
         toc.append((level, title))
-    return toc
+    
+    # Convert back to string after modifications
+    return toc, str(soup)
 
 
 def process_blog_posts() -> None:
@@ -37,7 +43,7 @@ def process_blog_posts() -> None:
             metadata = json.load(f)
 
         html_content = markdown.markdown(content)
-        toc = generate_toc(html_content)
+        toc, html_content = generate_toc(html_content)
 
         # Generate individual blog post HTML
         post_html = post_template.render(content=html_content, toc=toc, **metadata)

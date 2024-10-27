@@ -93,15 +93,52 @@
           </header>
 
           <nav class="table-of-contents">
-            <h2>Table of Contents</h2>
-            <ul>
-              {% for level, title in toc %}
-              <li class="toc-level-{{ level }}"><a href="#{{ title|lower|replace(' ', '-') }}">{{ title }}</a></li>
-              {% endfor %}
-            </ul>
+            <details>
+              <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+              </summary>
+              
+              <div class="inner">
+                <ul>
+                  {% for level, title in toc %}
+                  {% if level == 1 %}
+                  <li>
+                    <a href="#{{ title|lower|replace(' ', '-') }}" aria-label="{{ title }}">{{ title }}</a>
+                    {% if not loop.last and toc[loop.index0 + 1][0] > level %}
+                    <ul>
+                    {% endif %}
+                  </li>
+                  {% else %}
+                  <li>
+                    <a href="#{{ title|lower|replace(' ', '-') }}" aria-label="{{ title }}">{{ title }}</a>
+                    {% if loop.last or toc[loop.index0 + 1][0] == 1 %}
+                    </ul>
+                    {% endif %}
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </details>
           </nav>
 
           <section class="blog-post__content">{{ content|safe }}</section>
+
+          <footer class="article-navigation">
+            {% if previous_post %}
+            <a href="{{ previous_post.url }}" class="nav-button prev-button">
+              <i class="uil uil-arrow-left"></i>
+              <span>{{ previous_post.title }}</span>
+            </a>
+            {% endif %}
+            
+            {% if next_post %}
+            <a href="{{ next_post.url }}" class="nav-button next-button">
+              <i class="uil uil-arrow-right"></i>
+              <span>{{ next_post.title }}</span>
+            </a>
+            {% endif %}
+          </footer>
         </article>
       </div>
     </main>
