@@ -3,16 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Miguel - Blog</title>
+    <meta
+      name="keywords"
+      content="Miguel Vázquez Caraballo, Miguel Vázquez Caraballo GitHub, mvazquez-ai github, mvazquez-ai GitHub, 
+        mvazquez-ai, miguelvazquez, miguel vázquez c, vazq, Artificial Intelligence, AI, Deep Learning, Machine Learning, DL, ML, 
+        Web, web, app, developer, github, git, projects, tutorials, keywords, seo, artificial intelligence, deep learning, machine learning, 
+        dl, ml, deeplearning, machinelearning, DeepLearning, MachineLearning, Cybersecurity, cybersecurity, research, machine learning india, 
+        india, R&D, Vázquez, Caraballo, Vazquez"
+    />
+    <meta name="author" content="Miguel Vázquez" />
+    <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
+
+    <link rel="icon" href="./assets/img/favicon.ico" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
-    <style>
-      .blog-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./assets/css/blog-styles.css" />
+
+    <title>Miguel - Blog</title>
   </head>
   <body>
     <!-- Header -->
@@ -23,7 +30,7 @@
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list grid">
             <li class="nav__item">
-              <a href="index.html#home" class="nav__link active-link"> <i class="uil uil-estate nav__icon"></i> Home </a>
+              <a href="index.html#home" class="nav__link"> <i class="uil uil-estate nav__icon"></i> Home </a>
             </li>
 
             <li class="nav__item">
@@ -31,19 +38,27 @@
             </li>
 
             <li class="nav__item">
-              <a href="index.html#skills" class="nav__link"> <i class="uil uil-chart-pie-alt nav__icon"></i> Skills </a>
+              <a href="index.html#skills" class="nav__link">
+                <i class="uil uil-chart-pie-alt nav__icon"></i> Skills
+              </a>
             </li>
 
             <li class="nav__item">
-              <a href="index.html#experience" class="nav__link"> <i class="uil uil-briefcase-alt nav__icon"></i> Experience </a>
+              <a href="index.html#experience" class="nav__link">
+                <i class="uil uil-briefcase-alt nav__icon"></i> Experience
+              </a>
             </li>
 
             <li class="nav__item">
-              <a href="index.html#portfolio" class="nav__link"> <i class="uil uil-scenery nav__icon"></i> Portfolio </a>
+              <a href="index.html#portfolio" class="nav__link">
+                <i class="uil uil-scenery nav__icon"></i> Portfolio
+              </a>
             </li>
 
             <li class="nav__item">
-              <a href="index.html#blog" class="nav__link"> <i class="uil uil-blogger-alt nav__icon"></i> Blog </a>
+              <a href="index.html#blog" class="nav__link active-link">
+                <i class="uil uil-blogger-alt nav__icon"></i> Blog
+              </a>
             </li>
 
             <li class="nav__item">
@@ -66,14 +81,58 @@
 
     <!-- Main -->
     <main class="main">
-      <section class="blog section" id="blog">
-        <h2 class="section__title">Blog</h2>
-        <span class="section__subtitle">My latest thoughts and insights</span>
+      <div class="container">
+        <article class="blog-posts__header">
+          <h1 class="blog-posts__title">Blog</h1>
+          <span class="blog-posts__subtitle">My thoughts and ideas</span>
+        </article>
+      </div>
+      <!-- Blog Posts -->
+      <div class="container">
+        <section class="blog-posts">
+          <article class="blog-post">
+            <a href="https://lilianweng.github.io/posts/2024-07-07-hallucination/" class="blog-post__wrapper">
+              <header class="blog-post__header">
+                <h2 class="blog-post__title">Extrinsic Hallucinations in LLMs</h2>
+              </header>
+              <section class="blog-post__summary">
+                <p>
+                  Hallucination in large language models usually refers to the model generating unfaithful, fabricated,
+                  inconsistent, or nonsensical content. As a term, hallucination has been somewhat generalized to cases
+                  when the model makes mistakes...
+                </p>
+              </section>
+              <span class="blog-post__link">Read More</span>
+            </a>
+          </article>
+        </section>
 
-        <div class="blog-container">
-          <div id="medium-widget"></div>
-        </div>
-      </section>
+        <section class="blog-posts">
+          <article class="blog-post">
+            <a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/" class="blog-post__wrapper">
+              <header class="blog-post__header">
+                <h2 class="blog-post__title">Prompt Engineering</h2>
+              </header>
+              <section class="blog-post__summary">
+                <p>
+                  Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with
+                  LLM to steer its behavior for desired outcomes without updating the model weights. It is an empirical
+                  science and the effect of prompt engineering methods can vary a lot among models, thus requiring
+                  heavy experimentation and heuristics.\nThis post only focuses on prompt engineering for
+                  autoregressive language models, so nothing with Cloze tests, image generation or multimodality
+                  models.
+                </p>
+              </section>
+              <span class="blog-post__link">Read More</span>
+            </a>
+          </article>
+        </section>
+      </div>
+      <footer class="page-footer">
+        <nav class="pagination">
+          <a class="next" href=""> »</a>
+        </nav>
+      </footer>
     </main>
 
     <!-- Footer -->
@@ -117,5 +176,6 @@
       </div>
     </footer>
 
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>
