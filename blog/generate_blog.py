@@ -11,7 +11,7 @@ def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
     """Generate table of contents from HTML content."""
     soup = BeautifulSoup(html_content, "html.parser")
     toc = []
-    
+
     for header in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
         level = int(header.name[1])
         title = header.get_text()
@@ -19,7 +19,7 @@ def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
         header_id = title.lower().replace(' ', '-')
         header['id'] = header_id
         toc.append((level, title))
-    
+
     # Convert back to string after modifications
     return toc, str(soup)
 
@@ -32,17 +32,21 @@ def process_blog_posts() -> None:
     post_template = env.get_template("blog_post.html")
 
     # Get and sort directories by date (newest first)
-    dirs = [d for d in os.listdir("blog/posts") if os.path.isdir(os.path.join("blog/posts", d))]
+    dirs = [
+        d for d in os.listdir("blog/posts")
+        if os.path.isdir(os.path.join("blog/posts", d))
+    ]
     dirs.sort(reverse=True)
 
     # Configure markdown with extra extensions for lists
     md = markdown.Markdown(extensions=['fenced_code', 'nl2br', 'sane_lists'])
-    
+
     for post_dir in dirs:
         post_slugs.append(post_dir)
-        with open(f"blog/posts/{post_dir}/content.md", "r", encoding="utf-8") as f:
+        with open(f"blog/posts/{post_dir}/content.md", "r",
+                  encoding="utf-8") as f:
             content = f.read()
-            
+
         # Fix list formatting by ensuring proper line breaks and indentation
         lines = content.split('\n')
         processed_lines = []
@@ -52,20 +56,23 @@ def process_blog_posts() -> None:
             if line.lstrip().startswith(('* ', '- ', '1. ')):
                 if leading_spaces > 0:
                     # Preserve indentation for nested items
-                    processed_lines.append(' ' * leading_spaces + line.lstrip())
+                    processed_lines.append(' ' * leading_spaces +
+                                           line.lstrip())
                 else:
                     # Add extra line break before top-level items
                     processed_lines.append('\n' + line)
             else:
                 processed_lines.append(line)
-        
+
         content = '\n'.join(processed_lines)
-        
-        with open(f"blog/posts/{post_dir}/metadata.json", "r", encoding="utf-8") as f:
+
+        with open(f"blog/posts/{post_dir}/metadata.json",
+                  "r",
+                  encoding="utf-8") as f:
             metadata = json.load(f)
 
         html_content = md.convert(content)
-        
+
         # Process code blocks to add language class
         soup = BeautifulSoup(html_content, "html.parser")
         for pre in soup.find_all('pre'):
@@ -73,22 +80,31 @@ def process_blog_posts() -> None:
                 language = pre.code['class'][0].replace('language-', '')
                 pre['data-language'] = language
                 # Add Prism.js classes
-                pre['class'] = pre.get('class', []) + ['line-numbers', 'toolbar-top']
+                pre['class'] = pre.get('class',
+                                       []) + ['line-numbers', 'toolbar-top']
                 pre.code['class'] = ['language-' + language]
-        
+
         html_content = str(soup)
         toc, html_content = generate_toc(html_content)
 
         # Generate individual blog post HTML
-        post_html = post_template.render(content=html_content, toc=toc, **metadata)
-        with open(f"blog/output/{post_dir}/content.html", "w", encoding="utf-8") as f:
+        output_dir = f"blog/output/{post_dir}"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        post_html = post_template.render(content=html_content,
+                                         toc=toc,
+                                         **metadata)
+        with open(f"blog/output/{post_dir}/content.html",
+                  "w",
+                  encoding="utf-8") as f:
             f.write(post_html)
 
         posts.append({**metadata, "url": f"{post_dir}/content.html"})
 
     # Sort posts by date from metadata (newest first)
     posts.sort(key=lambda x: x['date'], reverse=True)
-    
+
     # Generate blog list HTML
     blog_list_template = env.get_template("blog_list.html")
     blog_list_html = blog_list_template.render(posts=posts)
