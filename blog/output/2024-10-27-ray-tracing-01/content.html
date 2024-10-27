@@ -14,12 +14,12 @@
     <meta name="author" content="Miguel Vázquez" />
     <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
 
-    <link rel="icon" href="../../assets/img/favicon.ico" />
+    <link rel="icon" href="./assets/img/favicon.ico" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="../../assets/css/blog-styles.css" />
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./assets/css/blog-styles.css" />
 
-    <title>Miguel - Blog</title>
+    <title>Ray Tracing in One Weekend - Miguel's Blog</title>
   </head>
   <body>
     <!-- Header -->
@@ -82,31 +82,71 @@
     <!-- Main -->
     <main class="main">
       <div class="container">
-        <article class="blog-posts__header">
-          <h1 class="blog-posts__title">Blog</h1>
-          <span class="blog-posts__subtitle">My thoughts and ideas</span>
+        <article class="blog-post">
+          <header class="blog-post__header">
+            <h1 class="blog-post__title">Ray Tracing in One Weekend</h1>
+            <p class="blog-post__meta">
+              Date: 2024-10-27 | Estimated Reading Time: 10 minutes | Author: Miguel VÃ¡zquez
+            </p>
+          </header>
+
+          <nav class="table-of-contents">
+            <h2>Table of Contents</h2>
+            <ul>
+              
+              <li class="toc-level-1"><a href="#welcome-to-my-blog!">Welcome to My Blog!</a></li>
+              
+              <li class="toc-level-2"><a href="#table-of-contents">Table of Contents</a></li>
+              
+              <li class="toc-level-2"><a href="#introduction">Introduction</a></li>
+              
+              <li class="toc-level-2"><a href="#markdown-features">Markdown Features</a></li>
+              
+              <li class="toc-level-3"><a href="#headers">Headers</a></li>
+              
+              <li class="toc-level-1"><a href="#h1-header">H1 Header</a></li>
+              
+              <li class="toc-level-2"><a href="#h2-header">H2 Header</a></li>
+              
+              <li class="toc-level-3"><a href="#h3-header">H3 Header</a></li>
+              
+              <li class="toc-level-4"><a href="#h4-header">H4 Header</a></li>
+              
+              <li class="toc-level-5"><a href="#h5-header">H5 Header</a></li>
+              
+              <li class="toc-level-6"><a href="#h6-header">H6 Header</a></li>
+              
+            </ul>
+          </nav>
+
+          <section class="blog-post__content"><h1>Welcome to My Blog!</h1>
+<p>This is a <strong>template</strong> blog post that showcases different <em>Markdown</em> formatting. You can use this as a starting point for your own website project!</p>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#markdown-features">Markdown Features</a></li>
+<li><a href="#headers">Headers</a></li>
+<li><a href="#text-formatting">Text Formatting</a></li>
+<li><a href="#links">Links</a></li>
+<li><a href="#images">Images</a></li>
+<li><a href="#code-blocks">Code Blocks</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ol>
+<hr />
+<h2>Introduction</h2>
+<p>Blogging is a great way to share knowledge and ideas! Here is an example of a Markdown blog post with multiple formatting options, so you can create your own engaging content.</p>
+<h2>Markdown Features</h2>
+<h3>Headers</h3>
+<p>Markdown allows you to create headers of different sizes:</p>
+<p>```markdown</p>
+<h1>H1 Header</h1>
+<h2>H2 Header</h2>
+<h3>H3 Header</h3>
+<h4>H4 Header</h4>
+<h5>H5 Header</h5>
+<h6>H6 Header</h6>
+<p>```</p></section>
         </article>
-      </div>
-      <!-- Blog Posts -->
-      <div class="container">
-        {% for post in posts %}
-        <section class="blog-posts">
-          <article class="blog-post">
-            <a href="{{ post.url }}" class="blog-post__wrapper">
-              <header class="blog-post__header">
-                <h2 class="blog-post__title">{{ post.title }}</h2>
-              </header>
-              <section class="blog-post__summary">
-                <p>{{ post.summary }}</p>
-                <p class="blog-post__footer">
-                  Date: {{ post.date }} | Estimated Reading Time: {{ post.reading_time }} | Author: {{ post.author }}
-                </p>
-              </section>
-              <span class="blog-post__link">Read More</span>
-            </a>
-          </article>
-        </section>
-        {% endfor %}
       </div>
     </main>
 
@@ -150,7 +190,5 @@
         <p class="footer__copy">&#169; Miguel 2024</p>
       </div>
     </footer>
-
-    <script src="./assets/js/main.js"></script>
   </body>
 </html>
