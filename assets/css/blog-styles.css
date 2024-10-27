@@ -270,7 +270,7 @@ img {
   padding: 2rem 0;
 }
 
-.blog-post {
+.blog-post__item {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
@@ -280,7 +280,7 @@ img {
   transition: background-color 0.3s ease;
 }
 
-.blog-post:hover {
+.blog-post__item:hover {
   background-color: var(--first-color-lighter);
 }
 
