@@ -279,7 +279,18 @@ img {
 }
 
 .blog-card__item:hover {
-  background-color: var(--first-color-lighter);
+  background-color: var(--first-color);
+}
+
+.blog-card__item:hover .blog-card__title,
+.blog-card__item:hover .blog-card__summary p,
+.blog-card__item:hover .blog-card__footer {
+  color: var(--container-color);
+}
+
+.blog-card__item:hover .blog-card__link {
+  color: var(--container-color);
+  opacity: 0.8;
 }
 
 .blog-card__title {
@@ -831,3 +842,4 @@ h4 {
 .dark-theme code[class*="language-"] {
   color: var(--text-color);
 }
+
