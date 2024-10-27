@@ -25,8 +25,11 @@ def process_blog_posts() -> None:
     env = Environment(loader=FileSystemLoader("blog/templates"))
     post_template = env.get_template("blog_post.html")
 
-    # Iterate over all directories in blog/posts
-    for post_dir in [d for d in os.listdir("blog/posts") if os.path.isdir(os.path.join("blog/posts", d))]:
+    # Get and sort directories by date (newest first)
+    dirs = [d for d in os.listdir("blog/posts") if os.path.isdir(os.path.join("blog/posts", d))]
+    dirs.sort(reverse=True)
+
+    for post_dir in dirs:
         post_slugs.append(post_dir)
         with open(f"blog/posts/{post_dir}/content.md", "r", encoding="utf-8") as f:
             content = f.read()
@@ -42,6 +45,10 @@ def process_blog_posts() -> None:
             f.write(post_html)
 
         posts.append({**metadata, "url": f"{post_dir}/content.html"})
+
+    # Sort posts by date from metadata (newest first)
+    posts.sort(key=lambda x: x['date'], reverse=True)
+    
     # Generate blog list HTML
     blog_list_template = env.get_template("blog_list.html")
     blog_list_html = blog_list_template.render(posts=posts)
