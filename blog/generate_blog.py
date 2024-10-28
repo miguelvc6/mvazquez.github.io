@@ -74,6 +74,7 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
     with content_path.open("r", encoding="utf-8") as f:
         content = f.read()
 
+    # Calculate reading time before fixing list formatting
     estimated_reading_time = calculate_reading_time(content)
     content = fix_list_formatting(content)
 
