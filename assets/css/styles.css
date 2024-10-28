@@ -164,6 +164,7 @@ img {
 
 .header {
   width: 100%;
+  max-width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
@@ -1255,3 +1256,13 @@ body.dark-theme .blog__post-button:hover {
   }
 }
 
+/* Add this media query for small screens */
+@media screen and (max-width: 400px) {
+  .qualification__button {
+    font-size: var(--small-font-size);
+  }
+  
+  .qualification__icon {
+    font-size: 1.4rem;
+  }
+}
