@@ -1,0 +1,6 @@
+{
+  "title": "Ray Tracing in One Weekend",
+  "date": "2024-11-01",
+  "author": "Miguel Vázquez",
+  "summary": "I start by implementing a simple ray tracer, following the book Ray Tracing in One Weekend."
+}

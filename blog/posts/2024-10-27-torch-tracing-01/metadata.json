@@ -1,7 +1,0 @@
-{
-  "title": "Ray Tracing in One Weekend",
-  "date": "2024-10-27",
-  "reading_time": "10 minutes",
-  "author": "Miguel Vázquez",
-  "summary": "A step-by-step guide to implementing a basic ray tracer from scratch. Learn about ray-sphere intersections, materials, camera positioning, and how to generate stunning 3D rendered images."
-}
