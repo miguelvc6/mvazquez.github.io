@@ -422,6 +422,18 @@ img {
   align-items: start;
 }
 
+/* Add this media query for mobile screens */
+@media screen and (max-width: 767px) {
+  .about__container {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .about__img {
+    width: 80%;
+    margin-bottom: 2rem;
+  }
+}
+
 .about__img {
   width: 100%;
   border-radius: 0.5rem;
@@ -1266,3 +1278,4 @@ body.dark-theme .blog__post-button:hover {
     font-size: 1.4rem;
   }
 }
+
