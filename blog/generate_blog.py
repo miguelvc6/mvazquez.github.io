@@ -81,7 +81,17 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
     with metadata_path.open("r", encoding="utf-8") as f:
         metadata = json.load(f)
 
+    # Get title and estimated_reading_time into metadata
+    first_line = content.split("\n", 1)[0]
+    if first_line.startswith("#"):
+        metadata["title"] = first_line.lstrip("#").strip()
+    content = "\n".join(content.split("\n", 1)[1:])
     metadata["estimated_reading_time"] = estimated_reading_time
+
+    # Save updated metadata to JSON file
+    with metadata_path.open("w", encoding="utf-8") as f:
+        json.dump(metadata, f, ensure_ascii=False, indent=4)
+
     html_content = md.convert(content)
     html_content = process_code_blocks(html_content)
     toc, html_content = generate_toc(html_content)

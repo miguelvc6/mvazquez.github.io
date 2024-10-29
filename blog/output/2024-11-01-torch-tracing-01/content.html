@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../../../assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
 
-    <title>Ray Tracing in One Weekend - Miguel's Blog</title>
+    <title>Torch Tracer - GPU accelerated ray tracing with PyTorch - Miguel's Blog</title>
 
     <!-- Add Prism.js CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
@@ -35,6 +35,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
+    
   </head>
   <body>
     <!-- Header -->
@@ -101,9 +108,9 @@
       <div class="container">
         <article class="blog-post">
           <header class="blog-post__header">
-            <h1 class="blog-post__title">Ray Tracing in One Weekend</h1>
+            <h1 class="blog-post__title">Torch Tracer - GPU accelerated ray tracing with PyTorch</h1>
             <p class="blog-post__meta">
-              Date: 2024-11-01 | Estimated Reading Time: 1 | Author: Miguel Vázquez
+              Date: 2024-11-01 | Estimated Reading Time: 2 | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -116,143 +123,19 @@
               <div class="inner">
                 <ul>
                   
-                  
-                  <li>
-                    <a href="#welcome-to-my-blog!" aria-label="Welcome to My Blog!">Welcome to My Blog!</a>
-                    
-                    <ul>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#introduction" aria-label="Introduction">Introduction</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#markdown-features" aria-label="Markdown Features">Markdown Features</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#headers" aria-label="Headers">Headers</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#lists" aria-label="Lists">Lists</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#text-formatting" aria-label="Text Formatting">Text Formatting</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#links-and-images" aria-label="Links and Images">Links and Images</a>
-                    
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#code-blocks" aria-label="Code Blocks">Code Blocks</a>
-                    
-                    </ul>
-                    
-                  </li>
-                  
-                  
                 </ul>
               </div>
             </details>
           </nav>
 
-          <section class="blog-post__content"><h1 id="welcome-to-my-blog!">Welcome to My Blog!</h1>
-<p>This is a <strong>template</strong> blog post that showcases different <em>Markdown</em> formatting. You can use this as a starting point for your own website project!</p>
-<h2 id="introduction">Introduction</h2>
-<p>Blogging is a great way to share knowledge and ideas! Here is an example of a Markdown blog post with multiple formatting options, so you can create your own engaging content.</p>
-<h2 id="markdown-features">Markdown Features</h2>
-<h3 id="headers">Headers</h3>
-<p>Markdown allows you to create headers of different sizes:</p>
-<pre class="line-numbers toolbar-top" data-language="markdown"><code class="language-markdown"># H1 Header
-## H2 Header
-### H3 Header
-#### H4 Header
-##### H5 Header
-###### H6 Header
-</code></pre>
-<h3 id="lists">Lists</h3>
-<p>Markdown supports both ordered and unordered lists:</p>
-<p>Unordered list using asterisks:</p>
-<ul>
-<li>
-<p>Item 1</p>
-</li>
-<li>
-<p>Item 2</p>
-</li>
-<li>
-<p>Item 3</p>
-</li>
-</ul>
-<p>Unordered list using dashes:</p>
-<ul>
-<li>
-<p>First item</p>
-</li>
-<li>
-<p>Second item</p>
-</li>
-<li>
-<p>Third item</p>
-</li>
-</ul>
-<p>Ordered list:</p>
-<ol>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-</ol>
-<p>Nested lists:</p>
-<ol>
-<li>First level<br/>
-   - Second level<ul>
-<li>Third level</li>
-</ul>
-</li>
-<li>Back to first level</li>
-</ol>
-<h3 id="text-formatting">Text Formatting</h3>
-<p>You can make text <strong>bold</strong>, <em>italic</em>, or <strong><em>both</em></strong>. You can also use ~~strikethrough~~.</p>
-<h3 id="links-and-images">Links and Images</h3>
-<p>Create links like <a href="https://example.com">this</a></p>
-<p>Add images:<br/>
-<img alt="Alt text" src="image.jpg"/></p>
-<h3 id="code-blocks">Code Blocks</h3>
-<p>Inline code: <code>var example = true</code></p>
-<p>Code block with syntax highlighting:</p>
-<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">def fibonacci(n, cache={}):
-    if n in cache:
-        return cache[n]
-    if n &lt;= 1:
-        return n
-    cache[n] = fibonacci(n-1, cache) + fibonacci(n-2, cache)
-    return cache[n]
-</code></pre></section>
+          <section class="blog-post__content"><p>When thinking about tensors and computer science, two use cases instantly come to mind: computer graphics and neural networks.</p>
+<p>If you study or work on deep learning, at some point you hear about GPUs and how they are used to accelerate parallel processes. They tell you that they are faster than CPUs for performing matrix multiplications, and that they are fundamental for neural networks.</p>
+<p>If you read a little more about GPUs you always find the same history: a long time ago graphics were computed pixel by pixel, and it was slow. People wanted better looking video games, so the Graphics Processing Units (GPU) was invented. That it processes all pixels in the screen at the same time (actually they often work in batches), and that is good, because you can now play Skyrim at 60 fps.</p>
+<p>In a way deep learning exists today thanks to people who wanted to play video games with better definition and faster refresh rates, because that market has been the main driver of investment and technological progress in GPUs and other parallel hardware accelerators until recently. It wasn't until 2012 with the AlexNet moment that companies started pouring money into better AI hardware.</p>
+<p>I often work with GPUs and tensors, but always for deep learning and scientific computing. Recently I was implementing some form of self-attention transformer and I was having problems with processing the multi-attention heads in parallel for the training batches. I blame this in the deep learning frameworks, they have improved so much in the last few years that it makes it hard to justify writting custom implementations of neural networks. Why would I, instead of just picking the most recommended one? It is already fully implemented and tested.</p>
+<p>But then some rare use case or a strange bug forces you to go deep into the architecture and see how the tensors work, or maybe your net is not training and it has to do with the size of your embedding matrix, and that's when you realize that you should have been more serious about working with your framework. That's why I wanted to spend some time making tensor calculations.</p>
+<p>I don't know anything about computer graphics. That's why I decided to implement the <strong>raytracing algorithm highly optimized through parallelization with pyTorch and GPU acceleration</strong>. It allows for realistic rendering of 3D scenes with shadows, reflections, and refractions, showcasing a variety of 3D shapes and materials. A perfect example of the power of parallel computing. 🔥💨 Let your GPU go brrr and get hot.🔥💨</p>
+<p><img alt="Torch Tracer Example" src="https://github.com/miguelvc6/torch-tracer/blob/main/random_spheres.png?raw=true"/></p></section>
 
           <footer class="article-navigation">
             

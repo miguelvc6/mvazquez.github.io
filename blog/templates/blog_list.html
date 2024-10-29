@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
     <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="../../assets/css/blog-styles.css" />
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
 
     <title>Miguel - Blog</title>
   </head>
@@ -26,7 +31,7 @@
     <header class="header" id="header">
       <nav class="nav container">
         <a href="../../index.html#home" class="nav__logo"><i class="uil uil-circle"></i> Miguel</a>
-        <div style="margin: 0 1rem;"></div>
+        <div style="margin: 0 1rem"></div>
         <a href="blog.html" class="nav__logo"><i class="uil uil-book-open active-link"></i> Blog</a>
 
         <div class="nav__menu" id="nav-menu">
@@ -58,13 +63,13 @@
             </li>
 
             <li class="nav__item">
-              <a href="blog.html" class="nav__link">
-                <i class="uil uil-blogger-alt nav__icon"></i> Blog
-              </a>
+              <a href="blog.html" class="nav__link"> <i class="uil uil-blogger-alt nav__icon"></i> Blog </a>
             </li>
 
             <li class="nav__item">
-              <a href="../../index.html#contact" class="nav__link"> <i class="uil uil-message nav__icon"></i> Contact </a>
+              <a href="../../index.html#contact" class="nav__link">
+                <i class="uil uil-message nav__icon"></i> Contact
+              </a>
             </li>
           </ul>
 
@@ -101,7 +106,8 @@
               <section class="blog-card__summary">
                 <p>{{ post.summary }}</p>
                 <p class="blog-card__footer">
-                  Date: {{ post.date }} | Estimated Reading Time: {{ post.estimated_reading_time }} | Author: {{ post.author }}
+                  Date: {{ post.date }} | Estimated Reading Time: {{ post.estimated_reading_time }} | Author: {{
+                  post.author }}
                 </p>
               </section>
               <span class="blog-card__link">Read More</span>
@@ -156,33 +162,33 @@
     <!-- Add before closing body tag -->
     <script>
       // Theme
-      const themeButton = document.getElementById('theme-button')
-      const darkTheme = 'dark-theme'
-      const iconTheme = 'uil-sun'
+      const themeButton = document.getElementById("theme-button");
+      const darkTheme = "dark-theme";
+      const iconTheme = "uil-sun";
 
       // Previously selected theme (checking from localStorage)
-      const selectedTheme = localStorage.getItem('selected-theme')
-      const selectedIcon = localStorage.getItem('selected-icon')
+      const selectedTheme = localStorage.getItem("selected-theme");
+      const selectedIcon = localStorage.getItem("selected-icon");
 
       // Get current theme
-      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
-      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+      const getCurrentTheme = () => (document.body.classList.contains(darkTheme) ? "dark" : "light");
+      const getCurrentIcon = () => (themeButton.classList.contains(iconTheme) ? "uil-moon" : "uil-sun");
 
       // Validate if user previously chose a theme
       if (selectedTheme) {
-        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
-        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+        document.body.classList[selectedTheme === "dark" ? "add" : "remove"](darkTheme);
+        themeButton.classList[selectedIcon === "uil-moon" ? "add" : "remove"](iconTheme);
       }
 
       // Activate / deactivate the theme manually with the button
-      themeButton.addEventListener('click', () => {
+      themeButton.addEventListener("click", () => {
         // Add or remove the dark / icon theme
-        document.body.classList.toggle(darkTheme)
-        themeButton.classList.toggle(iconTheme)
+        document.body.classList.toggle(darkTheme);
+        themeButton.classList.toggle(iconTheme);
         // Save the theme and the current icon that the user chose
-        localStorage.setItem('selected-theme', getCurrentTheme())
-        localStorage.setItem('selected-icon', getCurrentIcon())
-      })
+        localStorage.setItem("selected-theme", getCurrentTheme());
+        localStorage.setItem("selected-icon", getCurrentIcon());
+      });
     </script>
   </body>
 </html>

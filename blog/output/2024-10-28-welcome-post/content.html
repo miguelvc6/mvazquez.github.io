@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../../../assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
 
-    <title>Welcome to my Webpage - Miguel's Blog</title>
+    <title>Welcome to My Blog! - Miguel's Blog</title>
 
     <!-- Add Prism.js CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
@@ -35,6 +35,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
+    
   </head>
   <body>
     <!-- Header -->
@@ -101,7 +108,7 @@
       <div class="container">
         <article class="blog-post">
           <header class="blog-post__header">
-            <h1 class="blog-post__title">Welcome to my Webpage</h1>
+            <h1 class="blog-post__title">Welcome to My Blog!</h1>
             <p class="blog-post__meta">
               Date: 2024-10-28 | Estimated Reading Time: 5 | Author: Miguel Vázquez
             </p>
@@ -115,15 +122,6 @@
               
               <div class="inner">
                 <ul>
-                  
-                  
-                  <li>
-                    <a href="#welcome-to-my-blog!" aria-label="Welcome to My Blog!">Welcome to My Blog!</a>
-                    
-                    <ul>
-                    
-                  </li>
-                  
                   
                   
                   <li>
@@ -153,8 +151,7 @@
             </details>
           </nav>
 
-          <section class="blog-post__content"><h1 id="welcome-to-my-blog!">Welcome to My Blog!</h1>
-<p>This is my first post! Here I will introduce myself and the webpage in a casual way.</p>
+          <section class="blog-post__content"><p>This is my first post! Here I will introduce myself and the webpage in a casual way.</p>
 <p>First of all, introductions. I am Miguel Vázquez and I do things with mathematics, computers and artificial intelligence. I studied mathematics in Seville, Spain, the same extremely beautiful city I was born in. In my third year of university I started to get interested in artificial intelligence and I did what everyone did at that time: Andrew Ng's Coursera machine learning course. Since then I have been doing a lot of data science and machine learning and I just love it. While I studied for my master's degree I managed to get a job as a data scientist intern at oga.ai. Almost two years later I am still working there as a data scientist.</p>
 <p>This is my personal blog, and I will try to post about these topics, showcase different projects I develop, discuss ideas that are of my interest and I might even get some people to read what I write.</p>
 <h2 id="why?">Why?</h2>
