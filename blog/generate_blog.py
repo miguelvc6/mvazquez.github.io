@@ -15,12 +15,21 @@ def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
     for header in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
         level = int(header.name[1])
         title = header.get_text()
-        # Create ID for the header
         header_id = title.lower().replace(" ", "-")
         header["id"] = header_id
         toc.append((level, title))
 
-    return toc, str(soup)
+    # Sort headers by their natural order and level
+    sorted_toc = []
+    min_level = min(level for level, _ in toc) if toc else 1
+    current_level = min_level
+    
+    for level, title in toc:
+        # Adjust relative level starting from 1
+        relative_level = level - min_level + 1
+        sorted_toc.append((relative_level, title))
+
+    return sorted_toc, str(soup)
 
 
 def calculate_reading_time(text: str) -> int:

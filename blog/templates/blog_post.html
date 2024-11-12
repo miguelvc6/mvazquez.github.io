@@ -58,6 +58,17 @@
             });
         });
     </script>
+    <style>
+      /* Add scroll margin to compensate for fixed header */
+      :target {
+        scroll-margin-top: 40px; /* Adjust this value based on your header height */
+      }
+      
+      /* Alternative approach using scroll padding on html */
+      html {
+        scroll-padding-top: 40px; /* Adjust this value based on your header height */
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -126,7 +137,7 @@
           <header class="blog-post__header">
             <h1 class="blog-post__title">{{ title }}</h1>
             <p class="blog-post__meta">
-              Date: {{ date }} | Estimated Reading Time: {{ estimated_reading_time }} | Author: {{ author }}
+              Date: {{ date }} | Estimated Reading Time: {{ estimated_reading_time }} minutes | Author: {{ author }}
             </p>
           </header>
 
@@ -138,22 +149,26 @@
               
               <div class="inner">
                 <ul>
+                  {% set ns = namespace(level=1) %}
                   {% for level, title in toc %}
-                  {% if level == 1 %}
-                  <li>
-                    <a href="#{{ title|lower|replace(' ', '-') }}" aria-label="{{ title }}">{{ title }}</a>
-                    {% if not loop.last and toc[loop.index0 + 1][0] > level %}
-                    <ul>
+                    {% if level > ns.level %}
+                      {% for _ in range(level - ns.level) %}
+                        <ul>
+                      {% endfor %}
+                    {% elif level < ns.level %}
+                      {% for _ in range(ns.level - level) %}
+                        </ul>
+                      {% endfor %}
                     {% endif %}
-                  </li>
-                  {% else %}
-                  <li>
-                    <a href="#{{ title|lower|replace(' ', '-') }}" aria-label="{{ title }}">{{ title }}</a>
-                    {% if loop.last or toc[loop.index0 + 1][0] == 1 %}
-                    </ul>
+                    {% set ns.level = level %}
+                    <li>
+                      <a href="#{{ title|lower|replace(' ', '-') }}" aria-label="{{ title }}">{{ title }}</a>
+                    </li>
+                    {% if loop.last %}
+                      {% for _ in range(ns.level - 1) %}
+                        </ul>
+                      {% endfor %}
                     {% endif %}
-                  </li>
-                  {% endif %}
                   {% endfor %}
                 </ul>
               </div>
