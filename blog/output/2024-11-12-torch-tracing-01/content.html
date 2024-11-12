@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="Miguel Vázquez Caraballo, Miguel Vázquez Caraballo GitHub, mvazquez-ai github, mvazquez-ai GitHub, 
+        mvazquez-ai, miguelvazquez, miguel vázquez c, vazq, Artificial Intelligence, AI, Deep Learning, Machine Learning, DL, ML, 
+        Web, web, app, developer, github, git, projects, tutorials, keywords, seo, artificial intelligence, deep learning, machine learning, 
+        dl, ml, deeplearning, machinelearning, DeepLearning, MachineLearning, Cybersecurity, cybersecurity, research, machine learning india, 
+        india, R&D, Vázquez, Caraballo, Vazquez"
+    />
+    <meta name="author" content="Miguel Vázquez" />
+    <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
+
+    <link rel="icon" href="../../../assets/img/favicon.ico" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+    <link rel="stylesheet" href="../../../assets/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
+
+    <title>Torch Tracer - GPU accelerated ray-tracing with PyTorch - Miguel's Blog</title>
+
+    <!-- Add Prism.js CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <!-- Add any language support you need -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                ],
+                throwOnError: false,
+                strict: false
+            });
+        });
+    </script>
+    <style>
+      /* Add scroll margin to compensate for fixed header */
+      :target {
+        scroll-margin-top: 40px; /* Adjust this value based on your header height */
+      }
+      
+      /* Alternative approach using scroll padding on html */
+      html {
+        scroll-padding-top: 40px; /* Adjust this value based on your header height */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="../../../index.html#home" class="nav__logo"><i class="uil uil-circle"></i> Miguel</a>
+        <div style="margin: 0 1rem;"></div>
+        <a href="../blog.html" class="nav__logo"><i class="uil uil-book-open"></i> Blog</a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list grid">
+            <li class="nav__item">
+              <a href="../../../index.html#home" class="nav__link"> <i class="uil uil-estate nav__icon"></i> Home </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#about" class="nav__link"> <i class="uil uil-user nav__icon"></i> About </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#skills" class="nav__link">
+                <i class="uil uil-chart-pie-alt nav__icon"></i> Skills
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#experience" class="nav__link">
+                <i class="uil uil-briefcase-alt nav__icon"></i> Experience
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#portfolio" class="nav__link">
+                <i class="uil uil-scenery nav__icon"></i> Portfolio
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#blog" class="nav__link active-link">
+                <i class="uil uil-blogger-alt nav__icon"></i> Blog
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#contact" class="nav__link"> <i class="uil uil-message nav__icon"></i> Contact </a>
+            </li>
+          </ul>
+
+          <i class="uil uil-times nav__close" id="nav-close"></i>
+        </div>
+
+        <div class="nav__btns">
+          <i class="uil uil-moon change-theme" id="theme-button"></i>
+
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="uil uil-apps"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="container">
+        <article class="blog-post">
+          <header class="blog-post__header">
+            <h1 class="blog-post__title">Torch Tracer - GPU accelerated ray-tracing with PyTorch</h1>
+            <p class="blog-post__meta">
+              Date: 2024-11-01 | Estimated Reading Time: 12 minutes | Author: Miguel Vázquez
+            </p>
+          </header>
+
+          <nav class="table-of-contents">
+            <details>
+              <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+              </summary>
+              
+              <div class="inner">
+                <ul>
+                  
+                  
+                    
+                    
+                    <li>
+                      <a href="#torch-tracer" aria-label="Torch tracer">Torch tracer</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#ray-tracing-algorithm" aria-label="Ray-Tracing Algorithm">Ray-Tracing Algorithm</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#comparison-with-the-book-and-experiments" aria-label="Comparison with the Book and Experiments">Comparison with the Book and Experiments</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#features" aria-label="Features">Features</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#materials" aria-label="Materials">Materials</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#lambertian:-diffuse-material-with-matte-finish" aria-label="Lambertian: Diffuse material with matte finish">Lambertian: Diffuse material with matte finish</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#metal:-reflective-material-with-configurable-fuzz-for-glossiness" aria-label="Metal: Reflective material with configurable fuzz for glossiness">Metal: Reflective material with configurable fuzz for glossiness</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#dielectric:-glass-like-material-with-refraction-(configurable-index)" aria-label="Dielectric: Glass-like material with refraction (configurable index)">Dielectric: Glass-like material with refraction (configurable index)</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        </ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#following-steps" aria-label="Following Steps">Following Steps</a>
+                    </li>
+                    
+                      
+                    
+                  
+                </ul>
+              </div>
+            </details>
+          </nav>
+
+          <section class="blog-post__content"><h2 id="torch-tracer">Torch tracer</h2>
+<p>When you think about tensors in computer science, two areas immediately stand out: computer graphics and neural networks.</p>
+<p>In the space of deep learning, it's inevitable to encounter discussions about GPUs and their role in accelerating parallel computations. GPUs are faster than CPUs for matrix multiplications, which makes them fundamental for neural networks.</p>
+<p>If you read a little more about GPUs you'll find the following history: a long time ago graphics were computed pixel by pixel, and it was slow. People wanted better looking video games, so they came up with Graphics Processing Units (GPU). They process pixels in parallel (often in batches), and that is good, because now video games look great.</p>
+<p>In a way deep learning exists today thanks to people who wanted to play video games with better definition and faster refresh rates, because that market has historically been the main driver of investment and technological progress in GPUs and other parallel hardware accelerators. It wasn't until 2012 with the AlexNet moment that companies started pouring money into better AI hardware.</p>
+<p>I often work with GPUs and tensors, but always for deep learning and scientific computing. Recently, while implementing a self-attention transformer, I encountered issues processing multiple attention heads in parallel during training. It was a fairly complex tensor operation and it was hard to get the shapes right. I blame this on the deep learning frameworks: they have improved so much in the last few years that it makes it hard to justify writing custom implementations of neural networks, and these skills get rusty. Why would I write my own, instead of just picking one of the recommended ones, which are already fully implemented and tested?</p>
+<p>But then, when your model isn't training due to the size of your embedding matrix, or you're working with a rare use case where no implemented modules exist, or a strange bug forces you deep into the architecture, you realize the importance of understanding tensors and linear algebra. For this reason I wanted to spend some time making tensor calculations and sharpening my skills.</p>
+<p>That's why I decided to implement the <strong>raytracing algorithm, highly optimized through parallelization, with PyTorch and GPU acceleration</strong>. It allows for realistic rendering of 3D scenes with shadows, reflections, and refractions, showcasing a variety of 3D shapes and materials. A perfect example of the power of parallel computing. 🔥💨 Let your GPU go brrr and get hot.🔥💨</p>
+<p><a href="https://github.com/miguelvc6/torch-tracer">TorchTracer GitHub Repository</a></p>
+<p>ray-tracing is a rendering technique that simulates how light interacts with objects to produce highly realistic images. I have based my implementation on the book <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">"ray-tracing in One Weekend" by Peter Shirley</a>, in which a basic raytracer is implemented using C++ in a sequential manner, but I have implemented it in Python with PyTorch and parallelized the raytracing.</p>
+<p align="center">
+<img src="https://github.com/miguelvc6/torch-tracer/blob/main/random_spheres.png?raw=true" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Rendering Results with TorchTracer: Random Spheres.</p>
+<p>This is the same image as in the book (modulo random sphere placement) rendered using the Torch Tracer. The scene includes various 3D shapes, materials, and lighting effects to demonstrate the capabilities of the raytracer.</p>
+<h2 id="ray-tracing-algorithm">Ray-Tracing Algorithm</h2>
+<p>The essence of ray-tracing is to render an image pixel by pixel by simulating the behavior of light rays. By defining an origin point and a grid of pixels in space, rays of light are cast from the origin towards each pixel, resembling the way a camera captures a scene.</p>
+<p align="center">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Ray_trace_diagram.svg/1280px-Ray_trace_diagram.svg.png" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">The Ray-Tracing Algorithm builds an image by extending rays into a scene and bouncing them off surfaces and towards sources of light to approximate the color value of pixels.
+<br/>
+<small>Image source: <a href="https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg">Wikimedia Commons</a></small>
+</p>
+<p>Then, the collisions of the rays with the world objects are computed. Once the intersected objects have been identified, the amount of incoming light is calculated at the points of intersection and, depending on the objects' material properties, the rays bounce (solid and reflective objects) or go through them (transparent or translucent objects).</p>
+<p>This process is repeated for a maximum number of bounces, accumulating the light contributions from each surface interaction until the final color of each pixel is determined.</p>
+<p>For the collision with surfaces, the following simplified code shows the parallel computation:</p>
+<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">@jaxtyped(typechecker=typechecker)
+class Sphere(Hittable):
+    def __init__(self, center: Float[t.Tensor, "3"], radius: float, material: Material):
+        self.center = center
+        self.radius = radius
+        self.material = material
+
+    def hit(
+        self,
+        pixel_rays: Float[t.Tensor, "N 3 2"],
+        t_min: float,
+        t_max: float,
+    ) -&gt; HitRecord:
+        """Calculate ray-sphere intersections.
+
+        Uses quadratic formula to solve: |P(t) - C|^2 = r^2
+        where P(t) = A + tb is the ray equation
+        """
+        ray_origin = pixel_rays[:, :, 0]
+        ray_direction = pixel_rays[:, :, 1]
+
+        oc = ray_origin - self.center
+        a = (ray_direction * ray_direction).sum(dim=-1)
+        half_b = (oc * ray_direction).sum(dim=-1)
+        c = (oc * oc).sum(dim=-1) - self.radius * self.radius
+        discriminant = half_b * half_b - a * c
+
+        record = HitRecord.empty(discriminant.shape)
+        hit_mask = discriminant &gt;= 0
+
+        if not hit_mask.any():
+            return record
+
+        sqrtd = t.sqrt(discriminant[hit_mask])
+        root = (-half_b[hit_mask] - sqrtd) / a[hit_mask]
+
+        # Try second root if first is invalid
+        second_root_mask = root &lt;= t_min
+        root[second_root_mask] = (
+            (-half_b[hit_mask][second_root_mask] + sqrtd[second_root_mask]) /
+            a[hit_mask][second_root_mask]
+        )
+
+        valid_hit = (root &gt;= t_min) &amp; (root &lt;= t_max)
+        hit_mask[hit_mask] &amp;= valid_hit
+
+        if not hit_mask.any():
+            return record
+
+        # Calculate hit points and surface normals
+        record.hit = hit_mask
+        record.t[hit_mask] = root[valid_hit]
+        record.point[hit_mask] = (
+            ray_origin[hit_mask] +
+            root[valid_hit].unsqueeze(-1) *
+            ray_direction[hit_mask]
+        )
+        outward_normal = (record.point[hit_mask] - self.center) / self.radius
+        record.set_face_normal(ray_direction[hit_mask], outward_normal)
+
+        # Set material properties
+        self.material.apply_properties(record, hit_mask)
+
+        return record
+</code></pre>
+<p style="text-align:center; font-style: italic;">Light rays hitting on a Sphere class</p>
+<p><br/></p>
+<p>This process simulates how light and colors work in a real, physical scenario, with a main difference being that rays are cast from the camera (often called the origin) towards the scene, rather than from light sources, primarily for computational efficiency, since computing the rays from the light-sources would imply computing many rays that would never reach the camera.</p>
+<p>In the actual implementation many rays are shot through each pixel, with a pixel being a small rectangle in space, and the resulting colors are averaged. This creates a smoothing effect called antialiasing, which reduces the jagged, 'stair-step' appearance on object edges, and enhances visual quality.</p>
+<p>This algorithm allows for significant optimizations through parallelization, and here is where tensor calculus comes in hand with PyTorch. The only necessarily sequential process is the rebound of the rays in the surfaces, and every step can be paralellized.</p>
+<p>Let's consider a $H \times W$ viewport, with $S$ rays per pixel and $max\_depth$ total bounces. Then, the algorithm needs to compute at most $H \cdot W \cdot S \cdot max\_depth$ operations of hit check, ray bounce and color calculation. In practice there are less operations since the rays that do not collide with a surface go way and are ignored thereafter.</p>
+<p>This is a lot of calculations if we want a high definition image, but all the rays can be processed in parallel for each bounce, which can speed things up by a lot. If tha GPU has enough memory to fit all the data,the entire process can be computed in $max\_depth$ steps. If the data does not fit fully in memory, it can still be accelerated by processing in batches.</p>
+<p>In the following code block, which is a simplification from the repository, the ray-tracing process is shown:</p>
+<ol>
+<li>Traces rays through the scene in parallel</li>
+<li>Handles ray-object intersections</li>
+<li>Computes material interactions and scattered rays</li>
+<li>Accumulates color contributions from multiple bounces</li>
+<li>Processes background colors for rays that miss all objects</li>
+</ol>
+<p>The code leverages PyTorch tensors to perform these calculations efficiently in parallel on the GPU.</p>
+<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">@jaxtyped(typechecker=typechecker)
+def ray_color(
+    self,
+    pixel_rays: Float[t.Tensor, "N 3 2"],
+    world: Hittable,
+) -&gt; Float[t.Tensor, "N 3"]:
+    """Trace rays through the scene and compute colors.
+
+    Args:
+        pixel_rays: Tensor of ray origins and directions
+        world: Collection of hittable objects in the scene
+    """
+    N = pixel_rays.shape[0]
+    colors = t.zeros((N, 3), device=device)
+    attenuation = t.ones((N, 3), device=device)
+    rays = pixel_rays
+    active_mask = t.ones(N, dtype=t.bool, device=device)
+
+    for _ in range(self.max_depth):
+        if not active_mask.any():
+            break
+
+        # Test ray intersections with scene objects
+        hit_record = world.hit(rays, 0.001, float("inf"))
+
+        # Handle rays that hit the background
+        no_hit_mask = (~hit_record.hit) &amp; active_mask
+        if no_hit_mask.any():
+            ray_dirs = F.normalize(rays[no_hit_mask, :, 1], dim=-1)
+            t_param = 0.5 * (ray_dirs[:, 1] + 1.0)
+            background_colors = (1.0 - t_param).unsqueeze(-1) * t.tensor(
+                [1.0, 1.0, 1.0], device=device
+            )
+            background_colors += t_param.unsqueeze(-1) * t.tensor(
+                [0.5, 0.7, 1.0], device=device
+            )
+            colors[no_hit_mask] += attenuation[no_hit_mask] * background_colors
+            active_mask[no_hit_mask] = False
+
+        # Process material interactions for rays that hit objects
+        hit_mask = hit_record.hit &amp; active_mask
+        if hit_mask.any():
+            hit_indices = hit_mask.nonzero(as_tuple=False).squeeze(-1)
+            material_types_hit = hit_record.material_type[hit_indices]
+
+            # Handle each material type separately
+            for material_type in [
+                MaterialType.Lambertian,
+                MaterialType.Metal,
+                MaterialType.Dielectric,
+            ]:
+                material_mask = material_types_hit == material_type
+                if material_mask.any():
+                    indices = hit_indices[material_mask]
+                    # Calculate scattered rays and attenuation based on material properties
+                    scatter_mask, mat_attenuation, scattered_rays = (
+                        self._scatter_ray(
+                            material_type, rays[indices], hit_record, indices
+                        )
+                    )
+                    attenuation[indices] *= mat_attenuation
+                    rays[indices] = scattered_rays
+                    # Mark absorbed rays as inactive
+                    terminated = ~scatter_mask
+                    if terminated.any():
+                        term_indices = indices[terminated]
+                        active_mask[term_indices] = False
+
+    return colors
+</code></pre>
+<p style="text-align:center; font-style: italic;">Hit &amp; bounce algorithm, simplified from the TorchTracer repository</p>
+<p><br/></p>
+<h2 id="comparison-with-the-book-and-experiments">Comparison with the Book and Experiments</h2>
+<p>The <strong>book</strong> implements the raytracer in C++. For every pixel in the view plane, the book computes <code>samples_per_pixel</code> rays through the pixel and then traces the ray through the scene to compute the color of the pixel, for at most <code>max_depth</code> bounces. This is done sequentially for each pixel, sample and bounce.</p>
+<p>The <strong>Torch Tracer</strong> uses parallelization with PyTorch to compute the rays in parallel for every pixel and sample in the view plane. This allows for a significant speedup in rendering time.</p>
+<p>This means that for an image with 1920x1080 pixels and 120 samples per pixel, the book computes 1920x1080x120=248,832,000 rays to render the image. Every ray may bounce multiple times, for a maximum of <code>max_depth</code> bounces. This means that the book computes at most 248,832,000 x 50 = <strong>12,441,600,000 rays</strong> to render the image.</p>
+<p>The <strong>Torch Tracer</strong> computes the same number of rays, but does it in parallel for every pixel and sample. This means that, if enough GPU memory is available, the Torch Tracer can render the image in just <code>max_depth</code>, so <strong>50 passes in this case</strong>, in parallel.</p>
+<p>In practice, I evaluated the performance by generating the same scene as in the book's repository. The Torch Tracer takes approximately 170 seconds on my GPU (a laptop NVIDIA GeForce RTX 4050 with 8GB of memory), compared to ~645 seconds for the book's C++ sequential implementation. That's a speedup of ~3.79x. The main limiting factor for the Torch Tracer is the GPU memory, for which I have implemented a sequential batching system, but potentially every ray-tracing bounce could be done in parallel.</p>
+<p>This demonstrates how leveraging GPU parallelization can dramatically improve performance, making it feasible to render complex scenes much faster compared to a simpler sequential method.</p>
+<h2 id="features">Features</h2>
+<p>With the core concepts of ray tracing in mind, let's explore some of the advanced features that Torch Tracer brings to the table.</p>
+<ul>
+<li>
+<p>🚀 GPU Acceleration with PyTorch</p>
+<ul>
+<li>Batched ray processing for efficient GPU utilization</li>
+<li>Parallel computation of ray intersections and color calculations</li>
+<li>Configurable batch size to manage memory usage</li>
+</ul>
+</li>
+<li>
+<p>🎨 Advanced Ray-Tracing Capabilities</p>
+<ul>
+<li>Multiple ray bounces with configurable maximum depth</li>
+<li>Anti-aliasing through multiple samples per pixel</li>
+<li>Depth of field and defocus blur effects</li>
+<li>Realistic shadows and reflections</li>
+</ul>
+</li>
+<li>
+<p>✨ Material System</p>
+<ul>
+<li>Lambertian (diffuse) surfaces with matte finish</li>
+<li>Metal surfaces with configurable reflectivity and fuzz</li>
+<li>Dielectric (glass) materials with refraction</li>
+<li>Support for multiple materials in a single scene</li>
+</ul>
+</li>
+<li>
+<p>📷 Camera System</p>
+<ul>
+<li>Configurable field of view and aspect ratio</li>
+<li>Adjustable camera position and orientation</li>
+<li>Focus distance and defocus angle controls</li>
+<li>Support for different image resolutions</li>
+</ul>
+</li>
+<li>
+<p>🛡️ Type Safety</p>
+<ul>
+<li>Static type checking with jaxtyping</li>
+<li>Runtime type validation with typeguard</li>
+<li>Array shape and dtype validation</li>
+</ul>
+</li>
+</ul>
+<h2 id="materials">Materials</h2>
+<p align="center">
+<img src="https://github.com/miguelvc6/torch-tracer/blob/main/image_material_showcase.png?raw=true" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">A showcase of the three material implementations. </p>
+<p><br/></p>
+<h3 id="lambertian:-diffuse-material-with-matte-finish">Lambertian: Diffuse material with matte finish</h3>
+<p>Lambertian materials simulate diffuse surfaces that scatter light in random directions. When a ray hits a Lambertian surface, it bounces in a random direction within the hemisphere centered around the surface normal. This creates the characteristic matte appearance we see in objects like chalk or unfinished wood, where light seems to spread evenly in all directions.</p>
+<h3 id="metal:-reflective-material-with-configurable-fuzz-for-glossiness">Metal: Reflective material with configurable fuzz for glossiness</h3>
+<p>Metal surfaces are all about reflection. When a ray hits a metallic surface, it bounces following the law of reflection: the angle of incidence equals the angle of reflection. To create more realistic metals that aren't perfectly mirror-like, I add a "fuzz" parameter that randomly perturbs the reflected ray. Higher fuzz values create a more brushed or tarnished metal look.</p>
+<h3 id="dielectric:-glass-like-material-with-refraction-(configurable-index)">Dielectric: Glass-like material with refraction (configurable index)</h3>
+<p>Dielectric materials like glass or water handle both reflection and refraction. When a ray hits a dielectric surface, it splits into a reflected and a refracted component based on Snell's law and the material's refractive index. The ratio between reflection and refraction varies with the angle of incidence, creating effects like total internal reflection when light tries to exit the material at shallow angles.</p>
+<h2 id="following-steps">Following Steps</h2>
+<p>I really like to implement this type of projects that involves cool renderings and simulations. I feel like I have improved quite a bit my tensor manipulation skills, and I have managed to succesfully work on computer graphics.</p>
+<p>There are many additional things I could implement, and the authors of Ray-tracing in One Weekend have written two more books. I plan to increase the scope of my Torch Tracer, but in a more <em>AI engineer</em> way. I have recently been working with LLM agents, so my idea is to write one that is able to implement the second book of the series in PyTorch taking my current Torch Tracer as starting point. I expect to upload a couple of blog posts about agents, and I will try to make this work.</p></section>
+
+          <footer class="article-navigation">
+            
+            
+            
+          </footer>
+        </article>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__bg">
+        <div class="footer__container container grid">
+          <div>
+            <h1 class="footer__title">Miguel</h1>
+            <span class="footer__subtitle">Machine Learning Engineer</span>
+          </div>
+
+          <ul class="footer__links">
+            <li>
+              <a href="index.html#about" class="footer__link">About</a>
+            </li>
+            <li>
+              <a href="index.html#portfolio" class="footer__link">Portfolio</a>
+            </li>
+            <li>
+              <a href="index.html#contact" class="footer__link">Contact</a>
+            </li>
+          </ul>
+
+          <div class="footer__socials">
+            <a href="https://github.com/miguelvc6" target="_blank" class="footer__social">
+              <i class="uil uil-github-alt"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/miguel-v%C3%A1zquez-caraballo-177ba8225/"
+              target="_blank"
+              class="footer__social"
+            >
+              <i class="uil uil-linkedin-alt"></i>
+            </a>
+            <a href="mailto:miguel@mvazquez.ai" target="_blank" class="footer__social">
+              <i class="uil uil-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <p class="footer__copy">&#169; Miguel 2024</p>
+      </div>
+    </footer>
+
+    <script>
+      // Theme
+      const themeButton = document.getElementById('theme-button')
+      const darkTheme = 'dark-theme'
+      const iconTheme = 'uil-sun'
+
+      // Previously selected theme (checking from localStorage)
+      const selectedTheme = localStorage.getItem('selected-theme')
+      const selectedIcon = localStorage.getItem('selected-icon')
+
+      // Get current theme
+      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+
+      // Validate if user previously chose a theme
+      if (selectedTheme) {
+        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+      }
+
+      // Activate / deactivate the theme manually with the button
+      themeButton.addEventListener('click', () => {
+        // Add or remove the dark / icon theme
+        document.body.classList.toggle(darkTheme)
+        themeButton.classList.toggle(iconTheme)
+        // Save the theme and the current icon that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        localStorage.setItem('selected-icon', getCurrentIcon())
+      })
+    </script>
+  </body>
+</html>

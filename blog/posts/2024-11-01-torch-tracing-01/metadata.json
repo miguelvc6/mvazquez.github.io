@@ -2,6 +2,6 @@
     "date": "2024-11-01",
     "author": "Miguel Vázquez",
     "summary": "I start by implementing a simple ray tracer, following the book Ray Tracing in One Weekend.",
-    "title": "Torch Tracer - GPU accelerated ray tracing with PyTorch",
-    "estimated_reading_time": 2
+    "title": "Torch Tracer - GPU accelerated ray-tracing with PyTorch",
+    "estimated_reading_time": 12
 }
