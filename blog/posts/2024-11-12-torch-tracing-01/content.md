@@ -18,7 +18,7 @@ That's why I decided to implement the **raytracing algorithm, highly optimized t
 
 [TorchTracer GitHub Repository](https://github.com/miguelvc6/torch-tracer)
 
-ray-tracing is a rendering technique that simulates how light interacts with objects to produce highly realistic images. I have based my implementation on the book [&#34;ray-tracing in One Weekend&#34; by Peter Shirley](https://raytracing.github.io/books/RayTracingInOneWeekend.html), in which a basic raytracer is implemented using C++ in a sequential manner, but I have implemented it in Python with PyTorch and parallelized the raytracing.
+ray-tracing is a rendering technique that simulates how light interacts with objects to produce highly realistic images. I have based my implementation on the book [&#34;ray-tracing in One Weekend&#34; by Peter Shirley](https://raytracing.github.io/books/RayTracingInOneWeekend.html)[^1], in which a basic raytracer is implemented using C++ in a sequential manner, but I have implemented it in Python with PyTorch and parallelized the raytracing.
 
 <p align="center">
   <img src="https://github.com/miguelvc6/torch-tracer/blob/main/random_spheres.png?raw=true" width="80%" />
@@ -287,3 +287,7 @@ Dielectric materials like glass or water handle both reflection and refraction. 
 I really like to implement this type of projects that involves cool renderings and simulations. I feel like I have improved quite a bit my tensor manipulation skills, and I have managed to succesfully work on computer graphics.
 
 There are many additional things I could implement, and the authors of Ray-tracing in One Weekend have written two more books. I plan to increase the scope of my Torch Tracer, but in a more *AI engineer* way. I have recently been working with LLM agents, so my idea is to write one that is able to implement the second book of the series in PyTorch taking my current Torch Tracer as starting point. I expect to upload a couple of blog posts about agents, and I will try to make this work.
+
+## References
+
+[^1]: “Ray Tracing in One Weekend.” [raytracing.github.io/books/RayTracingInOneWeekend.html](https://raytracing.github.io/books/RayTracingInOneWeekend.html)

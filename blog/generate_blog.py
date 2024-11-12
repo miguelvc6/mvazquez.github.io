@@ -19,14 +19,12 @@ def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
         header["id"] = header_id
         toc.append((level, title))
 
-    # Sort headers by their natural order and level
-    sorted_toc = []
-    min_level = min(level for level, _ in toc) if toc else 1
-    
-    for level, title in toc:
-        # Adjust relative level starting from 1
-        relative_level = level - min_level + 1
-        sorted_toc.append((relative_level, title))
+    # Adjust relative levels starting from 1
+    if toc:
+        min_level = min(level for level, _ in toc)
+        sorted_toc = [(level - min_level + 1, title) for level, title in toc]
+    else:
+        sorted_toc = []
 
     return sorted_toc, str(soup)
 
@@ -35,7 +33,7 @@ def calculate_reading_time(text: str) -> int:
     """Calculate reading time of a blog post."""
     words = len(text.split())
     average_speed = 200  # words per minute
-    return round(words / average_speed)
+    return max(1, round(words / average_speed))
 
 
 def fix_list_formatting(content: str) -> str:
@@ -74,31 +72,30 @@ def process_code_blocks(html_content: str) -> str:
     return str(soup)
 
 
-def process_latex(content: str) -> str:
+def process_latex(content: str) -> Tuple[str, list, list]:
     """Pre-process markdown content to protect LaTeX expressions."""
     # Store LaTeX expressions temporarily
     latex_blocks = []
     latex_inline = []
-    
+
     # Handle block LaTeX
-    parts = content.split('\\[')
+    parts = content.split("\\[")
     for i in range(1, len(parts)):
-        if '\\]' in parts[i]:
-            math, rest = parts[i].split('\\]', 1)
-            placeholder = f'LATEX_BLOCK_{len(latex_blocks)}'
+        if "\\]" in parts[i]:
+            math, rest = parts[i].split("\\]", 1)
+            placeholder = f"LATEX_BLOCK_{len(latex_blocks)}"
             latex_blocks.append(math)
             parts[i] = placeholder + rest
-    content = '\\['.join(parts)
-    
+    content = "\\[".join(parts)
+
     # Handle inline LaTeX
-    parts = content.split('$$')
+    parts = content.split("$$")
     for i in range(1, len(parts), 2):
-        if i < len(parts):
-            placeholder = f'LATEX_INLINE_{len(latex_inline)}'
-            latex_inline.append(parts[i])
-            parts[i] = placeholder
-    content = ''.join(parts)
-    
+        placeholder = f"LATEX_INLINE_{len(latex_inline)}"
+        latex_inline.append(parts[i])
+        parts[i] = placeholder
+    content = "".join(parts)
+
     return content, latex_blocks, latex_inline
 
 
@@ -106,22 +103,16 @@ def restore_latex(html_content: str, latex_blocks: list, latex_inline: list) -> 
     """Restore LaTeX expressions in the HTML content."""
     # Restore block LaTeX
     for i, math in enumerate(latex_blocks):
-        html_content = html_content.replace(
-            f'LATEX_BLOCK_{i}',
-            f'\\[{math}\\]'
-        )
-    
+        html_content = html_content.replace(f"LATEX_BLOCK_{i}", f"\\[{math}\\]")
+
     # Restore inline LaTeX
     for i, math in enumerate(latex_inline):
-        html_content = html_content.replace(
-            f'LATEX_INLINE_{i}',
-            f'$${math}$$'
-        )
-    
+        html_content = html_content.replace(f"LATEX_INLINE_{i}", f"$${math}$$")
+
     return html_content
 
 
-def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> dict:
+def process_blog_post(post_dir: Path, post_template) -> dict:
     """Process a single blog post and generate HTML content."""
     content_path = post_dir / "content.md"
     metadata_path = post_dir / "metadata.json"
@@ -140,7 +131,7 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
     first_line = content.split("\n", 1)[0]
     if first_line.startswith("#"):
         metadata["title"] = first_line.lstrip("#").strip()
-    content = "\n".join(content.split("\n", 1)[1:])
+        content = "\n".join(content.split("\n", 1)[1:])
     metadata["estimated_reading_time"] = estimated_reading_time
 
     # Extract date from the folder name
@@ -156,15 +147,20 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
 
     # Pre-process content to protect LaTeX
     content, latex_blocks, latex_inline = process_latex(content)
-    
+
+    # Create a new Markdown instance for each post
+    md = markdown.Markdown(extensions=["fenced_code", "nl2br", "sane_lists", "footnotes"])
+
     # Convert to HTML
     html_content = md.convert(content)
-    
+
     # Restore LaTeX expressions
     html_content = restore_latex(html_content, latex_blocks, latex_inline)
-    
-    # Process other elements
+
+    # Process code blocks
     html_content = process_code_blocks(html_content)
+
+    # Generate Table of Contents
     toc, html_content = generate_toc(html_content)
 
     # Generate individual blog post HTML
@@ -198,12 +194,9 @@ def process_blog_posts() -> None:
         reverse=True,
     )
 
-    # Configure markdown with extra extensions for lists
-    md = markdown.Markdown(extensions=["fenced_code", "nl2br", "sane_lists"])
-
     for post_dir in dirs:
         post_slugs.append(post_dir.name)
-        metadata = process_blog_post(post_dir, md, post_template)
+        metadata = process_blog_post(post_dir, post_template)
         posts.append(metadata)
 
     # Sort posts by date

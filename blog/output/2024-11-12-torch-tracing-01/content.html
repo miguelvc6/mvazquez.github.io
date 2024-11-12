@@ -221,6 +221,13 @@
                       <a href="#following-steps" aria-label="Following Steps">Following Steps</a>
                     </li>
                     
+                  
+                    
+                    
+                    <li>
+                      <a href="#references" aria-label="References">References</a>
+                    </li>
+                    
                       
                     
                   
@@ -238,7 +245,7 @@
 <p>But then, when your model isn't training due to the size of your embedding matrix, or you're working with a rare use case where no implemented modules exist, or a strange bug forces you deep into the architecture, you realize the importance of understanding tensors and linear algebra. For this reason I wanted to spend some time making tensor calculations and sharpening my skills.</p>
 <p>That's why I decided to implement the <strong>raytracing algorithm, highly optimized through parallelization, with PyTorch and GPU acceleration</strong>. It allows for realistic rendering of 3D scenes with shadows, reflections, and refractions, showcasing a variety of 3D shapes and materials. A perfect example of the power of parallel computing. 🔥💨 Let your GPU go brrr and get hot.🔥💨</p>
 <p><a href="https://github.com/miguelvc6/torch-tracer">TorchTracer GitHub Repository</a></p>
-<p>ray-tracing is a rendering technique that simulates how light interacts with objects to produce highly realistic images. I have based my implementation on the book <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">"ray-tracing in One Weekend" by Peter Shirley</a>, in which a basic raytracer is implemented using C++ in a sequential manner, but I have implemented it in Python with PyTorch and parallelized the raytracing.</p>
+<p>ray-tracing is a rendering technique that simulates how light interacts with objects to produce highly realistic images. I have based my implementation on the book <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">"ray-tracing in One Weekend" by Peter Shirley</a><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, in which a basic raytracer is implemented using C++ in a sequential manner, but I have implemented it in Python with PyTorch and parallelized the raytracing.</p>
 <p align="center">
 <img src="https://github.com/miguelvc6/torch-tracer/blob/main/random_spheres.png?raw=true" width="80%"/>
 </p>
@@ -477,7 +484,16 @@ def ray_color(
 <p>Dielectric materials like glass or water handle both reflection and refraction. When a ray hits a dielectric surface, it splits into a reflected and a refracted component based on Snell's law and the material's refractive index. The ratio between reflection and refraction varies with the angle of incidence, creating effects like total internal reflection when light tries to exit the material at shallow angles.</p>
 <h2 id="following-steps">Following Steps</h2>
 <p>I really like to implement this type of projects that involves cool renderings and simulations. I feel like I have improved quite a bit my tensor manipulation skills, and I have managed to succesfully work on computer graphics.</p>
-<p>There are many additional things I could implement, and the authors of Ray-tracing in One Weekend have written two more books. I plan to increase the scope of my Torch Tracer, but in a more <em>AI engineer</em> way. I have recently been working with LLM agents, so my idea is to write one that is able to implement the second book of the series in PyTorch taking my current Torch Tracer as starting point. I expect to upload a couple of blog posts about agents, and I will try to make this work.</p></section>
+<p>There are many additional things I could implement, and the authors of Ray-tracing in One Weekend have written two more books. I plan to increase the scope of my Torch Tracer, but in a more <em>AI engineer</em> way. I have recently been working with LLM agents, so my idea is to write one that is able to implement the second book of the series in PyTorch taking my current Torch Tracer as starting point. I expect to upload a couple of blog posts about agents, and I will try to make this work.</p>
+<h2 id="references">References</h2>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>“Ray Tracing in One Weekend.” <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">raytracing.github.io/books/RayTracingInOneWeekend.html</a> <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div></section>
 
           <footer class="article-navigation">
             
