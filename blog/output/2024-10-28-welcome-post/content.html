@@ -58,6 +58,17 @@
             });
         });
     </script>
+    <style>
+      /* Add scroll margin to compensate for fixed header */
+      :target {
+        scroll-margin-top: 40px; /* Adjust this value based on your header height */
+      }
+      
+      /* Alternative approach using scroll padding on html */
+      html {
+        scroll-padding-top: 40px; /* Adjust this value based on your header height */
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -126,7 +137,7 @@
           <header class="blog-post__header">
             <h1 class="blog-post__title">Welcome to My Blog!</h1>
             <p class="blog-post__meta">
-              Date: 2024-10-28 | Estimated Reading Time: 5 | Author: Miguel Vázquez
+              Date: 2024-10-28 | Estimated Reading Time: 5 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -140,27 +151,28 @@
                 <ul>
                   
                   
-                  <li>
-                    <a href="#why?" aria-label="Why?">Why?</a>
                     
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#what?" aria-label="What?">What?</a>
                     
-                  </li>
-                  
-                  
-                  
-                  <li>
-                    <a href="#wrapping-up" aria-label="Wrapping Up">Wrapping Up</a>
+                    <li>
+                      <a href="#why?" aria-label="Why?">Why?</a>
+                    </li>
                     
-                    </ul>
-                    
-                  </li>
                   
+                    
+                    
+                    <li>
+                      <a href="#what?" aria-label="What?">What?</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#wrapping-up" aria-label="Wrapping Up">Wrapping Up</a>
+                    </li>
+                    
+                      
+                    
                   
                 </ul>
               </div>
