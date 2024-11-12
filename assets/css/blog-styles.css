@@ -373,6 +373,11 @@ img {
   list-style: none;
 }
 
+/* Add indentation for nested lists */
+.table-of-contents ul ul {
+  padding-left: 1.5em;
+}
+
 .table-of-contents li {
   margin: 0.4em 0;
   position: relative;
@@ -811,7 +816,7 @@ h4 {
   position: relative;
   min-width: 140%;
   max-width: calc(100vw - 4rem);
-  width: calc(100% + 4rem);
+  width: calc(100% + 4rem); 
 }
 
 /* Style for nested code blocks */

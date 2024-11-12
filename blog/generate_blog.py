@@ -22,7 +22,6 @@ def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
     # Sort headers by their natural order and level
     sorted_toc = []
     min_level = min(level for level, _ in toc) if toc else 1
-    current_level = min_level
     
     for level, title in toc:
         # Adjust relative level starting from 1
