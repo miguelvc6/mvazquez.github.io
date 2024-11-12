@@ -143,6 +143,13 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
     content = "\n".join(content.split("\n", 1)[1:])
     metadata["estimated_reading_time"] = estimated_reading_time
 
+    # Extract date from the folder name
+    folder_date = post_dir.name.split("-", 3)[:3]
+    folder_date_str = "-".join(folder_date)
+
+    # Ensure the date in metadata matches the folder date
+    metadata["date"] = folder_date_str
+
     # Save updated metadata to JSON file
     with metadata_path.open("w", encoding="utf-8") as f:
         json.dump(metadata, f, ensure_ascii=False, indent=4)
