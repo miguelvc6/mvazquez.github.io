@@ -66,6 +66,53 @@ def process_code_blocks(html_content: str) -> str:
     return str(soup)
 
 
+def process_latex(content: str) -> str:
+    """Pre-process markdown content to protect LaTeX expressions."""
+    # Store LaTeX expressions temporarily
+    latex_blocks = []
+    latex_inline = []
+    
+    # Handle block LaTeX
+    parts = content.split('\\[')
+    for i in range(1, len(parts)):
+        if '\\]' in parts[i]:
+            math, rest = parts[i].split('\\]', 1)
+            placeholder = f'LATEX_BLOCK_{len(latex_blocks)}'
+            latex_blocks.append(math)
+            parts[i] = placeholder + rest
+    content = '\\['.join(parts)
+    
+    # Handle inline LaTeX
+    parts = content.split('$$')
+    for i in range(1, len(parts), 2):
+        if i < len(parts):
+            placeholder = f'LATEX_INLINE_{len(latex_inline)}'
+            latex_inline.append(parts[i])
+            parts[i] = placeholder
+    content = ''.join(parts)
+    
+    return content, latex_blocks, latex_inline
+
+
+def restore_latex(html_content: str, latex_blocks: list, latex_inline: list) -> str:
+    """Restore LaTeX expressions in the HTML content."""
+    # Restore block LaTeX
+    for i, math in enumerate(latex_blocks):
+        html_content = html_content.replace(
+            f'LATEX_BLOCK_{i}',
+            f'\\[{math}\\]'
+        )
+    
+    # Restore inline LaTeX
+    for i, math in enumerate(latex_inline):
+        html_content = html_content.replace(
+            f'LATEX_INLINE_{i}',
+            f'$${math}$$'
+        )
+    
+    return html_content
+
+
 def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> dict:
     """Process a single blog post and generate HTML content."""
     content_path = post_dir / "content.md"
@@ -92,7 +139,16 @@ def process_blog_post(post_dir: Path, md: markdown.Markdown, post_template) -> d
     with metadata_path.open("w", encoding="utf-8") as f:
         json.dump(metadata, f, ensure_ascii=False, indent=4)
 
+    # Pre-process content to protect LaTeX
+    content, latex_blocks, latex_inline = process_latex(content)
+    
+    # Convert to HTML
     html_content = md.convert(content)
+    
+    # Restore LaTeX expressions
+    html_content = restore_latex(html_content, latex_blocks, latex_inline)
+    
+    # Process other elements
     html_content = process_code_blocks(html_content)
     toc, html_content = generate_toc(html_content)
 
