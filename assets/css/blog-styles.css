@@ -816,7 +816,7 @@ h4 {
   position: relative;
   min-width: 140%;
   max-width: calc(100vw - 4rem);
-  width: calc(100% + 4rem); 
+  width: calc(100% + 4rem);
 }
 
 /* Style for nested code blocks */
@@ -859,41 +859,40 @@ h4 {
 
 /* Citations */
 .citation {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .citation sup {
-    color: #666;
-    padding: 0 3px;
+  color: #666;
+  padding: 0 3px;
 }
 
 .citation:hover sup {
-    color: #0066cc;
+  color: #0066cc;
 }
 
 .citation-backlink {
-    margin-left: 0.5em;
-    text-decoration: none;
-    color: #666;
+  margin-left: 0.5em;
+  text-decoration: none;
+  color: #666;
 }
 
 .citation-backlink:hover {
-    color: #0066cc;
+  color: #0066cc;
 }
 
 /* References section */
 #references {
-    margin-top: 2em;
-    padding-top: 1em;
-    border-top: 1px solid #eee;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #eee;
 }
 
 #references + ol {
-    padding-left: 2em;
+  padding-left: 2em;
 }
 
 #references + ol li {
-    margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
-
