@@ -808,9 +808,8 @@ h4 {
 
 /* Code blocks */
 .code-toolbar {
-  background: var(--first-color-second);
+  border: 1px solid var(--scroll-bar-color);
   border-radius: 0.5rem;
-  /* padding: 1rem; */
   margin: 1.5rem -5rem 1.5rem -5rem;
   overflow-x: auto;
   position: relative;
@@ -819,42 +818,133 @@ h4 {
   width: calc(100% + 4rem);
 }
 
-/* Style for nested code blocks */
-.blog-post__content pre pre {
-  background: var(--body-color);
-  margin: 0.5rem 0;
-  border: 1px solid var(--scroll-bar-color);
-  width: 100%;
+/* Remove background from operators for both themes */
+.language-css .token.string, 
+.style .token.string, 
+.token.entity, 
+.token.operator, 
+.token.url {
+  background: none !important;
+} 
+
+/* Dark mode specific styles */
+.dark-theme .code-toolbar,
+.dark-theme :not(pre) > code[class*=language-],
+.dark-theme pre[class*=language-] {
+  background: #362c24;
 }
 
-/* Language label for code blocks */
-.blog-post__content pre::before {
-  content: attr(data-language);
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  color: var(--text-color-light);
-  font-size: 0.8em;
-  padding: 0.2rem 0.5rem;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 0.3rem;
+/* Remove all text shadows */
+.dark-theme code[class*=language-],
+.dark-theme pre[class*=language-],
+.dark-theme .token,
+.dark-theme .token.tag,
+.dark-theme .token.keyword,
+.dark-theme .token.selector,
+.dark-theme .token.property,
+.dark-theme .token.function,
+.dark-theme .token.string,
+.dark-theme .token.regex,
+.dark-theme .token.important,
+.dark-theme .token.comment {
+  text-shadow: none !important;
 }
 
-/* Adjust Prism.js theme colors to match your theme */
-:root {
-  --prism-background: var(--first-color-second);
-  --prism-color: var(--text-color);
-  --prism-inline-background: var(--first-color-second);
-  --prism-inline-color: var(--text-color);
+/* Dark theme operator color */
+.dark-theme .token.operator,
+.dark-theme .token.entity,
+.dark-theme .token.url,
+.dark-theme .language-css .token.string,
+.dark-theme .style .token.string {
+  color: #56b6c2;
 }
 
-/* Override Prism.js styles for dark mode */
-.dark-theme pre[class*="language-"] {
-  background: var(--container-color);
+code[class*=language-],
+pre[class*=language-] {
+  color: #abb2bf;
+  background: none;
+  text-shadow: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  tab-size: 4;
+  hyphens: none;
 }
 
-.dark-theme code[class*="language-"] {
-  color: var(--text-color);
+.dark-theme code[class*=language-],
+.dark-theme pre[class*=language-] {
+  color: #abb2bf;
+}
+
+.dark-theme .token.comment,
+.dark-theme .token.prolog,
+.dark-theme .token.doctype,
+.dark-theme .token.cdata {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.dark-theme .token.punctuation {
+  color: #abb2bf;
+}
+
+.dark-theme .token.selector,
+.dark-theme .token.tag {
+  color: #e06c75;
+}
+
+.dark-theme .token.property,
+.dark-theme .token.boolean,
+.dark-theme .token.number,
+.dark-theme .token.constant,
+.dark-theme .token.symbol,
+.dark-theme .token.attr-name,
+.dark-theme .token.deleted {
+  color: #d19a66;
+}
+
+.dark-theme .token.string,
+.dark-theme .token.char,
+.dark-theme .token.attr-value,
+.dark-theme .token.builtin,
+.dark-theme .token.inserted {
+  color: #98c379;
+}
+
+.dark-theme .token.operator,
+.dark-theme .token.entity,
+.dark-theme .token.url,
+.dark-theme .language-css .token.string,
+.dark-theme .style .token.string {
+  color: #56b6c2;
+}
+
+.dark-theme .token.atrule,
+.dark-theme .token.keyword {
+  color: #c678dd;
+}
+
+.dark-theme .token.function {
+  color: #61afef;
+}
+
+.dark-theme .token.regex,
+.dark-theme .token.important,
+.dark-theme .token.variable {
+  color: #c678dd;
+}
+
+.dark-theme .token.important,
+.dark-theme .token.bold {
+  font-weight: bold;
+}
+
+.dark-theme .token.italic {
+  font-style: italic;
 }
 
 /* Citations */
