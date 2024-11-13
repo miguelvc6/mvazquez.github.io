@@ -71,6 +71,11 @@
     </style>
   </head>
   <body>
+    <!-- Add zoom overlay div -->
+    <div class="zoom-overlay">
+      <img src="" alt="Zoomed image">
+    </div>
+
     <!-- Header -->
     <header class="header" id="header">
       <nav class="nav container">
@@ -238,6 +243,27 @@
     </footer>
 
     <script>
+      // Add image zoom functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.querySelector('.zoom-overlay');
+        const overlayImg = overlay.querySelector('img');
+        
+        document.querySelectorAll('.blog-post__content img').forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlayImg.src = this.src;
+            overlayImg.alt = this.alt;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        overlay.addEventListener('click', function() {
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+
       // Theme
       const themeButton = document.getElementById('theme-button')
       const darkTheme = 'dark-theme'
