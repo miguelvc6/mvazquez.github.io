@@ -247,6 +247,7 @@ def process_blog_posts() -> None:
     """Process blog posts, generate HTML files, and create blog list."""
     posts = []
     post_slugs = []
+    search_index = []  # New search index
     env = Environment(loader=FileSystemLoader("blog/templates"))
     post_template = env.get_template("blog_post.html")
 
@@ -264,10 +265,22 @@ def process_blog_posts() -> None:
     for post_dir in dirs:
         metadata = process_blog_post(post_dir, post_template)
         
-        # Skip draft posts in the main blog list
+        # Skip draft posts in the main blog list and search index
         if not metadata.get("draft", False):
             post_slugs.append(post_dir.name)
             posts.append(metadata)
+            
+            # Add to search index
+            with (post_dir / "content.md").open("r", encoding="utf-8") as f:
+                content = f.read()
+            
+            search_index.append({
+                "title": metadata["title"],
+                "date": metadata["date"],
+                "url": metadata["url"],
+                "content": ' '.join(content.split())[:200],  # First 200 chars of content
+                "author": metadata.get("author", ""),
+            })
 
     # Sort posts by date
     posts.sort(key=lambda x: x["date"], reverse=True)
@@ -281,6 +294,10 @@ def process_blog_posts() -> None:
     # Generate index.json (excluding drafts)
     with (posts_dir / "index.json").open("w", encoding="utf-8") as f:
         json.dump(post_slugs, f, indent=2)
+
+    # Generate search index JSON
+    with (Path("blog/output") / "search-index.json").open("w", encoding="utf-8") as f:
+        json.dump(search_index, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":

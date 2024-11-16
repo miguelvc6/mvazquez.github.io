@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Torch Tracer - GPU accelerated ray-tracing with PyTorch",
+    "date": "2024-11-12",
+    "url": "2024-11-12-torch-tracing-01/content.html",
+    "content": "# Torch Tracer - GPU accelerated ray-tracing with PyTorch ## Torch tracer When you think about tensors in computer science, two areas immediately stand out: computer graphics and neural networks. In t",
+    "author": "Miguel Vázquez"
+  },
+  {
+    "title": "Welcome to My Blog!",
+    "date": "2024-10-28",
+    "url": "2024-10-28-welcome-post/content.html",
+    "content": "# Welcome to My Blog! This is my first post! Here I will introduce myself and the webpage in a casual way. First of all, introductions. I am Miguel Vázquez and I do things with mathematics, computers ",
+    "author": "Miguel Vázquez"
+  }
+]
