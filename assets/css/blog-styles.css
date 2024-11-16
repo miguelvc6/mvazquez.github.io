@@ -432,7 +432,8 @@ img {
   border-radius: 0.5rem;
   text-decoration: none;
   transition: background-color 0.3s;
-  flex: 1;
+  flex: 0.5;
+  max-width: 300px;
 }
 
 .nav-button:hover {
@@ -445,6 +446,7 @@ img {
 
 .next-button {
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .nav-button i {

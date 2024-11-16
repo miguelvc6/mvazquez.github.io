@@ -153,7 +153,7 @@ def optimize_image(image_path: Path, max_width: int = 1920) -> None:
         print(f"Error optimizing {image_path}: {e}")
 
 
-def process_blog_post(post_dir: Path, post_template) -> dict:
+def process_blog_post(post_dir: Path, post_template, prev_post=None, next_post=None) -> dict:
     """Process a single blog post and generate HTML content."""
     content_path = post_dir / "content.md"
     metadata_path = post_dir / "metadata.json"
@@ -238,6 +238,8 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
         content=html_content,
         toc=toc,
         request={'url': post_url},
+        prev_post=prev_post,
+        next_post=next_post,
         **metadata
     )
 
@@ -257,7 +259,7 @@ def process_blog_posts() -> None:
     """Process blog posts, generate HTML files, and create blog list."""
     posts = []
     post_slugs = []
-    search_index = []  # New search index
+    search_index = []
     env = Environment(loader=FileSystemLoader("blog/templates"))
     post_template = env.get_template("blog_post.html")
 
@@ -272,13 +274,26 @@ def process_blog_posts() -> None:
         reverse=True,
     )
 
+    # First pass: collect all metadata
     for post_dir in dirs:
-        metadata = process_blog_post(post_dir, post_template)
+        metadata_path = post_dir / "metadata.json"
+        with metadata_path.open("r", encoding="utf-8") as f:
+            metadata = json.load(f)
+        metadata["url"] = f"{post_dir.name}/content.html"
+        posts.append(metadata)
+
+    # Sort posts by date
+    posts.sort(key=lambda x: x["date"], reverse=True)
+    
+    # Second pass: process posts with prev/next navigation
+    for i, post_dir in enumerate(dirs):
+        prev_post = posts[i-1] if i > 0 else None
+        next_post = posts[i+1] if i < len(posts)-1 else None
+        metadata = process_blog_post(post_dir, post_template, prev_post, next_post)
         
         # Skip draft posts in the main blog list and search index
         if not metadata.get("draft", False):
             post_slugs.append(post_dir.name)
-            posts.append(metadata)
             
             # Add to search index
             with (post_dir / "content.md").open("r", encoding="utf-8") as f:
@@ -288,20 +303,17 @@ def process_blog_posts() -> None:
                 "title": metadata["title"],
                 "date": metadata["date"],
                 "url": metadata["url"],
-                "content": ' '.join(content.split())[:200],  # First 200 chars of content
+                "content": ' '.join(content.split())[:200],
                 "author": metadata.get("author", ""),
             })
 
-    # Sort posts by date
-    posts.sort(key=lambda x: x["date"], reverse=True)
-
     # Generate blog list HTML (excluding drafts)
     blog_list_template = env.get_template("blog_list.html")
-    blog_list_html = blog_list_template.render(posts=posts)
+    blog_list_html = blog_list_template.render(posts=[p for p in posts if not p.get("draft", False)])
     with (output_dir / "blog.html").open("w", encoding="utf-8") as f:
         f.write(blog_list_html)
 
-    # Generate index.json (excluding drafts)
+    # Generate index.json
     with (posts_dir / "index.json").open("w", encoding="utf-8") as f:
         json.dump(post_slugs, f, indent=2)
 
