@@ -1107,3 +1107,85 @@ pre[class*="language-"] {
 .search-result:hover {
   background: var(--text-color-light);
 }
+
+/* Share buttons */
+.share-buttons {
+  margin: 3rem 0;
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--scroll-bar-color);
+  border-bottom: 1px solid var(--scroll-bar-color);
+}
+
+.share-title {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.share-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--first-color-second);
+  color: var(--container-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.share-button i {
+  font-size: 1.2rem;
+}
+
+.share-button:hover {
+  background: var(--first-color);
+  transform: translateY(-2px);
+}
+
+.share-button.twitter:hover {
+  background: #1DA1F2;
+}
+
+.share-button.linkedin:hover {
+  background: #0077B5;
+}
+
+.share-button.copy-link:hover {
+  background: var(--first-color-alt);
+}
+
+/* Copy link feedback tooltip */
+.copy-link {
+  position: relative;
+}
+
+.copy-link::after {
+  content: "Copied!";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--first-color);
+  color: var(--container-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Only show tooltip when copied class is present */
+.copy-link.copied::after {
+  opacity: 1;
+}

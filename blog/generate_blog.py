@@ -230,11 +230,21 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
 
     html_content = str(soup)
 
+    # Add the base URL for social sharing
+    base_url = "https://mvazquez.ai/blog/output"  # Replace with your actual domain
+    post_url = f"{base_url}/{post_dir.name}/content.html"
+    
+    post_html = post_template.render(
+        content=html_content,
+        toc=toc,
+        request={'url': post_url},
+        **metadata
+    )
+
     # Generate individual blog post HTML
     output_dir = Path("blog/output") / post_dir.name
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    post_html = post_template.render(content=html_content, toc=toc, **metadata)
     output_path = output_dir / "content.html"
     with output_path.open("w", encoding="utf-8") as f:
         f.write(post_html)
