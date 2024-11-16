@@ -5,6 +5,7 @@ from typing import List, Tuple
 import markdown
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
+from PIL import Image
 
 
 def generate_toc(html_content: str) -> Tuple[List[Tuple[int, str]], str]:
@@ -62,12 +63,17 @@ def process_code_blocks(html_content: str) -> str:
         code_tag = pre.find("code")
         if code_tag and code_tag.has_attr("class"):
             classes = code_tag["class"]
-            language_classes = [cls for cls in classes if cls.startswith("language-")]
+            language_classes = [
+                cls for cls in classes if cls.startswith("language-")
+            ]
             if language_classes:
                 language = language_classes[0].replace("language-", "")
                 pre["data-language"] = language
                 # Add Prism.js classes
-                pre["class"] = pre.get("class", []) + ["line-numbers", "toolbar-top"]
+                pre["class"] = pre.get("class", []) + [
+                    "line-numbers",
+                    "toolbar-top",
+                ]
                 code_tag["class"] = ["language-" + language]
     return str(soup)
 
@@ -99,17 +105,52 @@ def process_latex(content: str) -> Tuple[str, list, list]:
     return content, latex_blocks, latex_inline
 
 
-def restore_latex(html_content: str, latex_blocks: list, latex_inline: list) -> str:
+def restore_latex(
+    html_content: str, latex_blocks: list, latex_inline: list
+) -> str:
     """Restore LaTeX expressions in the HTML content."""
     # Restore block LaTeX
     for i, math in enumerate(latex_blocks):
-        html_content = html_content.replace(f"LATEX_BLOCK_{i}", f"\\[{math}\\]")
+        html_content = html_content.replace(
+            f"LATEX_BLOCK_{i}", f"\\[{math}\\]"
+        )
 
     # Restore inline LaTeX
     for i, math in enumerate(latex_inline):
         html_content = html_content.replace(f"LATEX_INLINE_{i}", f"$${math}$$")
 
     return html_content
+
+
+def optimize_image(image_path: Path, max_width: int = 1920) -> None:
+    """
+    Optimize image by:
+    - Resizing if wider than max_width
+    - Converting to WebP format
+    - Applying compression
+    """
+    try:
+        with Image.open(image_path) as img:
+            # Skip if image is already optimized (WebP and correct size)
+            if image_path.suffix.lower() == ".webp" and img.width <= max_width:
+                return
+
+            # Calculate new dimensions if needed
+            if img.width > max_width:
+                ratio = max_width / img.width
+                new_size = (max_width, int(img.height * ratio))
+                img = img.resize(new_size, Image.Resampling.LANCZOS)
+
+            # Convert to WebP and save
+            webp_path = image_path.with_suffix(".webp")
+            img.save(webp_path, "WEBP", quality=85, method=6, lossless=False)
+
+            # If conversion successful, delete original file
+            if webp_path.exists() and webp_path != image_path:
+                image_path.unlink()
+
+    except Exception as e:
+        print(f"Error optimizing {image_path}: {e}")
 
 
 def process_blog_post(post_dir: Path, post_template) -> dict:
@@ -120,6 +161,12 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
     # Create media directory if it doesn't exist
     media_dir = Path("blog/media") / post_dir.name
     media_dir.mkdir(parents=True, exist_ok=True)
+
+    # Optimize images in media directory
+    image_extensions = {".jpg", ".jpeg", ".png", ".webp"}
+    for image_path in media_dir.glob("*"):
+        if image_path.suffix.lower() in image_extensions:
+            optimize_image(image_path)
 
     with content_path.open("r", encoding="utf-8") as f:
         content = f.read()
@@ -153,7 +200,9 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
     content, latex_blocks, latex_inline = process_latex(content)
 
     # Create a new Markdown instance for each post
-    md = markdown.Markdown(extensions=["fenced_code", "nl2br", "sane_lists", "footnotes"])
+    md = markdown.Markdown(
+        extensions=["fenced_code", "nl2br", "sane_lists", "footnotes"]
+    )
 
     # Convert to HTML
     html_content = md.convert(content)
@@ -172,9 +221,13 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
     for img in soup.find_all("img"):
         src = img.get("src")
         if src and not src.startswith(("http://", "https://", "/")):
-            # Update relative paths to use shared media directory
-            img["src"] = src
-    
+            # Convert image path to WebP
+            src_path = Path(src)
+            webp_src = src_path.with_suffix(".webp")
+            img["src"] = f"../../../media/{post_dir.name}/{webp_src}"
+            # Add loading="lazy" for better performance
+            img["loading"] = "lazy"
+
     html_content = str(soup)
 
     # Generate individual blog post HTML
