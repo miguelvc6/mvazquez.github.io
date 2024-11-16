@@ -1140,7 +1140,7 @@ pre[class*="language-"] {
   border-radius: 50%;
   border: none;
   background: var(--first-color-second);
-  color: var(--container-color);
+  color: var(--title-color);
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -1152,6 +1152,7 @@ pre[class*="language-"] {
 
 .share-button:hover {
   background: var(--first-color);
+  color: var(--container-color);
   transform: translateY(-2px);
 }
 
