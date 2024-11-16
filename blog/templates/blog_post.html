@@ -215,15 +215,17 @@
 
           <footer class="article-navigation">
             {% if next_post %}
-            <a href="../{{ next_post.url }}" class="nav-button prev-button">
+            <a href="../{{ next_post.url }}" class="nav-button prev-button {% if next_post.draft %}draft-nav{% endif %}">
                 <i class="uil uil-angle-left"></i>
                 Previous: {{ next_post.title }}
+                {% if next_post.draft %}<span class="draft-label">(Draft)</span>{% endif %}
             </a>
             {% endif %}
             
             {% if prev_post %}
-            <a href="../{{ prev_post.url }}" class="nav-button next-button">
+            <a href="../{{ prev_post.url }}" class="nav-button next-button {% if prev_post.draft %}draft-nav{% endif %}">
                 Next: {{ prev_post.title }}
+                {% if prev_post.draft %}<span class="draft-label">(Draft)</span>{% endif %}
                 <i class="uil uil-angle-right"></i>
             </a>
             {% endif %}
