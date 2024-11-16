@@ -1,6 +1,6 @@
 # LLM Agents
 
-Over the last few weeks, I have been imparting in a full fledged couse on LLMs at my job at oga.ai. It is a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.
+Over the last few weeks, I have been imparting in a full fledged course on LLMs at my job at oga.ai. It is a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.
 
 The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even tough they are in beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents on production environment, they really shine with potential.
 
@@ -12,7 +12,7 @@ In the following couple posts, I plan to write and explain in depth one or two a
 
 Finally, I want to use an agent to expand my [Torch-Tracer Project](https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html), with the objective that it needs the least amount of human input as possible.
 
-## What are agents?
+# What are agents?
 
 Artificial Intelligence: A Modern Approach defines an **"agent"** as[^1]
 
@@ -32,7 +32,7 @@ This means that a rational agent will try to accomplish an objective as defined 
 
 A **"LLM agent"** is one that uses a LLM as its _brain_ to reason. The central idea is that they use a language model to choose what **actions** they take to **accomplish an objective** given a current **state** or environment.
 
-If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augemented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.
+If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augmented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.
 
 ### Agentic workflows
 
@@ -41,27 +41,27 @@ An analogy that I find illustrative to understand LLM agents can be made with th
 In a regular LLM workflow you ask the LLM to write an essay about some topic X. Since they are autoregressive models, they will write it directly from the beginning to the end without ever going back to fix errors or improve any section, or stopping to reflect and research more about topic X. This task would be very difficult for most humans, and yet LLMs are surprisingly good at it.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/regular_llm_workflow.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/regular_llm_workflow.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Regular LLM workflow to write an essay. </p>
 
-In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take actions to better write the essay. It could decide to start by specifyng the essay's structure and researching about the topic in a external data storage (data bases, documents, the internet...). Then it may decide to write a first draft and iteratively improve it until it is finished. At any point of the process it can reflect about what is the best action to take among the set of possible actions, which gives it all these capabilities. Obviously, this workflow will often give better results that the first direct approach.
+In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take actions to better write the essay. It could decide to start by specifying the essay's structure and researching about the topic in a external data storage (data bases, documents, the internet...). Then it may decide to write a first draft and iteratively improve it until it is finished. At any point of the process it can reflect about what is the best action to take among the set of possible actions, which gives it all these capabilities. Obviously, this workflow will often give better results that the first direct approach.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/agentic_llm_workflow.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/agentic_llm_workflow.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Agentic LLM workflows allow to take to choose what actions to take to get the best results. </p>
 
-LLM agents are based on the chain-of-thought. By dividing a complex problem in simpler subproblems, it can solve them secuentially to reach the final answer.
+LLM agents are based on the chain-of-thought. By dividing a complex problem in simpler subproblems, it can solve them sequentially to reach the final answer.
 
 1. **Plan** what action to take to get closer to its objective.
 2. Perform an **action** and **observe** its consequences.
 3. Iterate until reaching the objective _"LLM in a loop"_
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/agent_cot_loop.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/agent_cot_loop.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Agentic LLM workflows as loop: Plan, Act, Observe. </p>
@@ -78,10 +78,10 @@ You might have noticed that the planning step is not strictly necessary. An agen
 
 The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)**search**\[entity] returns the first 5 sentences from the corresponding _entity_ wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)**lookup**\[string], which returns the next sentence in the page containing _string_ simulating a ctrl+F command, and (3)**finish**\[answer] which would finish the current task with _answer_."[^3]
 
-With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the fisrt three approaches first.
+With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/react_01.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/react_01.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
@@ -89,7 +89,7 @@ With this environment they compare four different approaches: standard zero-shot
 In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct is created to fight this problem.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/react_02.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/react_02.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
@@ -111,20 +111,20 @@ This possible actions are commonly referred as **tools**, and the a set of actio
 As an example, chatGPT has access to three different tools.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/chatgpt_tools.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/chatgpt_tools.webp" width="80%" />
 </p>
 
-<p style="text-align:center; font-style: italic;">The gpt-4o model from the chatGPT web UI has access to web browsing, dall-e image generator, and code interpreter. </p>
+<p style="text-align:center; font-style: italic;">The gpt-4o model from the chatGPT web UI has access to web browsing, Dall-e image generator, and code interpreter. </p>
 
-At the time of writting gpt-4o has the knowledge cut date of October 2024. That means that the pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about events posterior to that dat, it will use a web search tool to retrieve the necessary information.
+At the time of writing gpt-4o has the knowledge cut date of October 2024. That means that the pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about events posterior to that dat, it will use a web search tool to retrieve the necessary information.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/chatgpt_web_search.png" width="80%" />
+  <img src="../../media/2024-11-17-llm-agents/chatgpt_web_search.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">GPT does not know the democratic candidate of 2024, so it uses web search tool to answer . </p>
 
-In this [conversation](https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a) I make chatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am writing this post, it is not possible to share conversations in which dall-e is used to generate images, but you can guess how it works: you ask chatgpt to generate an image of a puppy and it decides to call dall-e, writting the image prompt by itself.
+In this [conversation](https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a) I make chatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am writing this post, it is not possible to share conversations in which dall-e is used to generate images, but you can guess how it works: you ask chatgpt to generate an image of a puppy and it decides to call dall-e, writing the image prompt by itself.
 
 Another example is the [langchain tools](https://python.langchain.com/docs/integrations/tools/). These are implemented in the langchain library to be used by language models, and there is a great number and variety of them: several web search providers and code interpreters, a few productivity tools like github, jira or gmail; tools to access databases and even more.
 
@@ -133,7 +133,7 @@ Another example is the [langchain tools](https://python.langchain.com/docs/integ
 Let's proceed with an agent full workflow as an example. In this case we have an agent, let's call him JARVIS, that assist the user with data queries.
 
 <p align="center">
-  <img src="../../media/2024-11-17-llm-agents/workflow_example.png" width="90%" />
+  <img src="../../media/2024-11-17-llm-agents/workflow_example.webp" width="90%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Jarvis helps the user to get the total number of customers in the database. </p>
@@ -167,9 +167,11 @@ The user starts by asking, **"Hey JARVIS, how many clients are there in our data
 6. **Executing the SQL Query**:
 
     - JARVIS constructs a simple SQL query:
+
         ```sql
         SELECT COUNT(*) FROM CUSTOMERS
         ```
+
         This query will return the total number of rows in the `CUSTOMERS` table, which corresponds to the number of customers.
 
 7. **Interpreting the Results**:
@@ -177,7 +179,8 @@ The user starts by asking, **"Hey JARVIS, how many clients are there in our data
     - The query is executed, and JARVIS receives the result: `[(25,)]`, indicating there are 25 customers in the database.
 
 8. **Delivering the Final Answer**:
-    - With the result in hand, JARVIS returns to the user with the final answer:  
+
+    - With the result in hand, JARVIS returns to the user with the final answer:
       **"There are 25 clients in the database."**
 
 ### Key Takeaways from This Example
@@ -192,7 +195,364 @@ The diagram above reflects how even seemingly simple tasks require agents to bre
 
 ### Reasoning Trace
 
+Trough all this process the LLM generates text that is recursively added to the prompt. This generated text is the reasoning trace.
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/reasoning_trace.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Reasoning trace generated in the example agentic workflow.</p>
+
+There are only two ways for a language model to access information: weight updates and prompts (in context learning). Since we are only using inference during an agentic task, this means all information about the conversation with the user and the current state that is needed to accomplish the objective must be passed through the prompt for every call. This makes prompt management a crucial aspect of agents.
+
+The simplest approach to accomplish this is to paste all the user interaction and the reasoning trace for every call to the model. This works well for simple tasks that do not generate much text, that does not need access to big quantities of external data and that do not depend on previous interactions with the same or other users. For other tasks a more complex and customized prompt management strategy must be implemented. Trough this post many agent design patterns that can be useful will be explained.
+
 ### Code Implementation
+
+I will now show a simple implementation of the example using langchain. I will use the OpenAI api for the language model.
+
+Fist we build a sample database.
+
+```python
+# 01_create_and_fill_database.py
+import sqlite3
+import os
+
+# File path
+database_file_path = "./sql_lite_database.db"
+
+# Check if database file exists and delete if it does
+if os.path.exists(database_file_path):
+    os.remove(database_file_path)
+    message = "File 'sql_lite_database.db' found and deleted."
+else:
+    message = "File 'sql_lite_database.db' does not exist."
+
+# Step 1: Connect to the database or create it if it doesn't exist
+conn = sqlite3.connect(database_file_path)
+
+# Step 2: Create a cursor
+cursor = conn.cursor()
+
+# Step 3: Create tables
+create_table_query1 = """
+                        CREATE TABLE IF NOT EXISTS   "AGENTS"
+                        (
+                            "AGENT_CODE" CHAR(6) NOT NULL PRIMARY KEY,
+                            "AGENT_NAME" CHAR(40),
+                            "WORKING_AREA" CHAR(35),
+                            "COMMISSION" NUMBER(10,2),
+                            "PHONE_NO" CHAR(15),
+                            "COUNTRY" VARCHAR2(25)
+                            );
+                        """
+create_table_query2 = """
+                        CREATE TABLE IF NOT EXISTS   "CUSTOMER"
+                        ( "CUST_CODE" VARCHAR2(6) NOT NULL PRIMARY KEY,
+                            "CUST_NAME" VARCHAR2(40) NOT NULL,
+                            "CUST_CITY" CHAR(35),
+                            "WORKING_AREA" VARCHAR2(35) NOT NULL,
+                            "CUST_COUNTRY" VARCHAR2(20) NOT NULL,
+                            "GRADE" NUMBER,
+                            "OPENING_AMT" NUMBER(12,2) NOT NULL,
+                            "RECEIVE_AMT" NUMBER(12,2) NOT NULL,
+                            "PAYMENT_AMT" NUMBER(12,2) NOT NULL,
+                            "OUTSTANDING_AMT" NUMBER(12,2) NOT NULL,
+                            "PHONE_NO" VARCHAR2(17) NOT NULL,
+                            "AGENT_CODE" CHAR(6) NOT NULL REFERENCES AGENTS
+                        );
+                        """
+
+create_table_query3 = """
+                        CREATE TABLE IF NOT EXISTS "ORDERS"
+                        (
+                            "ORD_NUM" NUMBER(6,0) NOT NULL PRIMARY KEY,
+                            "ORD_AMOUNT" NUMBER(12,2) NOT NULL,
+                            "ADVANCE_AMOUNT" NUMBER(12,2) NOT NULL,
+                            "ORD_DATE" DATE NOT NULL,
+                            "CUST_CODE" VARCHAR2(6) NOT NULL REFERENCES CUSTOMER,
+                            "AGENT_CODE" CHAR(6) NOT NULL REFERENCES AGENTS,
+                            "ORD_DESCRIPTION" VARCHAR2(60) NOT NULL
+                        );
+                        """
+
+queries = [create_table_query1, create_table_query2, create_table_query3]
+# queries = [create_table_query1, create_table_query2]
+
+for query in queries:
+    # execute queries
+    cursor.execute(query)
+
+# Step 4: Insert data into tables Agents, Orders and Customers
+# For space reasons I will omit most of the rows.
+insert_query = """
+INSERT INTO AGENTS VALUES ('A007', 'Ramasundar', 'Bangalore', '0.15', '077-25814763', '');
+INSERT INTO AGENTS VALUES ('A003', 'Alex ', 'London', '0.13', '075-12458969', '');
+...
+
+INSERT INTO CUSTOMER VALUES (
+  'C00013', 'Holmes', 'London', 'London', 'UK', '2', '6000.00', '5000.00', '7000.00', '4000.00', 'BBBBBBB', 'A003'
+);
+INSERT INTO CUSTOMER VALUES (
+  'C00001', 'Micheal', 'New York', 'New York', 'USA', '2', '3000.00', '5000.00', '2000.00', '6000.00', 'CCCCCCC', 'A008'
+);
+...
+
+INSERT INTO ORDERS VALUES('200100', '1000.00', '600.00', '2024-08-01', 'C00013', 'A003', 'SOD');
+INSERT INTO ORDERS VALUES('200110', '3000.00', '500.00', '2024-04-15', 'C00019', 'A010', 'SOD');
+...
+"""
+
+for row in insert_query.splitlines():
+    try:
+        cursor.execute(row)
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        print(row)
+
+# Step 5: Fetch data from tables
+list_of_queries = []
+list_of_queries.append("SELECT * FROM AGENTS")
+list_of_queries.append("SELECT * FROM CUSTOMER")
+list_of_queries.append("SELECT * FROM ORDERS")
+
+# execute queries
+for query in list_of_queries:
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    print(f"--- Data from tables ({query}) ---")
+    for row in data:
+        print(row)
+
+# Step 7: Close the cursor and connection
+cursor.close()
+conn.commit()
+conn.close()
+```
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/tablas.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Sample database schema.</p>
+
+Now let's implement a simple agent using langchain. First we need to import the necessary libraries and set up our database connection and language model:
+
+```python
+from langchain.utilities import SQLDatabase
+from langchain.agents.agent_types import AgentType
+from langchain.agents.agent_toolkits import SQLDatabaseToolkit
+from langchain.agents import create_sql_agent
+from langchain_community.llms.openai import OpenAI
+
+# define the database we want to use for our test
+db = SQLDatabase.from_uri("sqlite:///sql_lite_database.db")
+
+# choose llm model, in this case the default OpenAI model
+llm = OpenAI(
+    temperature=0,
+    verbose=True,
+    openai_api_key=os.getenv("OPENAI_API_KEY"),
+)
+```
+
+With our database and language model ready, we can create the agent. We'll use langchain's SQL toolkit and the ReAct agent type:
+
+```python
+# setup agent
+toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+agent_executor = create_sql_agent(
+    llm=llm,
+    toolkit=toolkit,
+    verbose=True,
+    agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+)
+
+# define the user's question
+question = "How many customers do we have in our database?"
+agent_executor.invoke(question)
+```
+
+The output shows the agent's reasoning trace as it works through the problem. Let's analyze what's happening:
+
+1. First, it lists the available tables using sql_db_list_tables
+2. Then it examines the schema of the CUSTOMER table using sql_db_schema
+3. Finally, it executes a simple COUNT query using sql_db_query
+
+The agent concludes that there are 25 customers in the database.
+
+```python
+> Entering new SQL Agent Executor chain...
+Action: sql_db_list_tables
+Action Input: AGENTS, CUSTOMER, ORDERS I should query the schema of the CUSTOMER table to see how many customers are in the database.
+Action: sql_db_schema
+Action Input: CUSTOMER
+CREATE TABLE "CUSTOMER" (
+	"CUST_CODE" TEXT(6) NOT NULL,
+	"CUST_NAME" TEXT(40) NOT NULL,
+	"CUST_CITY" CHAR(35),
+	"WORKING_AREA" TEXT(35) NOT NULL,
+	"CUST_COUNTRY" TEXT(20) NOT NULL,
+	"GRADE" NUMERIC,
+	"OPENING_AMT" NUMERIC(12, 2) NOT NULL,
+	"RECEIVE_AMT" NUMERIC(12, 2) NOT NULL,
+	"PAYMENT_AMT" NUMERIC(12, 2) NOT NULL,
+	"OUTSTANDING_AMT" NUMERIC(12, 2) NOT NULL,
+	"PHONE_NO" TEXT(17) NOT NULL,
+	"AGENT_CODE" CHAR(6) NOT NULL,
+	PRIMARY KEY ("CUST_CODE"),
+	FOREIGN KEY("AGENT_CODE") REFERENCES "AGENTS" ("AGENT_CODE")
+)
+
+/*
+3 rows from CUSTOMER table:
+CUST_CODE	CUST_NAME	CUST_CITY	WORKING_AREA	CUST_COUNTRY	GRADE	OPENING_AMT	RECEIVE_AMT	PAYMENT_AMT	OUTSTANDING_AMT	PHONE_NO	AGENT_CODE
+C00013	Holmes	London	London	UK	2.0000000000	6000.00	5000.00	7000.00	4000.00	BBBBBBB	A003
+C00001	Micheal	New York	New York	USA	2.0000000000	3000.00	5000.00	2000.00	6000.00	CCCCCCC	A008
+C00020	Albert	New York	New York	USA	3.0000000000	5000.00	7000.00	6000.00	6000.00	BBBBSBB	A008
+*/ I should query the CUSTOMER table and count the number of rows to get the total number of customers.
+Action: sql_db_query
+Action Input: SELECT COUNT(*) FROM CUSTOMER[(25,)] I now know the final answer.
+Final Answer: 25
+```
+
+This example demonstrates how the agent breaks down the problem into logical steps and uses the available tools to reach the correct answer, following the ReAct pattern we discussed earlier.
+
+Here langchain does most of the work for us with the `create_sql_agent` function, which allows us to have our ReAct agent in few lines of code. In the next blog post I will implement a similar agent from python, since this post is already getting long.
+
+### AgentGPT
+
+As a second showcase of an agent I want to mention [AgentGPT](https://agentgpt.reworkd.ai/). I recommend you create a free account and give it some task. For example, ask it to _Parse the data of the current season of the Spanish football league's first division and export it in a csv file_. It will search the web for the appropriate data, initialize a python environment with some libraries, write a web scraping script and run it, and finally return the .csv file to the user. From a free account it will run out of iterations before achieving it, but it still is a good showcase of what a simple agent is able to do.
+
+## Why use agents?
+
+By this point I hope to have delivered an initial idea of what agents are. If you are still not convinced on their power, by the end of this post you will be. For now I want to clearly explain some of their best attributes in this section.
+
+The first thing to understand is that agents can _augment_ anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example this are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval[^5], a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation og GPT-4 reaching close to a 100% pass.
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/humaneval_agents.webp" width="100%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Humaneval score comparison of zero-shot LLMs vs agentic implementations.</p>
+
+Other advantages of agents are:
+
+-   They are highly autonomous.
+-   They are able to recover from errors.
+-   They can perform complex workflows without having to explicitly program them like you would in prompt chaining.
+
+For example, let's consider a SQL Rag system that:
+
+1. Takes a natural language query as input.
+2. Transforms the query into SQL.
+3. Retrieves the results of the query from the database.
+4. Communicates results back to the user.
+
+This is a rag workflow that works for simple tasks, but what happens if the SQL query returns an error? Or the retrieved data is different from what was expected? Or if the user's query is complex and needs to query several tables to return the correct answer?
+
+These limitations of RAG systems are effectively addressed by agents.
+
+## Memory in Agents
+
+The last basic component of agents that we need to talk about is **memory**. Earlier in the post I teased the question when talking about the reasoning trace. Large Language Memory do not have _memory_ of past interactions: all information for a call must passed through the prompt.
+
+So how do we implement the memory in our agent? The truth is that there is not a stablished solution yet, and it depends heavily on the system that is being built.
+
+What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents[^6], Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.
+
+### Types of Memory
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/memory_types.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Memory types found in humans and agents. From the CoALA[^6] paper.</p>
+
+**Procedural Memory** represents the agent's core capabilities encoded in its model weights and implementation code. Just like humans don't consciously think about the mechanics of riding a bike, agents leverage their pre-trained knowledge and coded functions automatically. This includes the language model's understanding of syntax, reasoning patterns, and the defined tools and functions the agent can use. The procedural memory is typically fixed during inference, only changing through model updates or code modifications.
+
+**Semantic Memory** acts as the agent's knowledge base, implemented through external data sources like vector stores, graph databases, or traditional SQL databases. This allows agents to access and reference factual information beyond their training data, similar to how humans draw upon learned knowledge from education and experience. By connecting to these data stores, agents can query relevant information, verify facts, and ground their reasoning in accurate, up-to-date data rather than relying solely on their pre-trained knowledge.
+
+**Episodic Memory** maintains a record of the agent's past experiences and interactions, which can include conversation history, previous task attempts, or user preferences. This memory type helps agents maintain context across multiple interactions and learn from past successes or failures. For example, an agent might remember a user's preferred format for data visualization from earlier conversations, or recall specific approaches that worked well for similar tasks in the past. This can be implemented through conversation logs, task histories, or specialized databases tracking agent-user interactions.
+
+**Working Memory** is the agent's active computational space, primarily manifested in the reasoning trace and the immediate context window of the language model. Like a human's short-term memory holding information for immediate use, working memory contains the current task state, recent observations, and immediate plans. This is typically implemented through prompt engineering and context management, carefully balancing the amount of information kept in the immediate context to avoid overwhelming the model while maintaining task coherence.
+
+### Memory Updates
+
+Memory updates can be performed at different frequencies, each with its own tradeoffs between knowledge freshness and system performance.
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/memory_updates.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Two methods to update the memory state.</p>
+
+**In the hot path** updates occur in real-time during each agent loop iteration. This ensures the agent always works with the latest information but introduces latency overhead that can impact response times, particularly in conversational applications.
+
+**In the background** performs updates asynchronously at scheduled intervals. This approach maintains system responsiveness by avoiding update-related delays, though the agent may occasionally work with slightly outdated information.
+
+## Schema of an Agent
+
+By now, we've explored how agents can leverage planning, acting, and observing to solve complex tasks iteratively. However, an agent's full potential lies in integrating these components seamlessly within a cohesive architecture. Let’s revisit the diagram we’ve been building towards.
+
+<p align="center"> <img src="../../media/2024-11-17-llm-agents/agent_schema.webp" width="100%" /> </p> 
+<p style="text-align:center; font-style: italic;">General schema of an LLM Agent workflow.</p>
+As shown above, the core architecture revolves around four primary components: Memory, Planning, Tools, and Action. Each part plays a crucial role in enabling the agent to operate autonomously:
+
+**Memory** serves as the knowledge backbone of the agent. By leveraging both long-term and short-term memory, agents can recall past interactions, user preferences, and contextual information to maintain coherence across sessions. This is akin to the way humans draw upon their experiences and knowledge when solving new problems. For instance, episodic memory might store a detailed conversation history, while semantic memory allows the agent to access databases or other factual sources dynamically.
+
+**Planning** involves breaking down high-level objectives into actionable steps. Here, the agent employs reasoning techniques like reflection, self-critique, and objective decomposition to optimize its approach. By continuously evaluating its progress through chain-of-thought processes, the agent can refine its actions and adapt to changing circumstances or new information. This enables it to move beyond rigid workflows, making it more resilient in real-world scenarios where uncertainty is the norm.
+
+**Tools** extend the agent's capabilities beyond text generation, granting it access to specialized functions like database queries, web searches, or even code execution. This is where LLM agents distinguish themselves from traditional LLM applications—they can dynamically interact with their environment to gather new data, calculate results, or even automate tasks. The toolbox concept allows for modularity, where new tools can be added or swapped out as the agent's needs evolve.
+
+Finally, **Action** is where plans come to fruition. Here, the agent executes the chosen actions, whether it's retrieving data, generating responses, or invoking external tools. By observing the results of its actions, it learns iteratively, adjusting its strategy in the next cycle if needed. This feedback loop—Plan, Act, Observe—is crucial for agents to handle complex, open-ended tasks effectively.
+
+# Agent Design Patterns
+
+LLM agents are an emerging technology still in its early stages. While many companies and talented developers are actively exploring applications powered by agents, these projects are largely still in their infancy. This is evident from the limited number of agents currently deployed in production environments. However, the remarkable potential and versatility of agents have sparked rapid development, leading to the emergence of several innovative design patterns. In this section, I’ll introduce some of the most notable ones shaping the future of agent-based systems.
+
+## Reflection
+
+The concept of reflection in LLM agents is centered around enabling the agent to iteratively evaluate and improve its own output. Think of it as an agent working towards a goal while continuously critiquing itself until the desired outcome is achieved.
+
+Imagine you prompt a coding agent to write a function to accomplish a specific task. Initially, the agent drafts a solution and then immediately shifts to a self-evaluation mode. In this mode, it reviews the code it just generated, checking for correctness, efficiency, and coding style. If the agent identifies any issues—be it logical errors, inefficiencies, or stylistic inconsistencies—it provides feedback and attempts to improve the function.
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/reflection.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Example of reflection in an agent.</p>
+
+This iterative loop of generation, reflection, and revision continues until the agent is confident that the final result meets all specified requirements. By incorporating this self-critical process, agents can significantly improve their outputs, reducing errors and producing more robust solutions.
+
+## Tool Use
+
+We’ve previously discussed the concept of tools in LLM agents, enabling models to interact with external resources like databases, APIs, or search engines to extend their capabilities. Now, let's explore what happens when this concept is pushed to its limits through the Gorilla[^7] model.
+
+**Gorilla** is a fine-tuned LLaMA-based model specifically designed to excel at generating precise API calls. This system surpasses even GPT-4 in the accuracy of writing API invocations, demonstrating that specialized finetuning can lead to significant performance improvements over general-purpose LLMs.
+
+The core idea behind Gorilla is integrating **document retrieval**. By combining the model with a retrieval mechanism, Gorilla can dynamically access the latest API documentation at test time, ensuring that the generated API calls are not only accurate but also aligned with the most current information.
+
+<p align="center">
+  <img src="../../media/2024-11-17-llm-agents/gorilla_tool_use.webp" width="100%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Image from Gorilla: Gorilla model significantly outperforms other LLMs in accuracy while reducing hallucinations.</p>
+
+#### How Gorilla Works
+
+The process begins with curating a dataset comprising **1,645 API calls** from popular sources like HuggingFace, Torch Hub, and TensorFlow Hub. Using this extensive dataset, the team generated **16,450 (instruction, API) pairs** through self-instruct techniques. This rich set of examples was then used to fine-tune a LLaMA-based model, resulting in Gorilla-7B.
+
+When a user submits a natural language query (e.g., “Generate an image of dancing cats”), Gorilla first retrieves relevant documentation from its **API Database** using an information retriever. The retrieved context helps the model to understand which API is best suited for the task and how to properly call it. This retrieval step significantly reduces hallucinations by grounding the model's responses in real, authoritative documentation.
+
+The result is a system that can flexibly adapt to API changes and user updates, providing a robust solution for tasks requiring frequent interactions with evolving external systems. As demonstrated in the example above, Gorilla can accurately generate API calls like `StableDiffusionPipeline.from_pretrained()` to achieve the desired output.
+
+You can explore a live demo of Gorilla [here](https://gorilla.cs.berkeley.edu/leaderboard.html#api-explorer) and experiment with it yourself using their [Colab notebook](https://colab.research.google.com/drive/1DEBPsccVLF_aUnmD0FwPeHFrtdC0QIUP?usp=sharing).
+
+## Planning
+
+
 
 ## References
 
@@ -200,3 +560,6 @@ The diagram above reflects how even seemingly simple tasks require agents to bre
 [^2]: [What's next for AI agentic workflows ft. Andrew Ng of AI Fund](https://www.youtube.com/watch?v=sal78ACtGTc)
 [^3]: Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). [https://arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629)
 [^4]: Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837. [https://arxiv.org/abs/2201.11903](https://arxiv.org/abs/2201.11903)
+[^5]: [HumanEval Benchmark in paperswithcode](https://paperswithcode.com/sota/code-generation-on-humaneval)
+[^6]: CoALA: Cognitive Architectures for Language Agents. Sumers, Theodore R., et al Transactions on Machine Learning Research (oct 2024). [https://arxiv.org/abs/2309.02427](https://arxiv.org/abs/2309.02427)
+[^7]: Patil, Shishir G., et al. "Gorilla: Large language model connected with massive apis." arXiv preprint arXiv:2305.15334 (2023). [https://arxiv.org/abs/2305.15334](https://arxiv.org/abs/2305.15334)
