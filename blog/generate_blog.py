@@ -117,6 +117,10 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
     content_path = post_dir / "content.md"
     metadata_path = post_dir / "metadata.json"
 
+    # Create media directory if it doesn't exist
+    media_dir = Path("blog/media") / post_dir.name
+    media_dir.mkdir(parents=True, exist_ok=True)
+
     with content_path.open("r", encoding="utf-8") as f:
         content = f.read()
 
@@ -162,6 +166,16 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
 
     # Generate Table of Contents
     toc, html_content = generate_toc(html_content)
+
+    # Update image paths in HTML content
+    soup = BeautifulSoup(html_content, "html.parser")
+    for img in soup.find_all("img"):
+        src = img.get("src")
+        if src and not src.startswith(("http://", "https://", "/")):
+            # Update relative paths to use shared media directory
+            img["src"] = src
+    
+    html_content = str(soup)
 
     # Generate individual blog post HTML
     output_dir = Path("blog/output") / post_dir.name

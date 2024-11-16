@@ -22,9 +22,15 @@
     <title>LLM Agents - Miguel's Blog</title>
 
     <!-- Add Prism.js CSS and JS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css"
+    />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
@@ -41,29 +47,29 @@
         window.history.replaceState(null, "", "/blog/");
       }
     </script>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: "$$", right: "$$", display: true},
-                    {left: "$", right: "$", display: false},
-                    {left: "\\[", right: "\\]", display: true},
-                ],
-                throwOnError: false,
-                strict: false
-            });
+      document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          throwOnError: false,
+          strict: false,
         });
+      });
     </script>
     <style>
       /* Add scroll margin to compensate for fixed header */
       :target {
         scroll-margin-top: 40px; /* Adjust this value based on your header height */
       }
-      
+
       /* Alternative approach using scroll padding on html */
       html {
         scroll-padding-top: 40px; /* Adjust this value based on your header height */
@@ -73,14 +79,14 @@
   <body>
     <!-- Add zoom overlay div -->
     <div class="zoom-overlay">
-      <img src="" alt="Zoomed image">
+      <img src="" alt="Zoomed image" />
     </div>
 
     <!-- Header -->
     <header class="header" id="header">
       <nav class="nav container">
         <a href="../../../index.html#home" class="nav__logo"><i class="uil uil-circle"></i> Miguel</a>
-        <div style="margin: 0 1rem;"></div>
+        <div style="margin: 0 1rem"></div>
         <a href="../blog.html" class="nav__logo"><i class="uil uil-book-open"></i> Blog</a>
 
         <div class="nav__menu" id="nav-menu">
@@ -118,7 +124,9 @@
             </li>
 
             <li class="nav__item">
-              <a href="../../../index.html#contact" class="nav__link"> <i class="uil uil-message nav__icon"></i> Contact </a>
+              <a href="../../../index.html#contact" class="nav__link">
+                <i class="uil uil-message nav__icon"></i> Contact
+              </a>
             </li>
           </ul>
 
@@ -142,7 +150,7 @@
           <header class="blog-post__header">
             <h1 class="blog-post__title">LLM Agents</h1>
             <p class="blog-post__meta">
-              Date: 2024-11-17 | Estimated Reading Time: 13 minutes | Author: Miguel Vázquez
+              Date: 2024-11-17 | Estimated Reading Time: 12 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -151,292 +159,500 @@
               <summary accesskey="c" title="(Alt + C)">
                 <span class="details">Table of Contents</span>
               </summary>
-              
+
               <div class="inner">
                 <ul>
-                  
-                  
-                    
-                    
-                    <li>
-                      <a href="#what-are-agents?" aria-label="What are agents?">What are agents?</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
+                  <li>
+                    <a href="#what-are-agents?" aria-label="What are agents?">What are agents?</a>
+                  </li>
+
+                  <ul>
                     <li>
                       <a href="#agentic-workflows" aria-label="Agentic workflows">Agentic workflows</a>
                     </li>
-                    
-                  
-                    
-                    
+
                     <li>
                       <a href="#react-agents" aria-label="ReAct agents">ReAct agents</a>
                     </li>
-                    
-                  
-                    
-                    
+
                     <li>
                       <a href="#actions-as-tools" aria-label="Actions as tools">Actions as tools</a>
                     </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
-                    
-                    
+                  </ul>
+
+                  <li>
+                    <a href="#agent-showcase" aria-label="Agent Showcase">Agent Showcase</a>
+                  </li>
+
+                  <ul>
                     <li>
-                      <a href="#agent-showcase" aria-label="Agent Showcase">Agent Showcase</a>
+                      <a href="#breaking-down-the-workflow" aria-label="Breaking Down the Workflow"
+                        >Breaking Down the Workflow</a
+                      >
                     </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
+
                     <li>
-                      <a href="#breaking-down-the-workflow" aria-label="Breaking Down the Workflow">Breaking Down the Workflow</a>
+                      <a href="#key-takeaways-from-this-example" aria-label="Key Takeaways from This Example"
+                        >Key Takeaways from This Example</a
+                      >
                     </li>
-                    
-                  
-                    
-                    
+
                     <li>
-                      <a href="#key-takeaways-from-this-example" aria-label="Key Takeaways from This Example">Key Takeaways from This Example</a>
+                      <a href="#reasoning-trace" aria-label="Reasoning Trace">Reasoning Trace</a>
                     </li>
-                    
-                  
-                    
-                    
+
                     <li>
-                      <a href="#agents-in-the-real-world" aria-label="Agents in the Real World">Agents in the Real World</a>
+                      <a href="#code-implementation" aria-label="Code Implementation">Code Implementation</a>
                     </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#references" aria-label="References">References</a>
-                    </li>
-                    
-                      
-                    
-                  
+                  </ul>
+
+                  <li>
+                    <a href="#references" aria-label="References">References</a>
+                  </li>
                 </ul>
               </div>
             </details>
           </nav>
 
-          <section class="blog-post__content"><p>Over the last few weeks, I have been imparting in a full fledged couse on LLMs at my job at oga.ai. It is a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.</p>
-<p>The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even tough they are in beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents on production environment, they really shine with potential.</p>
-<p>The course is in Spanish, and with it being internal to the company I can not freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.</p>
-<p>In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part.</p>
-<p>In the following couple posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure python (we will see in this post what these are), and I will probably implement a more complex one using a framework like langchain or autogen.</p>
-<p>Finally, I want to use an agent to expand my <a href="https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html">Torch-Tracer Project</a>, with the objective that it needs the least amount of human input as possible.</p>
-<h2 id="what-are-agents?">What are agents?</h2>
-<p>Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
-<blockquote>
-<p><em>"Anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators"</em></p>
-</blockquote>
-<p>This definition gives a general idea of what agents do, but it is way too broad, since a simple thermostat has sensors and actuators. A smarter definition is the one of a <strong>"rational agent"</strong> <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
-<blockquote>
-<p><em>"For each possible percept sequence, a rational agent should select an action that is expected to maximize its performance measure, given the evidence provided by the percept sequence and whatever built-in knowledge the agent has."</em></p>
-</blockquote>
-<p align="center">
-<img src="simple_agents.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Agent Definitions.</p>
-<p>This means that a rational agent will try to accomplish an objective as defined by the performance measure. This is what we want, to tell our agent to do something and that it tries, to the best of its abilities, to follow the orders. Here is where the LLM part comes into play.</p>
-<p>A <strong>"LLM agent"</strong> is one that uses a LLM as its <em>brain</em> to reason. The central idea is that they use a language model to choose what <strong>actions</strong> they take to <strong>accomplish an objective</strong> given a current <strong>state</strong> or environment.</p>
-<p>If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augemented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.</p>
-<h3 id="agentic-workflows">Agentic workflows</h3>
-<p>An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay. This analogy comes from Andrew Ng<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
-<p>In a regular LLM workflow you ask the LLM to write an essay about some topic X. Since they are autoregressive models, they will write it directly from the beginning to the end without ever going back to fix errors or improve any section, or stopping to reflect and research more about topic X. This task would be very difficult for most humans, and yet LLMs are surprisingly good at it.</p>
-<p align="center">
-<img src="regular_llm_workflow.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Regular LLM workflow to write an essay. </p>
-<p>In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take actions to better write the essay. It could decide to start by specifyng the essay's structure and researching about the topic in a external data storage (data bases, documents, the internet...). Then it may decide to write a first draft and iteratively improve it until it is finished. At any point of the process it can reflect about what is the best action to take among the set of possible actions, which gives it all these capabilities. Obviously, this workflow will often give better results that the first direct approach.</p>
-<p align="center">
-<img src="agentic_llm_workflow.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Agentic LLM workflows allow to take to choose what actions to take to get the best results. </p>
-<p>LLM agents are based on the chain-of-thought. By dividing a complex problem in simpler subproblems, it can solve them secuentially to reach the final answer.</p>
-<ol>
-<li><strong>Plan</strong> what action to take to get closer to its objective.</li>
-<li>Perform an <strong>action</strong> and <strong>observe</strong> its consequences.</li>
-<li>Iterate until reaching the objective <em>"LLM in a loop"</em></li>
-</ol>
-<p align="center">
-<img src="agent_cot_loop.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Agentic LLM workflows as loop: Plan, Act, Observe. </p>
-<p>As a simple example, consider the common case of a software developer that uses chatGPT to write a code program. They start stating the problem and asking the model to "think step by step". The agent <strong>plans</strong> the actions it should take. Then it <strong>writes</strong> the code. The developer copies that code, pastes it in the script and runs the program. If it fails, they paste the <strong>error trace</strong> to chatgpt to fix it, and if it <strong>works</strong> then the task is finished.</p>
-<p>If you automatize this in a loop, it becomes a simple agentic workflow, where the words in bold font correspond to planning, acting and observing.</p>
-<h3 id="react-agents">ReAct agents</h3>
-<p>You might have noticed that the planning step is not strictly necessary. An agent could just observe the environment and act, and in fact the first agents based on LLMs did just that, but they did not work too well. In 2022 in the ReAct paper<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> Yao, Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.</p>
-<p>The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
-<p>With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the fisrt three approaches first.</p>
-<p align="center">
-<img src="react_01.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
-<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>, but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct is created to fight this problem.</p>
-<p align="center">
-<img src="react_02.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
-<p>In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state of the art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.</p>
-<h3 id="actions-as-tools">Actions as tools</h3>
-<p>To implement agents we need to define a <strong>set of possible actions for the agent to take</strong>, among which the agent will have to decide in each iteration. For example it could have access to the following:</p>
-<ul>
-<li>
-<p>Ask the user for information.</p>
-</li>
-<li>
-<p>Search the web.</p>
-</li>
-<li>
-<p>Using an external database.</p>
-</li>
-<li>
-<p>Using a calculator or symbolic programming.</p>
-</li>
-<li>
-<p>Using a python code interpreter.</p>
-</li>
-</ul>
-<p>This possible actions are commonly referred as <strong>tools</strong>, and the a set of actions is a <strong>tool box</strong>.</p>
-<p>As an example, chatGPT has access to three different tools.</p>
-<p align="center">
-<img src="chatgpt_tools.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">The gpt-4o model from the chatGPT web UI has access to web browsing, dall-e image generator, and code interpreter. </p>
-<p>At the time of writting gpt-4o has the knowledge cut date of October 2024. That means that the pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about events posterior to that dat, it will use a web search tool to retrieve the necessary information.</p>
-<p align="center">
-<img src="chatgpt_web_search.png" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">GPT does not know the democratic candidate of 2024, so it uses web search tool to answer . </p>
-<p>In this <a href="https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a">conversation</a> I make chatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am writing this post, it is not possible to share conversations in which dall-e is used to generate images, but you can guess how it works: you ask chatgpt to generate an image of a puppy and it decides to call dall-e, writting the image prompt by itself.</p>
-<p>Another example is the <a href="https://python.langchain.com/docs/integrations/tools/">langchain tools</a>. These are implemented in the langchain library to be used by language models, and there is a great number and variety of them: several web search providers and code interpreters, a few productivity tools like github, jira or gmail; tools to access databases and even more.</p>
-<h2 id="agent-showcase">Agent Showcase</h2>
-<p>Let's proceed with an agent full workflow as an example. In this case we have an agent, let's call him JARVIS, that assist the user with data queries.</p>
-<p align="center">
-<img src="workflow_example.png" width="90%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Jarvis helps the user to get the total number of customers in the database. </p>
-<p>When the user asks JARVIS to find out how many clients are in the database, the agent has to figure out the best course of action to get the information. Let’s walk through the sequence step by step to see how JARVIS accomplishes this seemingly simple task:</p>
-<h3 id="breaking-down-the-workflow">Breaking Down the Workflow</h3>
-<p>The user starts by asking, <strong>"Hey JARVIS, how many clients are there in our database?"</strong> This is the initial input that sets the whole process in motion. Even though this question seems straightforward, there are several steps involved before reaching the final answer.</p>
-<ol>
-<li>
-<p><strong>Understanding the Query</strong>:<br/>
-   - JARVIS recognizes that it needs to interact with a database to fulfill the user’s request. The initial plan involves listing out the tools available to it, which include accessing tables and querying information.</p>
-</li>
-<li>
-<p><strong>Exploring the Environment</strong>:<br/>
-   - To proceed, JARVIS needs to understand what data it has access to. It starts by using a tool to <strong>list all the tables</strong> in the database. The agent observes that there are tables named <code>AGENTS</code>, <code>CUSTOMERS</code>, <code>ORDERS</code>, among others.</p>
-</li>
-<li>
-<p><strong>Focusing on Relevant Information</strong>:<br/>
-   - Since the user is asking specifically about clients, JARVIS infers that the relevant information should be in the <code>CUSTOMERS</code> table. However, before it can query this table, it needs to understand its structure.</p>
-</li>
-<li>
-<p><strong>Querying the Table Schema</strong>:<br/>
-   - JARVIS retrieves the schema of the <code>CUSTOMERS</code> table to see what fields are available. It finds that the table includes columns like <code>CLIENT_ID</code> and <code>CLIENT_NAME</code>.</p>
-</li>
-<li>
-<p><strong>Formulating a Plan to Extract Information</strong>:<br/>
-   - Now that JARVIS knows the structure of the table, it formulates a plan to count the entries. The goal is to determine how many rows (i.e., clients) are present in the table.</p>
-</li>
-<li>
-<p><strong>Executing the SQL Query</strong>:<br/>
-   - JARVIS constructs a simple SQL query:<br/>
-<code>sql
-     SELECT COUNT(*) FROM CUSTOMERS</code><br/>
-     This query will return the total number of rows in the <code>CUSTOMERS</code> table, which corresponds to the number of customers.</p>
-</li>
-<li>
-<p><strong>Interpreting the Results</strong>:<br/>
-   - The query is executed, and JARVIS receives the result: <code>[(25,)]</code>, indicating there are 25 customers in the database.</p>
-</li>
-<li>
-<p><strong>Delivering the Final Answer</strong>:<br/>
-   - With the result in hand, JARVIS returns to the user with the final answer:<br/>
-<strong>"There are 25 clients in the database."</strong></p>
-</li>
-</ol>
-<h3 id="key-takeaways-from-this-example">Key Takeaways from This Example</h3>
-<p>This workflow showcases a <strong>classic agentic pattern</strong> where JARVIS uses a loop of <strong>planning, acting, and observing</strong>:</p>
-<ul>
-<li>
-<p><strong>Planning</strong>: At multiple steps, JARVIS formulates a plan to achieve the desired outcome. It doesn’t jump straight to querying the database without first understanding the environment.</p>
-</li>
-<li>
-<p><strong>Acting</strong>: It uses tools effectively to explore the environment, fetch the schema, and run the SQL query.</p>
-</li>
-<li>
-<p><strong>Observing</strong>: After each action, it observes the output to decide on the next step.</p>
-</li>
-</ul>
-<p>The diagram above reflects how even seemingly simple tasks require agents to break down problems into smaller actions, reflect on the information available, and decide on the best next step. The flexibility of this approach is what makes LLM agents so powerful.</p>
-<h3 id="agents-in-the-real-world">Agents in the Real World</h3>
-<p>While this is a simplified example, it illustrates the potential of LLM agents in real-world scenarios. In more complex environments, agents could be given access to additional tools such as:</p>
-<ul>
-<li>
-<p><strong>Web search</strong>: To retrieve information from the internet.</p>
-</li>
-<li>
-<p><strong>APIs</strong>: To interact with external services.</p>
-</li>
-<li>
-<p><strong>Python interpreters</strong>: To perform data analysis or generate visualizations.</p>
-</li>
-<li>
-<p><strong>Document retrieval</strong>: To extract insights from internal knowledge bases or PDFs.</p>
-</li>
-</ul>
-<p>By leveraging these tools, agents can tackle a wide range of tasks, from answering customer support queries to automating data analysis pipelines.</p>
-<p>In the next posts, we will dive deeper into implementing an agent from scratch and explore some practical use cases where they can truly shine. Stay tuned for a hands-on tutorial where we'll build our very own ReAct agent and put it to work!</p>
-<h2 id="references">References</h2>
-<div class="footnote">
-<hr/>
-<ol>
-<li id="fn:1">
-<p>Russell, S., &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th ed.). Pearson. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">↩</a></p>
-</li>
-<li id="fn:2">
-<p><a href="https://www.youtube.com/watch?v=sal78ACtGTc">What's next for AI agentic workflows ft. Andrew Ng of AI Fund</a> <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
-</li>
-<li id="fn:3">
-<p>Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a> <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">↩</a></p>
-</li>
-<li id="fn:4">
-<p>Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837. <a href="https://arxiv.org/abs/2201.11903">https://arxiv.org/abs/2201.11903</a> <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a></p>
-</li>
-</ol>
-</div></section>
+          <section class="blog-post__content">
+            <p>
+              Over the last few weeks, I have been imparting in a full fledged couse on LLMs at my job at oga.ai. It is
+              a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current
+              landscape of LLMs in the industry. This has been the first time I have done something like this, and
+              considering I have prepared it fully on my own and that the alumni are professional engineers and data
+              scientists I really am proud of the results.
+            </p>
+            <p>
+              The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and
+              teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a
+              striking application of technology and the results that they can achieve are truly impressive. Even tough
+              they are in beginning phase of development and they commit many errors and are difficult to control, so
+              much so that there are few agents on production environment, they really shine with potential.
+            </p>
+            <p>
+              The course is in Spanish, and with it being internal to the company I can not freely share the videos and
+              materials on my own. Still, I want to write about LLM agents in a series of blog posts.
+            </p>
+            <p>
+              In this first post, I will cover the basics of agents, how they work and how to implement them, along
+              with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can
+              go on to the practical part.
+            </p>
+            <p>
+              In the following couple posts, I plan to write and explain in depth one or two agents. I have already
+              implemented a ReAct agent in pure python (we will see in this post what these are), and I will probably
+              implement a more complex one using a framework like langchain or autogen.
+            </p>
+            <p>
+              Finally, I want to use an agent to expand my
+              <a href="https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html"
+                >Torch-Tracer Project</a
+              >, with the objective that it needs the least amount of human input as possible.
+            </p>
+            <h2 id="what-are-agents?">What are agents?</h2>
+            <p>
+              Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as<sup id="fnref:1"
+                ><a class="footnote-ref" href="#fn:1">1</a></sup
+              >
+            </p>
+            <blockquote>
+              <p>
+                <em
+                  >"Anything that can be viewed as perceiving its environment through sensors and acting upon that
+                  environment through actuators"</em
+                >
+              </p>
+            </blockquote>
+            <p>
+              This definition gives a general idea of what agents do, but it is way too broad, since a simple
+              thermostat has sensors and actuators. A smarter definition is the one of a
+              <strong>"rational agent"</strong> <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>
+            </p>
+            <blockquote>
+              <p>
+                <em
+                  >"For each possible percept sequence, a rational agent should select an action that is expected to
+                  maximize its performance measure, given the evidence provided by the percept sequence and whatever
+                  built-in knowledge the agent has."</em
+                >
+              </p>
+            </blockquote>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/simple_agents.webp" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">Agent Definitions.</p>
+            <p>
+              This means that a rational agent will try to accomplish an objective as defined by the performance
+              measure. This is what we want, to tell our agent to do something and that it tries, to the best of its
+              abilities, to follow the orders. Here is where the LLM part comes into play.
+            </p>
+            <p>
+              A <strong>"LLM agent"</strong> is one that uses a LLM as its <em>brain</em> to reason. The central idea
+              is that they use a language model to choose what <strong>actions</strong> they take to
+              <strong>accomplish an objective</strong> given a current <strong>state</strong> or environment.
+            </p>
+            <p>
+              If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augemented
+              Generation (RAG), they have many things in common with agents, but agents are more flexible and can show
+              more complex behavior as it chooses what action to take at each moment by itself, while in chaining the
+              possible workflow of the actions is fixed, rigidly specified in code.
+            </p>
+            <h3 id="agentic-workflows">Agentic workflows</h3>
+            <p>
+              An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay.
+              This analogy comes from Andrew Ng<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup
+              >.
+            </p>
+            <p>
+              In a regular LLM workflow you ask the LLM to write an essay about some topic X. Since they are
+              autoregressive models, they will write it directly from the beginning to the end without ever going back
+              to fix errors or improve any section, or stopping to reflect and research more about topic X. This task
+              would be very difficult for most humans, and yet LLMs are surprisingly good at it.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/regular_llm_workflow.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">Regular LLM workflow to write an essay.</p>
+            <p>
+              In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take
+              actions to better write the essay. It could decide to start by specifyng the essay's structure and
+              researching about the topic in a external data storage (data bases, documents, the internet...). Then it
+              may decide to write a first draft and iteratively improve it until it is finished. At any point of the
+              process it can reflect about what is the best action to take among the set of possible actions, which
+              gives it all these capabilities. Obviously, this workflow will often give better results that the first
+              direct approach.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/agentic_llm_workflow.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              Agentic LLM workflows allow to take to choose what actions to take to get the best results.
+            </p>
+            <p>
+              LLM agents are based on the chain-of-thought. By dividing a complex problem in simpler subproblems, it
+              can solve them secuentially to reach the final answer.
+            </p>
+            <ol>
+              <li><strong>Plan</strong> what action to take to get closer to its objective.</li>
+              <li>Perform an <strong>action</strong> and <strong>observe</strong> its consequences.</li>
+              <li>Iterate until reaching the objective <em>"LLM in a loop"</em></li>
+            </ol>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/agent_cot_loop.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">Agentic LLM workflows as loop: Plan, Act, Observe.</p>
+            <p>
+              As a simple example, consider the common case of a software developer that uses chatGPT to write a code
+              program. They start stating the problem and asking the model to "think step by step". The agent
+              <strong>plans</strong> the actions it should take. Then it <strong>writes</strong> the code. The
+              developer copies that code, pastes it in the script and runs the program. If it fails, they paste the
+              <strong>error trace</strong> to chatgpt to fix it, and if it <strong>works</strong> then the task is
+              finished.
+            </p>
+            <p>
+              If you automatize this in a loop, it becomes a simple agentic workflow, where the words in bold font
+              correspond to planning, acting and observing.
+            </p>
+            <p>
+              All the text that is generated by the model during a task is called the <strong>reasoning trace</strong>.
+            </p>
+            <h3 id="react-agents">ReAct agents</h3>
+            <p>
+              You might have noticed that the planning step is not strictly necessary. An agent could just observe the
+              environment and act, and in fact the first agents based on LLMs did just that, but they did not work too
+              well. In 2022 in the ReAct paper<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> Yao,
+              Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.
+            </p>
+            <p>
+              The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API:
+              (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding
+              <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search
+              engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing
+              <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish
+              the current task with <em>answer</em>."<sup id="fnref2:3"
+                ><a class="footnote-ref" href="#fn:3">3</a></sup
+              >
+            </p>
+            <p>
+              With this environment they compare four different approaches: standard zero-shot, chain of thought
+              prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try
+              to solve a question about the Apple Remote device. Let's review the fisrt three approaches first.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/react_01.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper.
+            </p>
+            <p>
+              In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is
+              prompted to "think step by step before answering", a technique that improves accuracy of language
+              models<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup
+              >, but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows
+              to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as
+              its final answer. The problem with this approach is that the model cannot reflect on what tool to use,
+              how to use it or plan how to get the final answer. The only possibility is to act, stating the action and
+              its argument. ReAct is created to fight this problem.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/react_02.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.
+            </p>
+            <p>
+              In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated
+              limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases
+              how the model is able plan and reason about the result of its actions. This is a simple yet extremely
+              powerful workflow, and most state of the art agents follow it, with improvements in the reasoning step
+              and an increase in freedom to act. It leverages the powerful large language models by using them as the
+              "brain" of the agent.
+            </p>
+            <h3 id="actions-as-tools">Actions as tools</h3>
+            <p>
+              To implement agents we need to define a <strong>set of possible actions for the agent to take</strong>,
+              among which the agent will have to decide in each iteration. For example it could have access to the
+              following:
+            </p>
+            <ul>
+              <li>
+                <p>Ask the user for information.</p>
+              </li>
+              <li>
+                <p>Search the web.</p>
+              </li>
+              <li>
+                <p>Using an external database.</p>
+              </li>
+              <li>
+                <p>Using a calculator or symbolic programming.</p>
+              </li>
+              <li>
+                <p>Using a python code interpreter.</p>
+              </li>
+            </ul>
+            <p>
+              This possible actions are commonly referred as <strong>tools</strong>, and the a set of actions is a
+              <strong>tool box</strong>.
+            </p>
+            <p>As an example, chatGPT has access to three different tools.</p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/chatgpt_tools.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              The gpt-4o model from the chatGPT web UI has access to web browsing, dall-e image generator, and code
+              interpreter.
+            </p>
+            <p>
+              At the time of writting gpt-4o has the knowledge cut date of October 2024. That means that the
+              pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about
+              events posterior to that dat, it will use a web search tool to retrieve the necessary information.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/chatgpt_web_search.png" width="80%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              GPT does not know the democratic candidate of 2024, so it uses web search tool to answer .
+            </p>
+            <p>
+              In this <a href="https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a">conversation</a> I
+              make chatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am
+              writing this post, it is not possible to share conversations in which dall-e is used to generate images,
+              but you can guess how it works: you ask chatgpt to generate an image of a puppy and it decides to call
+              dall-e, writting the image prompt by itself.
+            </p>
+            <p>
+              Another example is the
+              <a href="https://python.langchain.com/docs/integrations/tools/">langchain tools</a>. These are
+              implemented in the langchain library to be used by language models, and there is a great number and
+              variety of them: several web search providers and code interpreters, a few productivity tools like
+              github, jira or gmail; tools to access databases and even more.
+            </p>
+            <h2 id="agent-showcase">Agent Showcase</h2>
+            <p>
+              Let's proceed with an agent full workflow as an example. In this case we have an agent, let's call him
+              JARVIS, that assist the user with data queries.
+            </p>
+            <p align="center">
+              <img src="../../media/2024-11-17-llm-agents/workflow_example.png" width="90%" />
+            </p>
+            <p style="text-align: center; font-style: italic">
+              Jarvis helps the user to get the total number of customers in the database.
+            </p>
+            <p>
+              When the user asks JARVIS to find out how many clients are in the database, the agent has to figure out
+              the best course of action to get the information. Let’s walk through the sequence step by step to see how
+              JARVIS accomplishes this seemingly simple task:
+            </p>
+            <h3 id="breaking-down-the-workflow">Breaking Down the Workflow</h3>
+            <p>
+              The user starts by asking,
+              <strong>"Hey JARVIS, how many clients are there in our database?"</strong> This is the initial input that
+              sets the whole process in motion. Even though this question seems straightforward, there are several
+              steps involved before reaching the final answer.
+            </p>
+            <ol>
+              <li>
+                <p><strong>Understanding the Query</strong>:</p>
+                <ul>
+                  <li>
+                    JARVIS recognizes that it needs to interact with a database to fulfill the user’s request. The
+                    initial plan involves listing out the tools available to it, which include accessing tables and
+                    querying information.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Exploring the Environment</strong>:</p>
+                <ul>
+                  <li>
+                    To proceed, JARVIS needs to understand what data it has access to. It starts by using a tool to
+                    <strong>list all the tables</strong> in the database. The agent observes that there are tables
+                    named <code>AGENTS</code>, <code>CUSTOMERS</code>, <code>ORDERS</code>, among others.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Focusing on Relevant Information</strong>:</p>
+                <ul>
+                  <li>
+                    Since the user is asking specifically about clients, JARVIS infers that the relevant information
+                    should be in the <code>CUSTOMERS</code> table. However, before it can query this table, it needs to
+                    understand its structure.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Querying the Table Schema</strong>:</p>
+                <ul>
+                  <li>
+                    JARVIS retrieves the schema of the <code>CUSTOMERS</code> table to see what fields are available.
+                    It finds that the table includes columns like <code>CLIENT_ID</code> and <code>CLIENT_NAME</code>.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Formulating a Plan to Extract Information</strong>:</p>
+                <ul>
+                  <li>
+                    Now that JARVIS knows the structure of the table, it formulates a plan to count the entries. The
+                    goal is to determine how many rows (i.e., clients) are present in the table.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Executing the SQL Query</strong>:</p>
+                <ul>
+                  <li>
+                    JARVIS constructs a simple SQL query:<br />
+                    <code>sql SELECT COUNT(*) FROM CUSTOMERS</code><br />
+                    This query will return the total number of rows in the <code>CUSTOMERS</code> table, which
+                    corresponds to the number of customers.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Interpreting the Results</strong>:</p>
+                <ul>
+                  <li>
+                    The query is executed, and JARVIS receives the result: <code>[(25,)]</code>, indicating there are
+                    25 customers in the database.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>Delivering the Final Answer</strong>:</p>
+                <ul>
+                  <li>
+                    With the result in hand, JARVIS returns to the user with the final answer:<br />
+                    <strong>"There are 25 clients in the database."</strong>
+                  </li>
+                </ul>
+              </li>
+            </ol>
+            <h3 id="key-takeaways-from-this-example">Key Takeaways from This Example</h3>
+            <p>
+              This workflow showcases a <strong>classic agentic pattern</strong> where JARVIS uses a loop of
+              <strong>planning, acting, and observing</strong>:
+            </p>
+            <ul>
+              <li>
+                <p>
+                  <strong>Planning</strong>: At multiple steps, JARVIS formulates a plan to achieve the desired
+                  outcome. It doesn’t jump straight to querying the database without first understanding the
+                  environment.
+                </p>
+              </li>
+              <li>
+                <p>
+                  <strong>Acting</strong>: It uses tools effectively to explore the environment, fetch the schema, and
+                  run the SQL query.
+                </p>
+              </li>
+              <li>
+                <p>
+                  <strong>Observing</strong>: After each action, it observes the output to decide on the next step.
+                </p>
+              </li>
+            </ul>
+            <p>
+              The diagram above reflects how even seemingly simple tasks require agents to break down problems into
+              smaller actions, reflect on the information available, and decide on the best next step. The flexibility
+              of this approach is what makes LLM agents so powerful.
+            </p>
+            <h3 id="reasoning-trace">Reasoning Trace</h3>
+            <h3 id="code-implementation">Code Implementation</h3>
+            <h2 id="references">References</h2>
+            <div class="footnote">
+              <hr />
+              <ol>
+                <li id="fn:1">
+                  <p>
+                    Russell, S., &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th
+                    ed.). Pearson. <a
+                      class="footnote-backref"
+                      href="#fnref:1"
+                      title="Jump back to footnote 1 in the text"
+                      >↩</a
+                    ><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">↩</a>
+                  </p>
+                </li>
+                <li id="fn:2">
+                  <p>
+                    <a href="https://www.youtube.com/watch?v=sal78ACtGTc"
+                      >What's next for AI agentic workflows ft. Andrew Ng of AI Fund</a
+                    > <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a>
+                  </p>
+                </li>
+                <li id="fn:3">
+                  <p>
+                    Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint
+                    arXiv:2210.03629 (2022).
+                    <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a> <a
+                      class="footnote-backref"
+                      href="#fnref:3"
+                      title="Jump back to footnote 3 in the text"
+                      >↩</a
+                    ><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">↩</a>
+                  </p>
+                </li>
+                <li id="fn:4">
+                  <p>
+                    Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models."
+                    Advances in neural information processing systems 35 (2022): 24824-24837.
+                    <a href="https://arxiv.org/abs/2201.11903">https://arxiv.org/abs/2201.11903</a> <a
+                      class="footnote-backref"
+                      href="#fnref:4"
+                      title="Jump back to footnote 4 in the text"
+                      >↩</a
+                    >
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </section>
 
-          <footer class="article-navigation">
-            
-            
-            
-          </footer>
+          <footer class="article-navigation"></footer>
         </article>
       </div>
     </main>
@@ -484,54 +700,54 @@
 
     <script>
       // Add image zoom functionality
-      document.addEventListener('DOMContentLoaded', function() {
-        const overlay = document.querySelector('.zoom-overlay');
-        const overlayImg = overlay.querySelector('img');
-        
-        document.querySelectorAll('.blog-post__content img').forEach(img => {
-          img.addEventListener('click', function(e) {
+      document.addEventListener("DOMContentLoaded", function () {
+        const overlay = document.querySelector(".zoom-overlay");
+        const overlayImg = overlay.querySelector("img");
+
+        document.querySelectorAll(".blog-post__content img").forEach((img) => {
+          img.addEventListener("click", function (e) {
             e.stopPropagation();
             overlayImg.src = this.src;
             overlayImg.alt = this.alt;
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
           });
         });
 
-        overlay.addEventListener('click', function() {
-          this.classList.remove('active');
-          document.body.style.overflow = '';
+        overlay.addEventListener("click", function () {
+          this.classList.remove("active");
+          document.body.style.overflow = "";
         });
       });
 
       // Theme
-      const themeButton = document.getElementById('theme-button')
-      const darkTheme = 'dark-theme'
-      const iconTheme = 'uil-sun'
+      const themeButton = document.getElementById("theme-button");
+      const darkTheme = "dark-theme";
+      const iconTheme = "uil-sun";
 
       // Previously selected theme (checking from localStorage)
-      const selectedTheme = localStorage.getItem('selected-theme')
-      const selectedIcon = localStorage.getItem('selected-icon')
+      const selectedTheme = localStorage.getItem("selected-theme");
+      const selectedIcon = localStorage.getItem("selected-icon");
 
       // Get current theme
-      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
-      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+      const getCurrentTheme = () => (document.body.classList.contains(darkTheme) ? "dark" : "light");
+      const getCurrentIcon = () => (themeButton.classList.contains(iconTheme) ? "uil-moon" : "uil-sun");
 
       // Validate if user previously chose a theme
       if (selectedTheme) {
-        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
-        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+        document.body.classList[selectedTheme === "dark" ? "add" : "remove"](darkTheme);
+        themeButton.classList[selectedIcon === "uil-moon" ? "add" : "remove"](iconTheme);
       }
 
       // Activate / deactivate the theme manually with the button
-      themeButton.addEventListener('click', () => {
+      themeButton.addEventListener("click", () => {
         // Add or remove the dark / icon theme
-        document.body.classList.toggle(darkTheme)
-        themeButton.classList.toggle(iconTheme)
+        document.body.classList.toggle(darkTheme);
+        themeButton.classList.toggle(iconTheme);
         // Save the theme and the current icon that the user chose
-        localStorage.setItem('selected-theme', getCurrentTheme())
-        localStorage.setItem('selected-icon', getCurrentIcon())
-      })
+        localStorage.setItem("selected-theme", getCurrentTheme());
+        localStorage.setItem("selected-icon", getCurrentIcon());
+      });
     </script>
   </body>
 </html>
