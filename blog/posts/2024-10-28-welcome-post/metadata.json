@@ -3,5 +3,6 @@
     "author": "Miguel Vázquez",
     "summary": "My first blog post! I introduce myself, and talk about my expectations for the blog: what I plan to do with it, and what I want to write about.",
     "title": "Welcome to My Blog!",
-    "estimated_reading_time": 5
+    "estimated_reading_time": 5,
+    "draft": false
 }

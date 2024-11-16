@@ -224,7 +224,7 @@ def process_blog_post(post_dir: Path, post_template) -> dict:
             # Convert image path to WebP
             src_path = Path(src)
             webp_src = src_path.with_suffix(".webp")
-            img["src"] = f"../../../media/{post_dir.name}/{webp_src}"
+            img["src"] = webp_src
             # Add loading="lazy" for better performance
             img["loading"] = "lazy"
 
@@ -262,20 +262,23 @@ def process_blog_posts() -> None:
     )
 
     for post_dir in dirs:
-        post_slugs.append(post_dir.name)
         metadata = process_blog_post(post_dir, post_template)
-        posts.append(metadata)
+        
+        # Skip draft posts in the main blog list
+        if not metadata.get("draft", False):
+            post_slugs.append(post_dir.name)
+            posts.append(metadata)
 
     # Sort posts by date
     posts.sort(key=lambda x: x["date"], reverse=True)
 
-    # Generate blog list HTML
+    # Generate blog list HTML (excluding drafts)
     blog_list_template = env.get_template("blog_list.html")
     blog_list_html = blog_list_template.render(posts=posts)
     with (output_dir / "blog.html").open("w", encoding="utf-8") as f:
         f.write(blog_list_html)
 
-    # Generate index.json
+    # Generate index.json (excluding drafts)
     with (posts_dir / "index.json").open("w", encoding="utf-8") as f:
         json.dump(post_slugs, f, indent=2)
 

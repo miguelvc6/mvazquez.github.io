@@ -3,5 +3,6 @@
     "author": "Miguel Vázquez",
     "summary": "I implement a ray tracer for image rendering. Utilizes PyTorch for parallel optimization.",
     "title": "Torch Tracer - GPU accelerated ray-tracing with PyTorch",
-    "estimated_reading_time": 12
+    "estimated_reading_time": 12,
+    "draft": false
 }

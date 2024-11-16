@@ -140,7 +140,12 @@
       <div class="container">
         <article class="blog-post">
           <header class="blog-post__header">
-            <h1 class="blog-post__title">{{ title }}</h1>
+            <h1 class="blog-post__title">
+                {{ title }}
+                {% if draft %}
+                <span class="draft-badge">Draft</span>
+                {% endif %}
+            </h1>
             <p class="blog-post__meta">
               Date: {{ date }} | Estimated Reading Time: {{ estimated_reading_time }} minutes | Author: {{ author }}
             </p>
