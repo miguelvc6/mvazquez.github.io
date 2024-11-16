@@ -975,18 +975,22 @@ pre[class*="language-"] {
 }
 
 /* References section */
-#references {
-  margin-top: 2em;
-  padding-top: 1em;
-  border-top: 1px solid #eee;
+.footnote ol a {
+  color: var(--first-color);
+  text-decoration: none;
 }
 
-#references + ol {
-  padding-left: 2em;
+.footnote ol a:hover {
+  color: var(--first-color-alt);
+  text-decoration: underline;
 }
 
-#references + ol li {
-  margin-bottom: 0.5em;
+.dark-theme .footnote ol a {
+  color: var(--first-color-lighter);
+}
+
+.dark-theme .footnote ol a:hover {
+  color: var(--first-color);
 }
 
 /* Image zoom functionality */
