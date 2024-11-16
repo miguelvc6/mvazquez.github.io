@@ -747,6 +747,14 @@ h4 {
   margin-top: 2rem;
 }
 
+.blog-post__content a {
+  color: var(--first-color);
+}
+
+.dark-theme .blog-post__content a {
+  color: var(--first-color-lighter);
+}
+
 .blog-post__content p {
   margin-bottom: 1.5rem;
 }
