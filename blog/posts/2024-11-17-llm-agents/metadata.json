@@ -1,8 +1,8 @@
 {
     "date": "2024-11-17",
     "author": "Miguel Vázquez",
-    "summary": "A blog post about LLM agents. Covers the basics of agents, how they work and how to implement them, along with some examples.",
+    "summary": "Overview of LLM agents, how they work and how to implement them, along with examples.",
     "title": "LLM Agents",
-    "estimated_reading_time": 49,
+    "estimated_reading_time": 37,
     "draft": true
 }

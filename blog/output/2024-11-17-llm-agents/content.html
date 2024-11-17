@@ -147,7 +147,7 @@
                 
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-17 | Estimated Reading Time: 49 minutes | Author: Miguel Vázquez
+              Date: 2024-11-17 | Estimated Reading Time: 37 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -429,172 +429,16 @@
                     
                     
                     <li>
-                      <a href="#agent-development-ecosystem" aria-label="Agent Development Ecosystem">Agent Development Ecosystem</a>
+                      <a href="#closing-remarks" aria-label="Closing Remarks">Closing Remarks</a>
                     </li>
                     
                   
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#development-frameworks" aria-label="Development Frameworks">Development Frameworks</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#openai-assistants" aria-label="OpenAI Assistants">OpenAI Assistants</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#langchain" aria-label="LangChain">LangChain</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#autogen" aria-label="AutoGen">AutoGen</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#crewai" aria-label="CrewAI">CrewAI</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#notable-open-source-agent-projects" aria-label="Notable Open Source Agent Projects">Notable Open Source Agent Projects</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#babyagi" aria-label="BabyAGI">BabyAGI</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#generative-agents" aria-label="Generative Agents">Generative Agents</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#chatdev" aria-label="ChatDev">ChatDev</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#chemcrow" aria-label="ChemCrow">ChemCrow</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#voyager" aria-label="Voyager">Voyager</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#commercial-agent-applications-&-products" aria-label="Commercial Agent Applications & Products">Commercial Agent Applications & Products</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#os-copilot" aria-label="OS-Copilot">OS-Copilot</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#devin" aria-label="Devin">Devin</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#open-interpreter" aria-label="Open-Interpreter">Open-Interpreter</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#claude-computer-use" aria-label="Claude Computer Use">Claude Computer Use</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#replit-agent" aria-label="Replit Agent">Replit Agent</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#aide-(ai-data-engineer)" aria-label="AIDE (AI Data Engineer)">AIDE (AI Data Engineer)</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
                     
                     
                     <li>
                       <a href="#references" aria-label="References">References</a>
                     </li>
                     
-                      
-                        </ul>
                       
                     
                   
@@ -603,18 +447,18 @@
             </details>
           </nav>
 
-          <section class="blog-post__content"><p>Over the last few weeks, I have been imparting in a full fledged course on LLMs at my job at oga.ai. It is a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.</p>
+          <section class="blog-post__content"><p>Over the last few weeks, I have been imparting a full fledged course on LLMs at my job at oga.ai. It is a fast-pace, deep dive program consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.</p>
 <p>The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even tough they are in beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents on production environment, they really shine with potential.</p>
 <p>The course is in Spanish, and with it being internal to the company I can not freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.</p>
 <p>In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part.</p>
 <p>In the following couple posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure python (we will see in this post what these are), and I will probably implement a more complex one using a framework like langchain or autogen.</p>
 <p>Finally, I want to use an agent to expand my <a href="https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html">Torch-Tracer Project</a>, with the objective that it needs the least amount of human input as possible.</p>
 <h1 id="what-are-agents?">What are agents?</h1>
-<p>Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<p>Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as[^1]</p>
 <blockquote>
 <p><em>"Anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators"</em></p>
 </blockquote>
-<p>This definition gives a general idea of what agents do, but it is way too broad, since a simple thermostat has sensors and actuators. A smarter definition is the one of a <strong>"rational agent"</strong> <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<p>This definition gives a general idea of what agents do, but it is way too broad, since a simple thermostat has sensors and actuators. A smarter definition is the one of a <strong>"rational agent"</strong> [^1]</p>
 <blockquote>
 <p><em>"For each possible percept sequence, a rational agent should select an action that is expected to maximize its performance measure, given the evidence provided by the percept sequence and whatever built-in knowledge the agent has."</em></p>
 </blockquote>
@@ -626,7 +470,7 @@
 <p>A <strong>"LLM agent"</strong> is one that uses a LLM as its <em>brain</em> to reason. The central idea is that they use a language model to choose what <strong>actions</strong> they take to <strong>accomplish an objective</strong> given a current <strong>state</strong> or environment.</p>
 <p>If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augmented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.</p>
 <h3 id="agentic-workflows">Agentic workflows</h3>
-<p>An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay. This analogy comes from Andrew Ng<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
+<p>An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay. This analogy comes from Andrew Ng[^2].</p>
 <p>In a regular LLM workflow you ask the LLM to write an essay about some topic X. Since they are autoregressive models, they will write it directly from the beginning to the end without ever going back to fix errors or improve any section, or stopping to reflect and research more about topic X. This task would be very difficult for most humans, and yet LLMs are surprisingly good at it.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\regular_llm_workflow.webp" width="80%"/>
@@ -651,14 +495,14 @@
 <p>If you automatize this in a loop, it becomes a simple agentic workflow, where the words in bold font correspond to planning, acting and observing.</p>
 <p>All the text that is generated by the model during a task is called the <strong>reasoning trace</strong>.</p>
 <h3 id="react-agents">ReAct agents</h3>
-<p>You might have noticed that the planning step is not strictly necessary. An agent could just observe the environment and act, and in fact the first agents based on LLMs did just that, but they did not work too well. In 2022 in the ReAct paper<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> Yao, Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.</p>
-<p>The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
+<p>You might have noticed that the planning step is not strictly necessary. An agent could just observe the environment and act, and in fact the first agents based on LLMs did just that, but they did not work too well. In 2022 in the ReAct paper[^3] Yao, Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.</p>
+<p>The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."[^3]</p>
 <p>With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\react_01.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
-<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>, but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct is created to fight this problem.</p>
+<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct is created to fight this problem.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\react_02.webp" width="80%"/>
 </p>
@@ -983,7 +827,7 @@ Final Answer: 25
 <p>As a second showcase of an agent I want to mention <a href="https://agentgpt.reworkd.ai/">AgentGPT</a>. I recommend you create a free account and give it some task. For example, ask it to <em>Parse the data of the current season of the Spanish football league's first division and export it in a csv file</em>. It will search the web for the appropriate data, initialize a python environment with some libraries, write a web scraping script and run it, and finally return the .csv file to the user. From a free account it will run out of iterations before achieving it, but it still is a good showcase of what a simple agent is able to do.</p>
 <h2 id="why-use-agents?">Why use agents?</h2>
 <p>By this point I hope to have delivered an initial idea of what agents are. If you are still not convinced on their power, by the end of this post you will be. For now I want to clearly explain some of their best attributes in this section.</p>
-<p>The first thing to understand is that agents can <em>augment</em> anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example this are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup>, a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation og GPT-4 reaching close to a 100% pass.</p>
+<p>The first thing to understand is that agents can <em>augment</em> anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example this are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval[^5], a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation og GPT-4 reaching close to a 100% pass.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\humaneval_agents.webp" width="100%"/>
 </p>
@@ -1012,7 +856,7 @@ Final Answer: 25
 <h2 id="memory-in-agents">Memory in Agents</h2>
 <p>The last basic component of agents that we need to talk about is <strong>memory</strong>. Earlier in the post I teased the question when talking about the reasoning trace. Large Language Memory do not have <em>memory</em> of past interactions: all information for a call must passed through the prompt.</p>
 <p>So how do we implement the memory in our agent? The truth is that there is not a stablished solution yet, and it depends heavily on the system that is being built.</p>
-<p>What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>, Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.</p>
+<p>What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents[^6], Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.</p>
 <h3 id="types-of-memory">Types of Memory</h3>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\memory_types.webp" width="80%"/>
@@ -1050,7 +894,7 @@ Final Answer: 25
 <p style="text-align:center; font-style: italic;">Example of reflection in an agent.</p>
 <p>This iterative loop of generation, reflection, and revision continues until the agent is confident that the final result meets all specified requirements. By incorporating this self-critical process, agents can significantly improve their outputs, reducing errors and producing more robust solutions.</p>
 <h2 id="tool-use">Tool Use</h2>
-<p>We’ve previously discussed the concept of tools in LLM agents, enabling models to interact with external resources like databases, APIs, or search engines to extend their capabilities. Now, let's explore what happens when this concept is pushed to its limits through the Gorilla<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> model.</p>
+<p>We’ve previously discussed the concept of tools in LLM agents, enabling models to interact with external resources like databases, APIs, or search engines to extend their capabilities. Now, let's explore what happens when this concept is pushed to its limits through the Gorilla[^7] model.</p>
 <p><strong>Gorilla</strong> is a fine-tuned LLaMA-based model specifically designed to excel at generating precise API calls. This system surpasses even GPT-4 in the accuracy of writing API invocations, demonstrating that specialized finetuning can lead to significant performance improvements over general-purpose LLMs.</p>
 <p>The core idea behind Gorilla is integrating <strong>document retrieval</strong>. By combining the model with a retrieval mechanism, Gorilla can dynamically access the latest API documentation at test time, ensuring that the generated API calls are not only accurate but also aligned with the most current information.</p>
 <p align="center">
@@ -1064,7 +908,7 @@ Final Answer: 25
 <p>You can explore a live demo of Gorilla <a href="https://gorilla.cs.berkeley.edu/leaderboard.html#api-explorer">here</a> and experiment with it yourself using their <a href="https://colab.research.google.com/drive/1DEBPsccVLF_aUnmD0FwPeHFrtdC0QIUP?usp=sharing">Colab notebook</a>.</p>
 <h2 id="planning">Planning</h2>
 <p>To solve complex tasks with agents it is fundamental that they are able to plan a series of simpler steps. Planning capabilities in LLM agents can range from simple task decomposition to sophisticated hierarchical planning systems. More advanced approaches like Tree of Thoughts extend chain-of-thought prompting by exploring multiple reasoning paths simultaneously, evaluating them, and selecting the most promising one to pursue. Some agents even employ meta-planning, where they not only plan the steps to solve a task but also strategize about how to plan effectively, considering factors like resource constraints and potential failure points.</p>
-<p>An illustrative example is the HuggingGPT paper<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup>, which uses planning in order to leverage other machine learning models found in web communities (e.g. Hugging Face) to solve AI tasks. Specifically, they use ChatGPT to conduct task planning when receiving a user request, select models according to their function descriptions available in Hugging Face, execute each subtask with the selected AI model, and summarize the response according to the execution results.</p>
+<p>An illustrative example is the HuggingGPT paper[^8], which uses planning in order to leverage other machine learning models found in web communities (e.g. Hugging Face) to solve AI tasks. Specifically, they use ChatGPT to conduct task planning when receiving a user request, select models according to their function descriptions available in Hugging Face, execute each subtask with the selected AI model, and summarize the response according to the execution results.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\agent_planning_hugging_gpt.webp" width="80%"/>
 </p>
@@ -1076,7 +920,7 @@ Final Answer: 25
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\multi_agents_critic.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Simple multi-agentic system that replicates the reflection example, with two agents with differentiated roles.</p>
-<p>In <em>ChatDev: Communicative Agents for Software Development</em><sup id="fnref:9"><a class="footnote-ref" href="#fn:9">9</a></sup> Qian, Chen, et al. develop "a chat-powered software development framework in which specialized agents driven by large language models (LLMs) are guided in what to communicate (via chat chain) and how to communicate (via communicative dehallucination). These agents actively contribute to the design, coding, and testing phases through unified language-based communication, with solutions derived from their multi-turn dialogues. We found their utilization of natural language is advantageous for system design, and communicating in programming language proves helpful in debugging. This paradigm demonstrates how linguistic communication facilitates multi-agent collaboration, establishing language as a unifying bridge for autonomous task-solving among LLM agents."</p>
+<p>In <em>ChatDev: Communicative Agents for Software Development</em><sup id="fnref:9"><a class="footnote-ref" href="#fn:9">1</a></sup> Qian, Chen, et al. develop "a chat-powered software development framework in which specialized agents driven by large language models (LLMs) are guided in what to communicate (via chat chain) and how to communicate (via communicative dehallucination). These agents actively contribute to the design, coding, and testing phases through unified language-based communication, with solutions derived from their multi-turn dialogues. We found their utilization of natural language is advantageous for system design, and communicating in programming language proves helpful in debugging. This paradigm demonstrates how linguistic communication facilitates multi-agent collaboration, establishing language as a unifying bridge for autonomous task-solving among LLM agents."</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\chatdev.webp" width="80%"/>
 </p>
@@ -1262,328 +1106,32 @@ agent_chain.run("What's my friend Eric's surname?")
 </li>
 </ul>
 <p>By incorporating HITL effectively, agents can leverage human expertise while maintaining efficient operation. This creates a symbiotic system where both automated and human intelligence work together to achieve optimal results.</p>
-<h1 id="agent-development-ecosystem">Agent Development Ecosystem</h1>
-<p>The landscape of LLM agent development has rapidly evolved, giving rise to a rich ecosystem of frameworks, tools, and applications. While it's possible to build agents from scratch using basic LLM APIs, modern development frameworks provide abstractions and pre-built tools that significantly accelerate the development process. These frameworks handle common challenges like prompt management, tool integration, and memory systems, allowing developers to focus on their specific use cases.</p>
-<p>In this section, we'll explore the major frameworks powering agent development today, examine notable examples of successful agent implementations, and look at some of the emerging products and applications in this space. Whether you're building a simple task-specific agent or a complex multi-agent system, understanding this ecosystem will help you choose the right tools and approaches for your needs.</p>
-<h2 id="development-frameworks">Development Frameworks</h2>
-<p>Several frameworks have emerged to facilitate the development of LLM agents, each with its own strengths and trade-offs:</p>
-<h3 id="openai-assistants">OpenAI Assistants</h3>
-<p>The OpenAI Assistants API provides the most polished out-of-the-box experience for building agents. The framework comes with comprehensive built-in capabilities for function calling and tool use, allowing developers to quickly integrate custom actions into their agents. It features robust file handling and retrieval systems, making it easy to work with documents and data. Additionally, it includes a powerful code interpreter for executing Python code and advanced image analysis capabilities. The framework also handles conversation management through its thread system, maintaining context across multiple interactions seamlessly.</p>
-<p>However, it's limited to OpenAI's models and has less flexibility in customization compared to other frameworks.</p>
-<h3 id="langchain">LangChain</h3>
-<p>LangChain is the most comprehensive and widely-used framework for building LLM applications. The framework stands out for its extensive integration ecosystem, supporting a wide range of LLM providers and external tools. Its flexible architecture provides powerful abstractions for building complex workflows, while maintaining clarity and modularity. The vibrant community has contributed numerous components and extensions, creating a rich ecosystem of ready-to-use solutions. LangChain offers sophisticated memory management with support for various types of memory and storage solutions, and includes a comprehensive set of pre-built agents and tools for common use cases.</p>
-<p>The framework's flexibility makes it suitable for both simple chatbots and complex multi-agent systems, though this versatility can come with a steeper learning curve.</p>
-<h3 id="autogen">AutoGen</h3>
-<p>AutoGen specializes in building multi-agent systems with a focus on simplicity and scalability. The framework provides a streamlined API that makes agent-to-agent communication intuitive and efficient, while supporting parallel execution for improved performance. Its conversation management system is specifically designed for complex multi-agent interactions, handling message routing and context maintenance automatically. AutoGen integrates naturally with popular development tools, making it easy to incorporate into existing workflows. The framework particularly shines in scenarios requiring group chat-like interactions between agents, with built-in support for various conversation patterns.</p>
-<p>While more focused than LangChain, AutoGen excels in scenarios requiring multiple cooperating agents.</p>
-<h3 id="crewai">CrewAI</h3>
-<p>CrewAI emphasizes human-like collaboration patterns in multi-agent systems. The framework implements a role-based architecture that mirrors real-world team structures, making it intuitive to design complex agent interactions. Its process-oriented task management system helps organize and coordinate work between agents effectively. CrewAI provides access to a vast ecosystem of pre-built agent templates, significantly reducing development time for common use cases. The framework seamlessly integrates with popular development tools and emphasizes hierarchical team structures, making it particularly suitable for business applications.</p>
-<p>While only partially open-source, CrewAI offers powerful abstractions for building collaborative agent systems.</p>
-<p>The choice of framework often depends on specific requirements like model flexibility, deployment constraints, and complexity of the intended agent system.</p>
-<ul>
-<li>
-<p>Choose <strong>OpenAI Assistants</strong> for quick prototypes and production-ready single agents</p>
-</li>
-<li>
-<p>Use <strong>LangChain</strong> for maximum flexibility and complex custom solutions</p>
-</li>
-<li>
-<p>Pick <strong>AutoGen</strong> when building systems with multiple interacting agents</p>
-</li>
-<li>
-<p>Select <strong>CrewAI</strong> for business processes that mirror human team structures</p>
-</li>
-</ul>
-<h2 id="notable-open-source-agent-projects">Notable Open Source Agent Projects</h2>
-<p>The open source community has been at the forefront of LLM agent innovation, producing several groundbreaking projects that push the boundaries of what's possible with this technology. From autonomous agents that can learn and explore virtual environments to collaborative systems that mimic human research teams, these projects serve as both technical demonstrations and foundations for future development.</p>
-<p>Let's explore some of the most influential open source agent projects that have emerged in recent years. Each of these implementations showcases unique approaches to agent architecture, demonstrates novel capabilities, and has contributed valuable insights to the field.</p>
-<h3 id="babyagi">BabyAGI</h3>
-<p>BabyAGI<sup id="fnref2:9"><a class="footnote-ref" href="#fn:9">9</a></sup> represents one of the earliest and most influential autonomous agent projects, with its latest iteration BabyAGI 2o focusing on self-building capabilities. Unlike traditional agents with fixed toolsets, BabyAGI 2o can dynamically create and register new tools as needed to complete user-defined tasks. The agent analyzes tasks, determines what tools it needs, writes the code for those tools, and executes them - all without human intervention.</p>
-<p>Key features that make BabyAGI notable:</p>
-<ul>
-<li>
-<p>Dynamic tool creation and updating based on task requirements</p>
-</li>
-<li>
-<p>Automatic package management and dependency handling</p>
-</li>
-<li>
-<p>Iterative error handling and self-improvement</p>
-</li>
-<li>
-<p>Support for multiple LLM backends through litellm</p>
-</li>
-<li>
-<p>Ability to handle diverse tasks from web scraping to image generation</p>
-</li>
-</ul>
-<p>For example, BabyAGI 2o can autonomously create tools to scrape news headlines, analyze images, or even generate creative content by combining multiple APIs. This flexibility and self-improving nature has made it an important reference architecture for autonomous agent development.</p>
-<p>You can explore BabyAGI 2o through these resources:</p>
-<ul>
-<li>
-<p><a href="https://github.com/yoheinakajima/babyagi-2o">BabyAGI 2o GitHub Repository</a></p>
-</li>
-<li>
-<p><a href="https://x.com/yoheinakajima/status/1847160880674623762">Demo: BabyAGI 2o creating tools for news analysis</a></p>
-</li>
-<li>
-<p><a href="https://x.com/yoheinakajima/status/1839398354364838366">Original BabyAGI announcement and demo</a></p>
-</li>
-</ul>
-<h3 id="generative-agents">Generative Agents</h3>
-<p>Generative Agents<sup id="fnref:11"><a class="footnote-ref" href="#fn:11">11</a></sup> is a fascinating research project that explores how LLM-powered agents can simulate believable human behavior in interactive environments. Created by researchers at Stanford, this project places 25 autonomous agents in a sandbox world inspired by The Sims, where they live, work, and interact with each other naturally.</p>
-<p>Key features of the architecture:</p>
-<ul>
-<li>
-<p><strong>Memory Stream</strong>: A comprehensive database that records agents' experiences in natural language, including both direct observations and inter-agent communications</p>
-</li>
-<li>
-<p><strong>Retrieval System</strong>: Surfaces relevant context based on three factors:</p>
-</li>
-<li>Recency: Prioritizes recent events</li>
-<li>Importance: Distinguishes between mundane and core memories</li>
-<li>
-<p>Relevance: Considers relationship to current situation</p>
-</li>
-<li>
-<p><strong>Reflection Mechanism</strong>: Synthesizes memories into higher-level inferences that guide future behavior</p>
-</li>
-<li>
-<p><strong>Planning &amp; Reaction</strong>: Translates reflections and environmental information into actions, considering relationships between agents</p>
-</li>
-</ul>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\generative_agents.webp" width="100%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Generative Agents places LLMs in a virtual environment simulating a town where they can freely interact with each other. </p>
-<p>The simulation demonstrates emergent social behaviors like:</p>
-<ul>
-<li>
-<p>Information spreading through the community</p>
-</li>
-<li>
-<p>Relationship memory (agents continuing previous conversations)</p>
-</li>
-<li>
-<p>Spontaneous social event organization</p>
-</li>
-<li>
-<p>Development of opinions and preferences based on experiences</p>
-</li>
-</ul>
-<p>For example, agents wake up, cook breakfast, and head to work; artists create while authors write; they form opinions, notice each other, and initiate conversations. They can remember past interactions and use them to plan future activities, creating a rich tapestry of simulated social life.</p>
-<p>This project showcases how LLM agents can create complex, believable behaviors through the combination of memory, planning, and social interaction systems. The emergent behaviors demonstrate the potential for using such systems to study human social dynamics or create more realistic NPCs in games.</p>
-<h3 id="chatdev">ChatDev</h3>
-<p>ChatDev is an innovative open-source project that simulates a virtual software company powered by LLM agents. The system creates a collaborative environment where multiple specialized agents work together to develop software from natural language descriptions, similar to how human teams operate in real software companies.</p>
-<p>Key features:</p>
-<ul>
-<li>
-<p><strong>Role-Based Architecture</strong>: Includes specialized agents like CEO, CTO, Programmers, Reviewers, and Testers</p>
-</li>
-<li>
-<p><strong>Natural Communication</strong>: Agents collaborate through natural language discussions to design, implement and test software</p>
-</li>
-<li>
-<p><strong>Comprehensive Development Process</strong>: Handles the complete software lifecycle from requirements analysis to testing</p>
-</li>
-<li>
-<p><strong>Customizable Framework</strong>: Allows defining custom roles, development processes, and tool integrations</p>
-</li>
-<li>
-<p><strong>Multi-Agent Collaboration</strong>: Leverages different agent perspectives and expertise to produce better solutions</p>
-</li>
-</ul>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\chatdev.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">ChatDev integrates LLM agents with various social roles, working autonomously to develop comprehensive software solutions via multi-agent collaboration.</p>
-<p>For example, when given a task to create a game, the CEO agent might first analyze requirements and create a project plan, the CTO would design the technical architecture, programmers would implement the code, reviewers would check for issues, and testers would verify functionality - all coordinating through natural language conversations.</p>
-<p>The project demonstrates how structured multi-agent systems can tackle complex creative tasks by breaking them down into specialized roles and facilitating effective communication between agents. You can explore ChatDev through:</p>
-<ul>
-<li>
-<p><a href="https://github.com/OpenBMB/ChatDev">GitHub Repository</a></p>
-</li>
-<li>
-<p><a href="https://chatdev.toscl.com/">Interactive Demo Platform</a></p>
-</li>
-</ul>
-<h3 id="chemcrow">ChemCrow</h3>
-<p>ChemCrow<sup id="fnref:12"><a class="footnote-ref" href="#fn:12">12</a></sup> is a specialized LLM agent designed for complex chemistry tasks across organic synthesis, drug discovery, and materials design. Rather than relying on general chemistry knowledge, ChemCrow integrates 18 expert-designed chemistry tools that enable it to perform sophisticated chemical analysis and planning.</p>
-<p>Key features:</p>
-<ul>
-<li>
-<p><strong>Comprehensive Toolset</strong>: Includes tools for molecular analysis, safety checks, reaction prediction, and literature search</p>
-</li>
-<li>
-<p><strong>Safety-First Design</strong>: Automated checks for chemical weapons, explosives, and general safety considerations</p>
-</li>
-<li>
-<p><strong>Multi-Step Planning</strong>: Can design and validate complex synthesis pathways</p>
-</li>
-<li>
-<p><strong>Literature Integration</strong>: Combines web search and scientific paper analysis for up-to-date information</p>
-</li>
-<li>
-<p><strong>Python Integration</strong>: Built-in REPL for computational chemistry tasks</p>
-</li>
-</ul>
-<p>The tools are organized into four main categories:</p>
-<ol>
-<li><strong>General Tools</strong>: Web search, literature search, Python REPL</li>
-<li><strong>Molecule Tools</strong>: Structure analysis, pricing, patent checking, similarity comparison</li>
-<li><strong>Safety Tools</strong>: Chemical weapon checks, explosive detection, safety summaries</li>
-<li><strong>Chemical Reaction Tools</strong>: Reaction naming, prediction, and synthesis planning</li>
-</ol>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\chemcrow_process.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">ChemCrow's workflow combines expert tools with LLM reasoning for chemistry tasks</p>
-<p>ChemCrow follows a "Thought, Action, Action Input, Observation" workflow where it:</p>
-<ol>
-<li>Reasons about the current state and goal</li>
-<li>Selects appropriate chemistry tools</li>
-<li>Executes actions and observes results</li>
-<li>Iterates until reaching the solution</li>
-</ol>
-<p>The system can integrate with robotic lab systems like IBM's RoboRXN for physical synthesis execution, bridging the gap between computational and experimental chemistry.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\chemcrow_human_colab.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">ChemCrow is designed to collaborate with human chemists, combining AI capabilities with expert oversight</p>
-<p><a href="https://www.insilicochemistry.io/tutorials/foundations/gpt-4-for-chemistry#h.vb7wz0s6qbcr">Source: In Silico Chemistry</a></p>
-<h3 id="voyager">Voyager</h3>
-<p>Voyager<sup id="fnref:13"><a class="footnote-ref" href="#fn:13">13</a></sup> is a groundbreaking LLM-powered agent that demonstrates autonomous learning and exploration in Minecraft. Unlike traditional game AI that follows predefined objectives, Voyager continuously explores its environment, develops new skills, and makes discoveries without human intervention.</p>
-<p>Key components:</p>
-<ul>
-<li>
-<p><strong>Automatic Curriculum</strong>: Generates exploration goals based on current skills and world state</p>
-</li>
-<li>
-<p><strong>Skill Library</strong>: Stores and retrieves executable code for complex behaviors</p>
-</li>
-<li>
-<p><strong>Iterative Prompting</strong>: Refines code through environment feedback and self-verification</p>
-</li>
-</ul>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\voyager.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Voyager's curriculum generation process adapts to the agent's current capabilities and environment</p>
-<p>The agent demonstrates impressive capabilities:</p>
-<ul>
-<li>
-<p>Discovers 3.3x more unique items than previous approaches</p>
-</li>
-<li>
-<p>Traverses 2.3x longer distances across diverse terrains</p>
-</li>
-<li>
-<p>Unlocks tech tree milestones up to 15.3x faster than prior methods</p>
-</li>
-<li>
-<p>Successfully transfers skills to new worlds and tasks</p>
-</li>
-</ul>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\voyager_tech_discovery.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Voyager progressively discovers new technologies and crafting abilities through autonomous exploration</p>
-<p>For example, if Voyager finds itself in a desert, it will prioritize learning to harvest sand and cactus before pursuing iron collection. The agent continuously refines its skills based on environmental feedback and stores mastered behaviors in its skill library for future use, much like how human players learn and adapt to the game.</p>
-<p>You can explore Voyager through the <a href="https://voyager.minedojo.org/">project website</a>, which includes detailed documentation, examples, and research findings.</p>
-<h2 id="commercial-agent-applications-&amp;-products">Commercial Agent Applications &amp; Products</h2>
-<p>The transition from research to production has begun, with companies deploying agent technology in real-world applications. These implementations often combine multiple advanced capabilities like code generation, tool use, and multi-agent collaboration into cohesive products that showcase what's currently possible with LLM agents.</p>
-<h3 id="os-copilot">OS-Copilot</h3>
-<p>OS-Copilot<sup id="fnref:14"><a class="footnote-ref" href="#fn:14">14</a></sup> breaks new ground by creating a generalist computer agent that can interact with entire operating systems. Its FRIDAY agent interfaces with comprehensive OS elements including the web, terminals, files, and third-party applications through a three-component architecture of Planner, Configurator, and Actor.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\os_copilot.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">OS-Copilot's architecture enables comprehensive interaction with operating system components through self-improving capabilities</p>
-<p>The system implements working, declarative, and procedural memory inspired by human cognition, allowing it to learn from experience. When encountering new tasks, it can generate Python tools on demand and verify their success, storing working solutions for future use. This approach has led to impressive results on the GAIA benchmark and enabled mastery of complex applications like Excel and PowerPoint.</p>
-<p>You can explore more through their <a href="https://os-copilot.github.io/">project website</a>.</p>
-<h3 id="devin">Devin</h3>
-<p>Devin represents the next evolution in AI coding assistants by functioning as a complete development environment. Unlike traditional coding assistants that only suggest snippets, Devin operates autonomously with its own integrated terminal, editor, and browser.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\devin.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Devin's integrated development environment includes a terminal, editor, and browser for autonomous coding</p>
-<p>The system handles diverse engineering tasks from code migrations to CI/CD pipeline management, learning from codebases and adapting to team-specific workflows. For instance, when setting up a Next.js repository, Devin can autonomously clone the repo, understand setup instructions, install dependencies, and resolve any issues that arise.</p>
-<p>Learn more at <a href="https://devin.ai/">devin.ai</a>.</p>
-<h3 id="open-interpreter">Open-Interpreter</h3>
-<p>Open-Interpreter takes a different approach by providing a natural language interface to your computer's local capabilities. Unlike cloud-based solutions, it runs code directly on your machine with full system access.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\open_interpreter.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Open-Interpreter provides a natural language interface to your computer's capabilities through local code execution</p>
-<p>The system supports multiple programming languages and shell commands, with built-in safety controls through a code review system. Its flexibility enables diverse applications from data analysis to system administration, all through a ChatGPT-like terminal interface. With over 55,000 GitHub stars, it has demonstrated significant community adoption.</p>
-<p>Explore the project through their <a href="https://github.com/OpenInterpreter/open-interpreter">GitHub repository</a>.</p>
-<h3 id="claude-computer-use">Claude Computer Use</h3>
-<p>Claude 3.5 Sonnet introduces a novel approach to computer interaction by enabling direct control of screens, cursors, and keyboards through visual understanding. This allows Claude to interact with any application through its graphical interface, rather than requiring specific API integrations.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\claude_computer_use.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Claude can interact with computers through visual understanding and direct control of mouse and keyboard</p>
-<p>The system outperforms other AI systems on the OSWorld benchmark, scoring 14.9% in screenshot-only tasks compared to the next best system's 7.8%. When given more steps, it achieves 22.0% accuracy. The capability is currently in beta and available through Anthropic's API, as detailed in their <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">announcement</a> and <a href="https://docs.anthropic.com/en/docs/build-with-claude/computer-use">documentation</a>.</p>
-<h3 id="replit-agent">Replit Agent</h3>
-<p>Replit Agent integrates AI assistance directly into their cloud development environment, enabling end-to-end application development from natural language descriptions to production deployment.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\replit.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Replit Agent can develop and deploy web applications from natural language descriptions</p>
-<p>The system has already enabled impressive real-world applications, from custom health dashboards to interactive campus maps. Available to Replit Core subscribers, it maintains project context across development sessions and even supports mobile development through their app.</p>
-<p>Full details are available in their <a href="https://blog.replit.com/introducing-replit-agent">announcement</a> and <a href="https://docs.replit.com/replitai/agent">documentation</a>.</p>
-<h3 id="aide-(ai-data-engineer)">AIDE (AI Data Engineer)</h3>
-<p>AIDE pushes the boundaries of automated data science through its innovative Solution Space Tree Search (SSTS) approach. Unlike linear workflows, AIDE explores multiple solution paths simultaneously while iteratively refining promising approaches.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-17-llm-agents\aide_workflow.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">AIDE's Solution Space Tree Search explores multiple solution paths simultaneously</p>
-<p>The system has achieved impressive results, reaching top 1% performance on multiple Kaggle competitions while generating novel feature engineering approaches. Its comprehensive pipeline handles everything from data preprocessing to model selection, producing clean, maintainable code throughout the process.</p>
-<p>More details can be found in their <a href="https://www.weco.ai/blog/technical-report">technical report</a>.</p>
-<h2 id="references">References</h2>
+<h1 id="closing-remarks">Closing Remarks</h1>
+<p>We've talked about what agents are, how to implement them and the most important design patterns. By now, should have an idea about how to work with them and the incredible potential of these systems. They can augment existing AI capabilities and provide more robust solutions to complex problems. This makes them particularly well-suited for tasks that require dynamic decision-making and adaptability, such as automated customer support, data analysis, and even creative endeavors like content generation.</p>
+<p>While the promise of LLM agents is immense, there are still challenges to overcome. Their potential for such broad applications also means that we need to overcome many complex failure modes, with a varying degree of negative effects. The main reason for there not being many agents in production environment is that, although it is easy to develop one that works right most of the time, it become increasingly harder to fight the remaining proportion of failure cases.</p>
+<p>However, these challenges also present opportunities for innovation. As the field of LLM agents continues to evolve, there is a growing need for new tools, frameworks, and methodologies that can support the development and deployment of these systems. </p>
+<p>I wanted to write about the development ecosystem in this post, but it has already become too long, so I will reserve this along with examples of open and commercial applications and benchmarks of agentic skills for the next post. Next, I will upload another post showing the implementation of a ReAct agent from basic python. You can find it in its <a href="https://github.com/miguelvc6/react-agent">GitHub Repository</a>. The code is already finished, I just need some free time to keep writing in this blog. I also want to implement a comments section and an email subscription that notifies when a new post is published. For now, my email is open for anything.</p>
+<h1 id="references">References</h1>
 <div class="footnote">
 <hr/>
 <ol>
-<li id="fn:1">
-<p>Russell, S., &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th ed.). Pearson. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">↩</a></p>
-</li>
-<li id="fn:2">
-<p><a href="https://www.youtube.com/watch?v=sal78ACtGTc">What's next for AI agentic workflows ft. Andrew Ng of AI Fund</a> <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
-</li>
-<li id="fn:3">
-<p>Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a> <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">↩</a></p>
-</li>
-<li id="fn:4">
-<p>Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837. <a href="https://arxiv.org/abs/2201.11903">https://arxiv.org/abs/2201.11903</a> <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a></p>
-</li>
-<li id="fn:5">
-<p><a href="https://paperswithcode.com/sota/code-generation-on-humaneval">HumanEval Benchmark in paperswithcode</a> <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a></p>
-</li>
-<li id="fn:6">
-<p>CoALA: Cognitive Architectures for Language Agents. Sumers, Theodore R., et al Transactions on Machine Learning Research (oct 2024). <a href="https://arxiv.org/abs/2309.02427">https://arxiv.org/abs/2309.02427</a> <a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">↩</a></p>
-</li>
-<li id="fn:7">
-<p>Patil, Shishir G., et al. "Gorilla: Large language model connected with massive apis." arXiv preprint arXiv:2305.15334 (2023). <a href="https://arxiv.org/abs/2305.15334">https://arxiv.org/abs/2305.15334</a> <a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">↩</a></p>
-</li>
-<li id="fn:8">
-<p>Shen, Yongliang, et al. "Hugginggpt: Solving ai tasks with chatgpt and its friends in hugging face." Advances in Neural Information Processing Systems 36 (2024). <a href="https://arxiv.org/abs/2303.17580">https://arxiv.org/abs/2303.17580</a> <a class="footnote-backref" href="#fnref:8" title="Jump back to footnote 8 in the text">↩</a></p>
-</li>
 <li id="fn:9">
-<p>Qian, Chen, et al. "Communicative agents for software development." arXiv preprint arXiv:2307.07924 6 (2023). <a href="https://arxiv.org/abs/2307.07924">https://arxiv.org/abs/2307.07924</a> <a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 9 in the text">↩</a><a class="footnote-backref" href="#fnref2:9" title="Jump back to footnote 9 in the text">↩</a></p>
+<p>Qian, Chen, et al. "Communicative agents for software development." arXiv preprint arXiv:2307.07924 6 (2023). <a href="https://arxiv.org/abs/2307.07924">https://arxiv.org/abs/2307.07924</a> <a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:10">
-<p>Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023). <a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 10 in the text">↩</a></p>
+<p>Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023). <a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:11">
-<p>Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023. <a class="footnote-backref" href="#fnref:11" title="Jump back to footnote 11 in the text">↩</a></p>
+<p>Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023. <a class="footnote-backref" href="#fnref:11" title="Jump back to footnote 3 in the text">↩</a></p>
 </li>
 <li id="fn:12">
-<p>Bran, Andres M., et al. "ChemCrow: Augmenting large-language models with chemistry tools." arXiv preprint arXiv:2304.05376 (2023). <a href="https://arxiv.org/abs/2304.05376">https://arxiv.org/abs/2304.05376</a> <a class="footnote-backref" href="#fnref:12" title="Jump back to footnote 12 in the text">↩</a></p>
+<p>Bran, Andres M., et al. "ChemCrow: Augmenting large-language models with chemistry tools." arXiv preprint arXiv:2304.05376 (2023). <a href="https://arxiv.org/abs/2304.05376">https://arxiv.org/abs/2304.05376</a> <a class="footnote-backref" href="#fnref:12" title="Jump back to footnote 4 in the text">↩</a></p>
 </li>
 <li id="fn:13">
-<p>Wang, Guanzhi, et al. "Voyager: An open-ended embodied agent with large language models." arXiv preprint arXiv:2305.16291 (2023). <a href="https://arxiv.org/abs/2305.16291">https://arxiv.org/abs/2305.16291</a>^ <a class="footnote-backref" href="#fnref:13" title="Jump back to footnote 13 in the text">↩</a></p>
+<p>Wang, Guanzhi, et al. "Voyager: An open-ended embodied agent with large language models." arXiv preprint arXiv:2305.16291 (2023). <a href="https://arxiv.org/abs/2305.16291">https://arxiv.org/abs/2305.16291</a>^ <a class="footnote-backref" href="#fnref:13" title="Jump back to footnote 5 in the text">↩</a></p>
 </li>
 <li id="fn:14">
-<p>OS-Copilot: Towards Generalist Computer Agents with Self-Improvement. <a href="https://arxiv.org/abs/2402.07456">https://arxiv.org/abs/2402.07456</a> <a class="footnote-backref" href="#fnref:14" title="Jump back to footnote 14 in the text">↩</a></p>
+<p>OS-Copilot: Towards Generalist Computer Agents with Self-Improvement. <a href="https://arxiv.org/abs/2402.07456">https://arxiv.org/abs/2402.07456</a> <a class="footnote-backref" href="#fnref:14" title="Jump back to footnote 6 in the text">↩</a></p>
 </li>
 </ol>
 </div></section>
@@ -1623,6 +1171,12 @@ agent_chain.run("What's my friend Eric's surname?")
             </a>
             
             
+            
+            <a href="../2024-11-20-agents-ecosystem/content.html" class="nav-button next-button draft-nav">
+                Next: Agent Development Ecosystem
+                <span class="draft-label">(Draft)</span>
+                <i class="uil uil-angle-right"></i>
+            </a>
             
           </footer>
         </article>

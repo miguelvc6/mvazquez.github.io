@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="Miguel Vázquez Caraballo, Miguel Vázquez Caraballo GitHub, mvazquez-ai github, mvazquez-ai GitHub, 
+        mvazquez-ai, miguelvazquez, miguel vázquez c, vazq, Artificial Intelligence, AI, Deep Learning, Machine Learning, DL, ML, 
+        Web, web, app, developer, github, git, projects, tutorials, keywords, seo, artificial intelligence, deep learning, machine learning, 
+        dl, ml, deeplearning, machinelearning, DeepLearning, MachineLearning, Cybersecurity, cybersecurity, research, machine learning india, 
+        india, R&D, Vázquez, Caraballo, Vazquez"
+    />
+    <meta name="author" content="Miguel Vázquez" />
+    <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
+
+    <link rel="icon" href="../../../assets/img/favicon.ico" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+    <link rel="stylesheet" href="../../../assets/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
+
+    <title>Agent Development Ecosystem - Miguel's Blog</title>
+
+    <!-- Add Prism.js CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <!-- Add any language support you need -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                ],
+                throwOnError: false,
+                strict: false
+            });
+        });
+    </script>
+    <style>
+      /* Add scroll margin to compensate for fixed header */
+      :target {
+        scroll-margin-top: 40px; /* Adjust this value based on your header height */
+      }
+      
+      /* Alternative approach using scroll padding on html */
+      html {
+        scroll-padding-top: 40px; /* Adjust this value based on your header height */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Add zoom overlay div -->
+    <div class="zoom-overlay">
+      <img src="" alt="Zoomed image">
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="../../../index.html#home" class="nav__logo"><i class="uil uil-circle"></i> Miguel</a>
+        <div style="margin: 0 1rem;"></div>
+        <a href="../blog.html" class="nav__logo"><i class="uil uil-book-open"></i> Blog</a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list grid">
+            <li class="nav__item">
+              <a href="../../../index.html#home" class="nav__link"> <i class="uil uil-estate nav__icon"></i> Home </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#about" class="nav__link"> <i class="uil uil-user nav__icon"></i> About </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#skills" class="nav__link">
+                <i class="uil uil-chart-pie-alt nav__icon"></i> Skills
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#experience" class="nav__link">
+                <i class="uil uil-briefcase-alt nav__icon"></i> Experience
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#portfolio" class="nav__link">
+                <i class="uil uil-scenery nav__icon"></i> Portfolio
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#blog" class="nav__link active-link">
+                <i class="uil uil-blogger-alt nav__icon"></i> Blog
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#contact" class="nav__link"> <i class="uil uil-message nav__icon"></i> Contact </a>
+            </li>
+          </ul>
+
+          <i class="uil uil-times nav__close" id="nav-close"></i>
+        </div>
+
+        <div class="nav__btns">
+          <i class="uil uil-moon change-theme" id="theme-button"></i>
+
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="uil uil-apps"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="container">
+        <article class="blog-post">
+          <header class="blog-post__header">
+            <h1 class="blog-post__title">
+                Agent Development Ecosystem
+                
+                <span class="draft-badge">Draft</span>
+                
+            </h1>
+            <p class="blog-post__meta">
+              Date: 2024-11-20 | Estimated Reading Time: 14 minutes | Author: Miguel Vázquez
+            </p>
+          </header>
+
+          <nav class="table-of-contents">
+            <details>
+              <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+              </summary>
+              
+              <div class="inner">
+                <ul>
+                  
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#development-frameworks" aria-label="Development Frameworks">Development Frameworks</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#openai-assistants" aria-label="OpenAI Assistants">OpenAI Assistants</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#langchain" aria-label="LangChain">LangChain</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#autogen" aria-label="AutoGen">AutoGen</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#crewai" aria-label="CrewAI">CrewAI</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        </ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#notable-open-source-agent-projects" aria-label="Notable Open Source Agent Projects">Notable Open Source Agent Projects</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#babyagi" aria-label="BabyAGI">BabyAGI</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#generative-agents" aria-label="Generative Agents">Generative Agents</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#chatdev" aria-label="ChatDev">ChatDev</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#chemcrow" aria-label="ChemCrow">ChemCrow</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#voyager" aria-label="Voyager">Voyager</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        </ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#commercial-agent-applications-&-products" aria-label="Commercial Agent Applications & Products">Commercial Agent Applications & Products</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#os-copilot" aria-label="OS-Copilot">OS-Copilot</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#devin" aria-label="Devin">Devin</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#open-interpreter" aria-label="Open-Interpreter">Open-Interpreter</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#claude-computer-use" aria-label="Claude Computer Use">Claude Computer Use</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#replit-agent" aria-label="Replit Agent">Replit Agent</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#aide-(ai-data-engineer)" aria-label="AIDE (AI Data Engineer)">AIDE (AI Data Engineer)</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        </ul>
+                      
+                        </ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#closing-remarks" aria-label="Closing Remarks">Closing Remarks</a>
+                    </li>
+                    
+                  
+                    
+                      
+                        <ul>
+                      
+                    
+                    
+                    <li>
+                      <a href="#references" aria-label="References">References</a>
+                    </li>
+                    
+                      
+                        </ul>
+                      
+                    
+                  
+                </ul>
+              </div>
+            </details>
+          </nav>
+
+          <section class="blog-post__content"><p>The landscape of LLM agent development has rapidly evolved, giving rise to a rich ecosystem of frameworks, tools, and applications. While it's possible to build agents from scratch using basic LLM APIs, modern development frameworks provide abstractions and pre-built tools that significantly accelerate the development process. These frameworks handle common challenges like prompt management, tool integration, and memory systems, allowing developers to focus on their specific use cases.</p>
+<p>In this section, we'll explore the major frameworks powering agent development today, examine notable examples of successful agent implementations, and look at some of the emerging products and applications in this space. Whether you're building a simple task-specific agent or a complex multi-agent system, understanding this ecosystem will help you choose the right tools and approaches for your needs.</p>
+<h2 id="development-frameworks">Development Frameworks</h2>
+<p>Several frameworks have emerged to facilitate the development of LLM agents, each with its own strengths and trade-offs:</p>
+<h3 id="openai-assistants">OpenAI Assistants</h3>
+<p>The OpenAI Assistants API provides the most polished out-of-the-box experience for building agents. The framework comes with comprehensive built-in capabilities for function calling and tool use, allowing developers to quickly integrate custom actions into their agents. It features robust file handling and retrieval systems, making it easy to work with documents and data. Additionally, it includes a powerful code interpreter for executing Python code and advanced image analysis capabilities. The framework also handles conversation management through its thread system, maintaining context across multiple interactions seamlessly.</p>
+<p>However, it's limited to OpenAI's models and has less flexibility in customization compared to other frameworks.</p>
+<h3 id="langchain">LangChain</h3>
+<p>LangChain is the most comprehensive and widely-used framework for building LLM applications. The framework stands out for its extensive integration ecosystem, supporting a wide range of LLM providers and external tools. Its flexible architecture provides powerful abstractions for building complex workflows, while maintaining clarity and modularity. The vibrant community has contributed numerous components and extensions, creating a rich ecosystem of ready-to-use solutions. LangChain offers sophisticated memory management with support for various types of memory and storage solutions, and includes a comprehensive set of pre-built agents and tools for common use cases.</p>
+<p>The framework's flexibility makes it suitable for both simple chatbots and complex multi-agent systems, though this versatility can come with a steeper learning curve.</p>
+<h3 id="autogen">AutoGen</h3>
+<p>AutoGen specializes in building multi-agent systems with a focus on simplicity and scalability. The framework provides a streamlined API that makes agent-to-agent communication intuitive and efficient, while supporting parallel execution for improved performance. Its conversation management system is specifically designed for complex multi-agent interactions, handling message routing and context maintenance automatically. AutoGen integrates naturally with popular development tools, making it easy to incorporate into existing workflows. The framework particularly shines in scenarios requiring group chat-like interactions between agents, with built-in support for various conversation patterns.</p>
+<p>While more focused than LangChain, AutoGen excels in scenarios requiring multiple cooperating agents.</p>
+<h3 id="crewai">CrewAI</h3>
+<p>CrewAI emphasizes human-like collaboration patterns in multi-agent systems. The framework implements a role-based architecture that mirrors real-world team structures, making it intuitive to design complex agent interactions. Its process-oriented task management system helps organize and coordinate work between agents effectively. CrewAI provides access to a vast ecosystem of pre-built agent templates, significantly reducing development time for common use cases. The framework seamlessly integrates with popular development tools and emphasizes hierarchical team structures, making it particularly suitable for business applications.</p>
+<p>While only partially open-source, CrewAI offers powerful abstractions for building collaborative agent systems.</p>
+<p>The choice of framework often depends on specific requirements like model flexibility, deployment constraints, and complexity of the intended agent system.</p>
+<ul>
+<li>
+<p>Choose <strong>OpenAI Assistants</strong> for quick prototypes and production-ready single agents</p>
+</li>
+<li>
+<p>Use <strong>LangChain</strong> for maximum flexibility and complex custom solutions</p>
+</li>
+<li>
+<p>Pick <strong>AutoGen</strong> when building systems with multiple interacting agents</p>
+</li>
+<li>
+<p>Select <strong>CrewAI</strong> for business processes that mirror human team structures</p>
+</li>
+</ul>
+<h2 id="notable-open-source-agent-projects">Notable Open Source Agent Projects</h2>
+<p>The open source community has been at the forefront of LLM agent innovation, producing several groundbreaking projects that push the boundaries of what's possible with this technology. From autonomous agents that can learn and explore virtual environments to collaborative systems that mimic human research teams, these projects serve as both technical demonstrations and foundations for future development.</p>
+<p>Let's explore some of the most influential open source agent projects that have emerged in recent years. Each of these implementations showcases unique approaches to agent architecture, demonstrates novel capabilities, and has contributed valuable insights to the field.</p>
+<h3 id="babyagi">BabyAGI</h3>
+<p>BabyAGI[^9] represents one of the earliest and most influential autonomous agent projects, with its latest iteration BabyAGI 2o focusing on self-building capabilities. Unlike traditional agents with fixed toolsets, BabyAGI 2o can dynamically create and register new tools as needed to complete user-defined tasks. The agent analyzes tasks, determines what tools it needs, writes the code for those tools, and executes them - all without human intervention.</p>
+<p>Key features that make BabyAGI notable:</p>
+<ul>
+<li>
+<p>Dynamic tool creation and updating based on task requirements</p>
+</li>
+<li>
+<p>Automatic package management and dependency handling</p>
+</li>
+<li>
+<p>Iterative error handling and self-improvement</p>
+</li>
+<li>
+<p>Support for multiple LLM backends through litellm</p>
+</li>
+<li>
+<p>Ability to handle diverse tasks from web scraping to image generation</p>
+</li>
+</ul>
+<p>For example, BabyAGI 2o can autonomously create tools to scrape news headlines, analyze images, or even generate creative content by combining multiple APIs. This flexibility and self-improving nature has made it an important reference architecture for autonomous agent development.</p>
+<p>You can explore BabyAGI 2o through these resources:</p>
+<ul>
+<li>
+<p><a href="https://github.com/yoheinakajima/babyagi-2o">BabyAGI 2o GitHub Repository</a></p>
+</li>
+<li>
+<p><a href="https://x.com/yoheinakajima/status/1847160880674623762">Demo: BabyAGI 2o creating tools for news analysis</a></p>
+</li>
+<li>
+<p><a href="https://x.com/yoheinakajima/status/1839398354364838366">Original BabyAGI announcement and demo</a></p>
+</li>
+</ul>
+<h3 id="generative-agents">Generative Agents</h3>
+<p>Generative Agents<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> is a fascinating research project that explores how LLM-powered agents can simulate believable human behavior in interactive environments. Created by researchers at Stanford, this project places 25 autonomous agents in a sandbox world inspired by The Sims, where they live, work, and interact with each other naturally.</p>
+<p>Key features of the architecture:</p>
+<ul>
+<li>
+<p><strong>Memory Stream</strong>: A comprehensive database that records agents' experiences in natural language, including both direct observations and inter-agent communications</p>
+</li>
+<li>
+<p><strong>Retrieval System</strong>: Surfaces relevant context based on three factors:</p>
+</li>
+<li>Recency: Prioritizes recent events</li>
+<li>Importance: Distinguishes between mundane and core memories</li>
+<li>
+<p>Relevance: Considers relationship to current situation</p>
+</li>
+<li>
+<p><strong>Reflection Mechanism</strong>: Synthesizes memories into higher-level inferences that guide future behavior</p>
+</li>
+<li>
+<p><strong>Planning &amp; Reaction</strong>: Translates reflections and environmental information into actions, considering relationships between agents</p>
+</li>
+</ul>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\generative_agents.webp" width="100%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Generative Agents places LLMs in a virtual environment simulating a town where they can freely interact with each other. </p>
+<p>The simulation demonstrates emergent social behaviors like:</p>
+<ul>
+<li>
+<p>Information spreading through the community</p>
+</li>
+<li>
+<p>Relationship memory (agents continuing previous conversations)</p>
+</li>
+<li>
+<p>Spontaneous social event organization</p>
+</li>
+<li>
+<p>Development of opinions and preferences based on experiences</p>
+</li>
+</ul>
+<p>For example, agents wake up, cook breakfast, and head to work; artists create while authors write; they form opinions, notice each other, and initiate conversations. They can remember past interactions and use them to plan future activities, creating a rich tapestry of simulated social life.</p>
+<p>This project showcases how LLM agents can create complex, believable behaviors through the combination of memory, planning, and social interaction systems. The emergent behaviors demonstrate the potential for using such systems to study human social dynamics or create more realistic NPCs in games.</p>
+<h3 id="chatdev">ChatDev</h3>
+<p>ChatDev is an innovative open-source project that simulates a virtual software company powered by LLM agents. The system creates a collaborative environment where multiple specialized agents work together to develop software from natural language descriptions, similar to how human teams operate in real software companies.</p>
+<p>Key features:</p>
+<ul>
+<li>
+<p><strong>Role-Based Architecture</strong>: Includes specialized agents like CEO, CTO, Programmers, Reviewers, and Testers</p>
+</li>
+<li>
+<p><strong>Natural Communication</strong>: Agents collaborate through natural language discussions to design, implement and test software</p>
+</li>
+<li>
+<p><strong>Comprehensive Development Process</strong>: Handles the complete software lifecycle from requirements analysis to testing</p>
+</li>
+<li>
+<p><strong>Customizable Framework</strong>: Allows defining custom roles, development processes, and tool integrations</p>
+</li>
+<li>
+<p><strong>Multi-Agent Collaboration</strong>: Leverages different agent perspectives and expertise to produce better solutions</p>
+</li>
+</ul>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\chatdev.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">ChatDev integrates LLM agents with various social roles, working autonomously to develop comprehensive software solutions via multi-agent collaboration.</p>
+<p>For example, when given a task to create a game, the CEO agent might first analyze requirements and create a project plan, the CTO would design the technical architecture, programmers would implement the code, reviewers would check for issues, and testers would verify functionality - all coordinating through natural language conversations.</p>
+<p>The project demonstrates how structured multi-agent systems can tackle complex creative tasks by breaking them down into specialized roles and facilitating effective communication between agents. You can explore ChatDev through:</p>
+<ul>
+<li>
+<p><a href="https://github.com/OpenBMB/ChatDev">GitHub Repository</a></p>
+</li>
+<li>
+<p><a href="https://chatdev.toscl.com/">Interactive Demo Platform</a></p>
+</li>
+</ul>
+<h3 id="chemcrow">ChemCrow</h3>
+<p>ChemCrow<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> is a specialized LLM agent designed for complex chemistry tasks across organic synthesis, drug discovery, and materials design. Rather than relying on general chemistry knowledge, ChemCrow integrates 18 expert-designed chemistry tools that enable it to perform sophisticated chemical analysis and planning.</p>
+<p>Key features:</p>
+<ul>
+<li>
+<p><strong>Comprehensive Toolset</strong>: Includes tools for molecular analysis, safety checks, reaction prediction, and literature search</p>
+</li>
+<li>
+<p><strong>Safety-First Design</strong>: Automated checks for chemical weapons, explosives, and general safety considerations</p>
+</li>
+<li>
+<p><strong>Multi-Step Planning</strong>: Can design and validate complex synthesis pathways</p>
+</li>
+<li>
+<p><strong>Literature Integration</strong>: Combines web search and scientific paper analysis for up-to-date information</p>
+</li>
+<li>
+<p><strong>Python Integration</strong>: Built-in REPL for computational chemistry tasks</p>
+</li>
+</ul>
+<p>The tools are organized into four main categories:</p>
+<ol>
+<li><strong>General Tools</strong>: Web search, literature search, Python REPL</li>
+<li><strong>Molecule Tools</strong>: Structure analysis, pricing, patent checking, similarity comparison</li>
+<li><strong>Safety Tools</strong>: Chemical weapon checks, explosive detection, safety summaries</li>
+<li><strong>Chemical Reaction Tools</strong>: Reaction naming, prediction, and synthesis planning</li>
+</ol>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\chemcrow_process.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">ChemCrow's workflow combines expert tools with LLM reasoning for chemistry tasks</p>
+<p>ChemCrow follows a "Thought, Action, Action Input, Observation" workflow where it:</p>
+<ol>
+<li>Reasons about the current state and goal</li>
+<li>Selects appropriate chemistry tools</li>
+<li>Executes actions and observes results</li>
+<li>Iterates until reaching the solution</li>
+</ol>
+<p>The system can integrate with robotic lab systems like IBM's RoboRXN for physical synthesis execution, bridging the gap between computational and experimental chemistry.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\chemcrow_human_colab.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">ChemCrow is designed to collaborate with human chemists, combining AI capabilities with expert oversight</p>
+<p><a href="https://www.insilicochemistry.io/tutorials/foundations/gpt-4-for-chemistry#h.vb7wz0s6qbcr">Source: In Silico Chemistry</a></p>
+<h3 id="voyager">Voyager</h3>
+<p>Voyager<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup> is a groundbreaking LLM-powered agent that demonstrates autonomous learning and exploration in Minecraft. Unlike traditional game AI that follows predefined objectives, Voyager continuously explores its environment, develops new skills, and makes discoveries without human intervention.</p>
+<p>Key components:</p>
+<ul>
+<li>
+<p><strong>Automatic Curriculum</strong>: Generates exploration goals based on current skills and world state</p>
+</li>
+<li>
+<p><strong>Skill Library</strong>: Stores and retrieves executable code for complex behaviors</p>
+</li>
+<li>
+<p><strong>Iterative Prompting</strong>: Refines code through environment feedback and self-verification</p>
+</li>
+</ul>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\voyager.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Voyager's curriculum generation process adapts to the agent's current capabilities and environment</p>
+<p>The agent demonstrates impressive capabilities:</p>
+<ul>
+<li>
+<p>Discovers 3.3x more unique items than previous approaches</p>
+</li>
+<li>
+<p>Traverses 2.3x longer distances across diverse terrains</p>
+</li>
+<li>
+<p>Unlocks tech tree milestones up to 15.3x faster than prior methods</p>
+</li>
+<li>
+<p>Successfully transfers skills to new worlds and tasks</p>
+</li>
+</ul>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\voyager_tech_discovery.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Voyager progressively discovers new technologies and crafting abilities through autonomous exploration</p>
+<p>For example, if Voyager finds itself in a desert, it will prioritize learning to harvest sand and cactus before pursuing iron collection. The agent continuously refines its skills based on environmental feedback and stores mastered behaviors in its skill library for future use, much like how human players learn and adapt to the game.</p>
+<p>You can explore Voyager through the <a href="https://voyager.minedojo.org/">project website</a>, which includes detailed documentation, examples, and research findings.</p>
+<h2 id="commercial-agent-applications-&amp;-products">Commercial Agent Applications &amp; Products</h2>
+<p>The transition from research to production has begun, with companies deploying agent technology in real-world applications. These implementations often combine multiple advanced capabilities like code generation, tool use, and multi-agent collaboration into cohesive products that showcase what's currently possible with LLM agents.</p>
+<h3 id="os-copilot">OS-Copilot</h3>
+<p>OS-Copilot<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> breaks new ground by creating a generalist computer agent that can interact with entire operating systems. Its FRIDAY agent interfaces with comprehensive OS elements including the web, terminals, files, and third-party applications through a three-component architecture of Planner, Configurator, and Actor.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\os_copilot.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">OS-Copilot's architecture enables comprehensive interaction with operating system components through self-improving capabilities</p>
+<p>The system implements working, declarative, and procedural memory inspired by human cognition, allowing it to learn from experience. When encountering new tasks, it can generate Python tools on demand and verify their success, storing working solutions for future use. This approach has led to impressive results on the GAIA benchmark and enabled mastery of complex applications like Excel and PowerPoint.</p>
+<p>You can explore more through their <a href="https://os-copilot.github.io/">project website</a>.</p>
+<h3 id="devin">Devin</h3>
+<p>Devin represents the next evolution in AI coding assistants by functioning as a complete development environment. Unlike traditional coding assistants that only suggest snippets, Devin operates autonomously with its own integrated terminal, editor, and browser.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\devin.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Devin's integrated development environment includes a terminal, editor, and browser for autonomous coding</p>
+<p>The system handles diverse engineering tasks from code migrations to CI/CD pipeline management, learning from codebases and adapting to team-specific workflows. For instance, when setting up a Next.js repository, Devin can autonomously clone the repo, understand setup instructions, install dependencies, and resolve any issues that arise.</p>
+<p>Learn more at <a href="https://devin.ai/">devin.ai</a>.</p>
+<h3 id="open-interpreter">Open-Interpreter</h3>
+<p>Open-Interpreter takes a different approach by providing a natural language interface to your computer's local capabilities. Unlike cloud-based solutions, it runs code directly on your machine with full system access.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\open_interpreter.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Open-Interpreter provides a natural language interface to your computer's capabilities through local code execution</p>
+<p>The system supports multiple programming languages and shell commands, with built-in safety controls through a code review system. Its flexibility enables diverse applications from data analysis to system administration, all through a ChatGPT-like terminal interface. With over 55,000 GitHub stars, it has demonstrated significant community adoption.</p>
+<p>Explore the project through their <a href="https://github.com/OpenInterpreter/open-interpreter">GitHub repository</a>.</p>
+<h3 id="claude-computer-use">Claude Computer Use</h3>
+<p>Claude 3.5 Sonnet introduces a novel approach to computer interaction by enabling direct control of screens, cursors, and keyboards through visual understanding. This allows Claude to interact with any application through its graphical interface, rather than requiring specific API integrations.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\claude_computer_use.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Claude can interact with computers through visual understanding and direct control of mouse and keyboard</p>
+<p>The system outperforms other AI systems on the OSWorld benchmark, scoring 14.9% in screenshot-only tasks compared to the next best system's 7.8%. When given more steps, it achieves 22.0% accuracy. The capability is currently in beta and available through Anthropic's API, as detailed in their <a href="https://www.anthropic.com/news/3-5-models-and-computer-use">announcement</a> and <a href="https://docs.anthropic.com/en/docs/build-with-claude/computer-use">documentation</a>.</p>
+<h3 id="replit-agent">Replit Agent</h3>
+<p>Replit Agent integrates AI assistance directly into their cloud development environment, enabling end-to-end application development from natural language descriptions to production deployment.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\replit.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Replit Agent can develop and deploy web applications from natural language descriptions</p>
+<p>The system has already enabled impressive real-world applications, from custom health dashboards to interactive campus maps. Available to Replit Core subscribers, it maintains project context across development sessions and even supports mobile development through their app.</p>
+<p>Full details are available in their <a href="https://blog.replit.com/introducing-replit-agent">announcement</a> and <a href="https://docs.replit.com/replitai/agent">documentation</a>.</p>
+<h3 id="aide-(ai-data-engineer)">AIDE (AI Data Engineer)</h3>
+<p>AIDE pushes the boundaries of automated data science through its innovative Solution Space Tree Search (SSTS) approach. Unlike linear workflows, AIDE explores multiple solution paths simultaneously while iteratively refining promising approaches.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\aide_workflow.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">AIDE's Solution Space Tree Search explores multiple solution paths simultaneously</p>
+<p>The system has achieved impressive results, reaching top 1% performance on multiple Kaggle competitions while generating novel feature engineering approaches. Its comprehensive pipeline handles everything from data preprocessing to model selection, producing clean, maintainable code throughout the process.</p>
+<p>More details can be found in their <a href="https://www.weco.ai/blog/technical-report">technical report</a>.</p>
+<h1 id="closing-remarks">Closing Remarks</h1>
+<h2 id="references">References</h2>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023). <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:2">
+<p>Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:3">
+<p>Bran, Andres M., et al. "ChemCrow: Augmenting large-language models with chemistry tools." arXiv preprint arXiv:2304.05376 (2023). <a href="https://arxiv.org/abs/2304.05376">https://arxiv.org/abs/2304.05376</a> <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:4">
+<p>Wang, Guanzhi, et al. "Voyager: An open-ended embodied agent with large language models." arXiv preprint arXiv:2305.16291 (2023). <a href="https://arxiv.org/abs/2305.16291">https://arxiv.org/abs/2305.16291</a>^ <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+<li id="fn:5">
+<p>OS-Copilot: Towards Generalist Computer Agents with Self-Improvement. <a href="https://arxiv.org/abs/2402.07456">https://arxiv.org/abs/2402.07456</a> <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a></p>
+</li>
+</ol>
+</div></section>
+
+          <div class="share-buttons">
+            <h3 class="share-title">Share this post</h3>
+            <div class="share-icons">
+              <!-- Twitter/X -->
+              <a href="https://twitter.com/intent/tweet?url=https%3A//mvazquez.ai/blog/output/2024-11-20-agents-ecosystem/content.html&text=Agent%20Development%20Ecosystem"
+                 target="_blank"
+                 class="share-button twitter"
+                 aria-label="Share on Twitter">
+                <i class="uil uil-twitter"></i>
+              </a>
+              
+              <!-- LinkedIn -->
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//mvazquez.ai/blog/output/2024-11-20-agents-ecosystem/content.html&title=Agent%20Development%20Ecosystem"
+                 target="_blank"
+                 class="share-button linkedin"
+                 aria-label="Share on LinkedIn">
+                <i class="uil uil-linkedin"></i>
+              </a>
+              
+              <!-- Copy Link -->
+              <button class="share-button copy-link" aria-label="Copy link to clipboard">
+                <i class="uil uil-link"></i>
+              </button>
+            </div>
+          </div>
+
+          <footer class="article-navigation">
+            
+            <a href="../2024-11-17-llm-agents/content.html" class="nav-button prev-button draft-nav">
+                <i class="uil uil-angle-left"></i>
+                Previous: LLM Agents
+                <span class="draft-label">(Draft)</span>
+            </a>
+            
+            
+            
+          </footer>
+        </article>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__bg">
+        <div class="footer__container container grid">
+          <div>
+            <h1 class="footer__title">Miguel</h1>
+            <span class="footer__subtitle">Machine Learning Engineer</span>
+          </div>
+
+          <ul class="footer__links">
+            <li>
+              <a href="index.html#about" class="footer__link">About</a>
+            </li>
+            <li>
+              <a href="index.html#portfolio" class="footer__link">Portfolio</a>
+            </li>
+            <li>
+              <a href="index.html#contact" class="footer__link">Contact</a>
+            </li>
+          </ul>
+
+          <div class="footer__socials">
+            <a href="https://github.com/miguelvc6" target="_blank" class="footer__social">
+              <i class="uil uil-github-alt"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/miguel-v%C3%A1zquez-caraballo-177ba8225/"
+              target="_blank"
+              class="footer__social"
+            >
+              <i class="uil uil-linkedin-alt"></i>
+            </a>
+            <a href="mailto:miguel@mvazquez.ai" target="_blank" class="footer__social">
+              <i class="uil uil-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <p class="footer__copy">&#169; Miguel 2024</p>
+      </div>
+    </footer>
+
+    <script>
+      // Add image zoom functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.querySelector('.zoom-overlay');
+        const overlayImg = overlay.querySelector('img');
+        
+        document.querySelectorAll('.blog-post__content img').forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlayImg.src = this.src;
+            overlayImg.alt = this.alt;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        overlay.addEventListener('click', function() {
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // Theme
+      const themeButton = document.getElementById('theme-button')
+      const darkTheme = 'dark-theme'
+      const iconTheme = 'uil-sun'
+
+      // Previously selected theme (checking from localStorage)
+      const selectedTheme = localStorage.getItem('selected-theme')
+      const selectedIcon = localStorage.getItem('selected-icon')
+
+      // Get current theme
+      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+
+      // Validate if user previously chose a theme
+      if (selectedTheme) {
+        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+      }
+
+      // Activate / deactivate the theme manually with the button
+      themeButton.addEventListener('click', () => {
+        // Add or remove the dark / icon theme
+        document.body.classList.toggle(darkTheme)
+        themeButton.classList.toggle(iconTheme)
+        // Save the theme and the current icon that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        localStorage.setItem('selected-icon', getCurrentIcon())
+      })
+
+      // Copy link functionality
+      document.querySelector('.copy-link').addEventListener('click', function() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+          this.classList.add('copied');
+          setTimeout(() => {
+            this.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,16 +1,16 @@
 # LLM Agents
 
-Over the last few weeks, I have been imparting in a full fledged course on LLMs at my job at oga.ai. It is a fast-pace, deep dive consisting on eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry. This has been the first time I have done something like this, and considering I have prepared it fully on my own and that the alumni are professional engineers and data scientists I really am proud of the results.
+Over the last few weeks, I have been imparting a full-fledged course on LLMs at my job at oga.ai. It is a fast-paced, deep-dive program consisting of eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry.
 
-The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even tough they are in beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents on production environment, they really shine with potential.
+The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even though they are in the beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents in production environments, they really shine with potential.
 
-The course is in Spanish, and with it being internal to the company I can not freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.
+The course is in Spanish, and with it being internal to the company I cannot freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.
 
 In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part.
 
-In the following couple posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure python (we will see in this post what these are), and I will probably implement a more complex one using a framework like langchain or autogen.
+In the following couple of posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure Python (we will see in this post what these are), and I will probably implement a more complex one using a framework like LangChain or AutoGen.
 
-Finally, I want to use an agent to expand my [Torch-Tracer Project](https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html), with the objective that it needs the least amount of human input as possible.
+Finally, I want to use an agent to expand my [Torch-Tracer Project](https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html), with the objective that it needs as little human input as possible.
 
 # What are agents?
 
@@ -32,7 +32,7 @@ This means that a rational agent will try to accomplish an objective as defined 
 
 A **"LLM agent"** is one that uses a LLM as its _brain_ to reason. The central idea is that they use a language model to choose what **actions** they take to **accomplish an objective** given a current **state** or environment.
 
-If you are familiar with prompt chains, as the ones used in langchain and in Retrieval Augmented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.
+If you are familiar with prompt chains, as the ones used in LangChain and in Retrieval Augmented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.
 
 ### Agentic workflows
 
@@ -46,7 +46,7 @@ In a regular LLM workflow you ask the LLM to write an essay about some topic X. 
 
 <p style="text-align:center; font-style: italic;">Regular LLM workflow to write an essay. </p>
 
-In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take actions to better write the essay. It could decide to start by specifying the essay's structure and researching about the topic in a external data storage (data bases, documents, the internet...). Then it may decide to write a first draft and iteratively improve it until it is finished. At any point of the process it can reflect about what is the best action to take among the set of possible actions, which gives it all these capabilities. Obviously, this workflow will often give better results that the first direct approach.
+In an agentic workflow, you remove all those restrictions. The agent will be able to reason to take actions to better write the essay. It could decide to start by specifying the essay's structure and researching the topic in an external data storage (databases, documents, the internet...). Then it may decide to write a first draft and iteratively improve it until it is finished. At any point in the process it can reflect on what the best action to take among the set of possible actions, which gives it all these capabilities. Obviously, this workflow will often give better results than the first direct approach.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/agentic_llm_workflow.webp" width="80%" />
@@ -54,7 +54,7 @@ In an agentic workflow, you remove all those restrictions. The agent will be abl
 
 <p style="text-align:center; font-style: italic;">Agentic LLM workflows allow to take to choose what actions to take to get the best results. </p>
 
-LLM agents are based on the chain-of-thought. By dividing a complex problem in simpler subproblems, it can solve them sequentially to reach the final answer.
+LLM agents are based on the chain-of-thought. By dividing a complex problem into simpler subproblems, it can solve them sequentially to reach the final answer.
 
 1. **Plan** what action to take to get closer to its objective.
 2. Perform an **action** and **observe** its consequences.
@@ -66,9 +66,9 @@ LLM agents are based on the chain-of-thought. By dividing a complex problem in s
 
 <p style="text-align:center; font-style: italic;">Agentic LLM workflows as loop: Plan, Act, Observe. </p>
 
-As a simple example, consider the common case of a software developer that uses chatGPT to write a code program. They start stating the problem and asking the model to "think step by step". The agent **plans** the actions it should take. Then it **writes** the code. The developer copies that code, pastes it in the script and runs the program. If it fails, they paste the **error trace** to chatgpt to fix it, and if it **works** then the task is finished.
+As a simple example, consider the common case of a software developer that uses ChatGPT to write a code program. They start by stating the problem and asking the model to "think step by step". The agent **plans** the actions it should take. Then it **writes** the code. The developer copies that code, pastes it into the script and runs the program. If it fails, they paste the **error trace** to ChatGPT to fix it, and if it **works** then the task is finished.
 
-If you automatize this in a loop, it becomes a simple agentic workflow, where the words in bold font correspond to planning, acting and observing.
+If you automate this in a loop, it becomes a simple agentic workflow, where the words in bold font correspond to planning, acting and observing.
 
 All the text that is generated by the model during a task is called the **reasoning trace**.
 
@@ -86,7 +86,7 @@ With this environment they compare four different approaches: standard zero-shot
 
 <p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
 
-In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct is created to fight this problem.
+In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/react_02.webp" width="80%" />
@@ -94,7 +94,7 @@ In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) cha
 
 <p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
 
-In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state of the art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.
+In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able to plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state-of-the-art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.
 
 ### Actions as tools
 
@@ -104,19 +104,19 @@ To implement agents we need to define a **set of possible actions for the agent 
 -   Search the web.
 -   Using an external database.
 -   Using a calculator or symbolic programming.
--   Using a python code interpreter.
+-   Using a Python code interpreter.
 
-This possible actions are commonly referred as **tools**, and the a set of actions is a **tool box**.
+These possible actions are commonly referred to as **tools**, and a set of actions is a **toolbox**.
 
-As an example, chatGPT has access to three different tools.
+As an example, ChatGPT has access to three different tools.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/chatgpt_tools.webp" width="80%" />
 </p>
 
-<p style="text-align:center; font-style: italic;">The gpt-4o model from the chatGPT web UI has access to web browsing, Dall-e image generator, and code interpreter. </p>
+<p style="text-align:center; font-style: italic;">The GPT-4 model from the ChatGPT web UI has access to web browsing, DALL·E image generator, and code interpreter. </p>
 
-At the time of writing gpt-4o has the knowledge cut date of October 2024. That means that the pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about events posterior to that dat, it will use a web search tool to retrieve the necessary information.
+At the time of writing GPT-4 has the knowledge cutoff date of October 2024. That means that the pretraining has data until that date, and it knows nothing that happened thereafter. If I ask it about events after that date, it will use a web search tool to retrieve the necessary information.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/chatgpt_web_search.webp" width="80%" />
@@ -124,13 +124,13 @@ At the time of writing gpt-4o has the knowledge cut date of October 2024. That m
 
 <p style="text-align:center; font-style: italic;">GPT does not know the democratic candidate of 2024, so it uses web search tool to answer . </p>
 
-In this [conversation](https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a) I make chatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am writing this post, it is not possible to share conversations in which dall-e is used to generate images, but you can guess how it works: you ask chatgpt to generate an image of a puppy and it decides to call dall-e, writing the image prompt by itself.
+In this [conversation](https://chatgpt.com/share/e/6734e362-6720-800a-ad98-0fe320703b3a) I make ChatGPT use the code interpreter tool to generate a plot to showcase it. As of the moment I am writing this post, it is not possible to share conversations in which DALL·E is used to generate images, but you can guess how it works: you ask ChatGPT to generate an image of a puppy and it decides to call DALL·E, writing the image prompt by itself.
 
-Another example is the [langchain tools](https://python.langchain.com/docs/integrations/tools/). These are implemented in the langchain library to be used by language models, and there is a great number and variety of them: several web search providers and code interpreters, a few productivity tools like github, jira or gmail; tools to access databases and even more.
+Another example is the [LangChain tools](https://Python.LangChain.com/docs/integrations/tools/). These are implemented in the LangChain library to be used by language models, and there is a great number and variety of them: several web search providers and code interpreters, a few productivity tools like GitHub, Jira, or Gmail; tools to access databases and even more.
 
 ## Agent Showcase
 
-Let's proceed with an agent full workflow as an example. In this case we have an agent, let's call him JARVIS, that assist the user with data queries.
+Let's proceed with a full agent workflow as an example. In this case we have an agent, let's call him JARVIS, that assists the user with data queries.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/workflow_example.webp" width="90%" />
@@ -195,7 +195,7 @@ The diagram above reflects how even seemingly simple tasks require agents to bre
 
 ### Reasoning Trace
 
-Trough all this process the LLM generates text that is recursively added to the prompt. This generated text is the reasoning trace.
+Through all this process the LLM generates text that is recursively added to the prompt. This generated text is the reasoning trace.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/reasoning_trace.webp" width="80%" />
@@ -205,15 +205,15 @@ Trough all this process the LLM generates text that is recursively added to the 
 
 There are only two ways for a language model to access information: weight updates and prompts (in context learning). Since we are only using inference during an agentic task, this means all information about the conversation with the user and the current state that is needed to accomplish the objective must be passed through the prompt for every call. This makes prompt management a crucial aspect of agents.
 
-The simplest approach to accomplish this is to paste all the user interaction and the reasoning trace for every call to the model. This works well for simple tasks that do not generate much text, that does not need access to big quantities of external data and that do not depend on previous interactions with the same or other users. For other tasks a more complex and customized prompt management strategy must be implemented. Trough this post many agent design patterns that can be useful will be explained.
+The simplest approach to accomplish this is to paste all the user interaction and the reasoning trace for every call to the model. This works well for simple tasks that do not generate much text, that does not need access to large quantities of external data and that do not depend on previous interactions with the same or other users. For other tasks a more complex and customized prompt management strategy must be implemented. Through this post many agent design patterns that can be useful will be explained.
 
 ### Code Implementation
 
-I will now show a simple implementation of the example using langchain. I will use the OpenAI api for the language model.
+I will now show a simple implementation of the example using LangChain. I will use the OpenAI api for the language model.
 
-Fist we build a sample database.
+First, we build a sample database.
 
-```python
+```Python
 # 01_create_and_fill_database.py
 import sqlite3
 import os
@@ -337,14 +337,14 @@ conn.close()
 
 <p style="text-align:center; font-style: italic;">Sample database schema.</p>
 
-Now let's implement a simple agent using langchain. First we need to import the necessary libraries and set up our database connection and language model:
+Now let's implement a simple agent using LangChain. First we need to import the necessary libraries and set up our database connection and language model:
 
-```python
-from langchain.utilities import SQLDatabase
-from langchain.agents.agent_types import AgentType
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-from langchain.agents import create_sql_agent
-from langchain_community.llms.openai import OpenAI
+```Python
+from LangChain.utilities import SQLDatabase
+from LangChain.agents.agent_types import AgentType
+from LangChain.agents.agent_toolkits import SQLDatabaseToolkit
+from LangChain.agents import create_sql_agent
+from LangChain_community.llms.openai import OpenAI
 
 # define the database we want to use for our test
 db = SQLDatabase.from_uri("sqlite:///sql_lite_database.db")
@@ -357,9 +357,9 @@ llm = OpenAI(
 )
 ```
 
-With our database and language model ready, we can create the agent. We'll use langchain's SQL toolkit and the ReAct agent type:
+With our database and language model ready, we can create the agent. We'll use LangChain's SQL toolkit and the ReAct agent type:
 
-```python
+```Python
 # setup agent
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 agent_executor = create_sql_agent(
@@ -382,7 +382,7 @@ The output shows the agent's reasoning trace as it works through the problem. Le
 
 The agent concludes that there are 25 customers in the database.
 
-```python
+```Python
 > Entering new SQL Agent Executor chain...
 Action: sql_db_list_tables
 Action Input: AGENTS, CUSTOMER, ORDERS I should query the schema of the CUSTOMER table to see how many customers are in the database.
@@ -419,17 +419,17 @@ Final Answer: 25
 
 This example demonstrates how the agent breaks down the problem into logical steps and uses the available tools to reach the correct answer, following the ReAct pattern we discussed earlier.
 
-Here langchain does most of the work for us with the `create_sql_agent` function, which allows us to have our ReAct agent in few lines of code. In the next blog post I will implement a similar agent from python, since this post is already getting long.
+Here LangChain does most of the work for us with the `create_sql_agent` function, which allows us to have our ReAct agent in a few lines of code. In the next blog post, I will implement a similar agent in Python, since this post is already getting long.
 
 ### AgentGPT
 
-As a second showcase of an agent I want to mention [AgentGPT](https://agentgpt.reworkd.ai/). I recommend you create a free account and give it some task. For example, ask it to _Parse the data of the current season of the Spanish football league's first division and export it in a csv file_. It will search the web for the appropriate data, initialize a python environment with some libraries, write a web scraping script and run it, and finally return the .csv file to the user. From a free account it will run out of iterations before achieving it, but it still is a good showcase of what a simple agent is able to do.
+As a second showcase of an agent I want to mention [AgentGPT](https://agentgpt.reworkd.ai/). I recommend you create a free account and give it some task. For example, ask it to parse the data of the current season of the Spanish football league's first division and export it in a csv file. It will search the web for the appropriate data, initialize a Python environment with some libraries, write a web scraping script and run it, and finally return the .csv file to the user. From a free account it will run out of iterations before achieving it, but it still is a good showcase of what a simple agent is able to do.
 
 ## Why use agents?
 
-By this point I hope to have delivered an initial idea of what agents are. If you are still not convinced on their power, by the end of this post you will be. For now I want to clearly explain some of their best attributes in this section.
+By this point I hope to have delivered an initial idea of what agents are. If you are still not convinced of their power, by the end of this post you will be. For now I want to clearly explain some of their best attributes in this section.
 
-The first thing to understand is that agents can _augment_ anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example this are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval[^5], a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation og GPT-4 reaching close to a 100% pass.
+The first thing to understand is that agents can _augment_ anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example these are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval[^5], a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation of GPT-4 reaching close to a 100% pass.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/humaneval_agents.webp" width="100%" />
@@ -443,22 +443,22 @@ Other advantages of agents are:
 -   They are able to recover from errors.
 -   They can perform complex workflows without having to explicitly program them like you would in prompt chaining.
 
-For example, let's consider a SQL Rag system that:
+For example, let's consider a SQL RAG system that:
 
 1. Takes a natural language query as input.
 2. Transforms the query into SQL.
 3. Retrieves the results of the query from the database.
 4. Communicates results back to the user.
 
-This is a rag workflow that works for simple tasks, but what happens if the SQL query returns an error? Or the retrieved data is different from what was expected? Or if the user's query is complex and needs to query several tables to return the correct answer?
+This is a RAG workflow that works for simple tasks, but what happens if the SQL query returns an error? Or the retrieved data is different from what was expected? Or if the user's query is complex and needs to query several tables to return the correct answer?
 
 These limitations of RAG systems are effectively addressed by agents.
 
 ## Memory in Agents
 
-The last basic component of agents that we need to talk about is **memory**. Earlier in the post I teased the question when talking about the reasoning trace. Large Language Memory do not have _memory_ of past interactions: all information for a call must passed through the prompt.
+The last basic component of agents that we need to talk about is **memory**. Earlier in the post I teased the question when talking about the reasoning trace. Large Language Models do not have _memory_ of past interactions: all information for a call must be passed through the prompt.
 
-So how do we implement the memory in our agent? The truth is that there is not a stablished solution yet, and it depends heavily on the system that is being built.
+So how do we implement the memory in our agent? The truth is that there is not an established solution yet, and it depends heavily on the system that is being built.
 
 What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents[^6], Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.
 
@@ -564,9 +564,9 @@ An illustrative example is the HuggingGPT paper[^8], which uses planning in orde
 
 ## Multi-Agent Systems
 
-Some complex use cases might be too much for a single agent to solve. In multi-agent systems a set of agents interact with each other and with the environment to achieve the objectives, trough a collaborative, competitive or hybrid effort.
+Some complex use cases might be too much for a single agent to solve. In multi-agent systems a set of agents interact with each other and with the environment to achieve the objectives, through a collaborative, competitive, or hybrid effort.
 
-These systems can be as simple as two agents performing the same tasks as a single agent divided between them, which simplifies the prompt and state managements as well as allowing for a more intuitive system design with specified roles and tasks, or as complex as a multitudinary swarm of agents with complex and differentiated behaviors which can show emergence of new properties.
+These systems can be as simple as two agents performing the same tasks as a single agent divided between them, which simplifies the prompt and state management as well as allowing for a more intuitive system design with specified roles and tasks, or as complex as a multitudinous swarm of agents with complex and differentiated behaviors which can show emergence of new properties.
 
 <p align="center">
   <img src="../../media/2024-11-17-llm-agents/multi_agents_critic.webp" width="80%" />
@@ -647,7 +647,7 @@ Some tasks have natural completion criteria based on their domain:
 
 In practice, most systems combine multiple termination conditions:
 
-```python
+```Python
 def agent_execution():
     max_iterations = 100
     while iterations < max_iterations:
@@ -678,13 +678,13 @@ Some key scenarios where HITL is valuable:
 -   **Learning**: Using human feedback to improve agent performance
 -   **Safety**: Acting as a safeguard against potential harmful actions
 
-Humans can be thought of as a AGI tool - they have general problem-solving capabilities and can provide input that helps agents overcome their limitations.
+Humans can be thought of as an AGI tool - they have general problem-solving capabilities and can provide input that helps agents overcome their limitations.
 
 #### Implementation Approaches
 
 There are several ways to implement HITL in agent systems:
 
-```python
+```Python
 # Example of a simple human-in-the-loop tool
 class HumanInputTool:
     def run(self, query: str) -> str:
@@ -701,11 +701,11 @@ if confidence_score < THRESHOLD:
         return alternative_action()
 ```
 
-Langchain provides an already implemented human tool.
+LangChain provides an already implemented human tool.
 
-```python
-from langchain.agents import AgentType, initialize_agent, load_tools
-from langchain_openai import ChatOpenAI, OpenAI
+```Python
+from LangChain.agents import AgentType, initialize_agent, load_tools
+from LangChain_openai import ChatOpenAI, OpenAI
 
 llm = ChatOpenAI(temperature=0.0)
 math_llm = OpenAI(temperature=0.0)
@@ -735,280 +735,18 @@ The key is finding the right balance between agent autonomy and human oversight:
 
 By incorporating HITL effectively, agents can leverage human expertise while maintaining efficient operation. This creates a symbiotic system where both automated and human intelligence work together to achieve optimal results.
 
-# Agent Development Ecosystem
+# Closing Remarks
 
-The landscape of LLM agent development has rapidly evolved, giving rise to a rich ecosystem of frameworks, tools, and applications. While it's possible to build agents from scratch using basic LLM APIs, modern development frameworks provide abstractions and pre-built tools that significantly accelerate the development process. These frameworks handle common challenges like prompt management, tool integration, and memory systems, allowing developers to focus on their specific use cases.
+We've talked about what agents are, how to implement them and the most important design patterns. By now, you should have an idea about how to work with them and the incredible potential of these systems. They can augment existing AI capabilities and provide more robust solutions to complex problems. This makes them particularly well-suited for tasks that require dynamic decision-making and adaptability, such as automated customer support, data analysis, and even creative endeavors like content generation.
 
-In this section, we'll explore the major frameworks powering agent development today, examine notable examples of successful agent implementations, and look at some of the emerging products and applications in this space. Whether you're building a simple task-specific agent or a complex multi-agent system, understanding this ecosystem will help you choose the right tools and approaches for your needs.
+While the promise of LLM agents is immense, there are still challenges to overcome. Their potential for such broad applications also means that we need to overcome many complex failure modes, with varying degrees of negative effects. The main reason for there not being many agents in production environments is that, although it is easy to develop one that works right most of the time, it becomes increasingly harder to fight the remaining proportion of failure cases.
 
-## Development Frameworks
+However, these challenges also present opportunities for innovation. As the field of LLM agents continues to evolve, there is a growing need for new tools, frameworks, and methodologies that can support the development and deployment of these systems. 
 
-Several frameworks have emerged to facilitate the development of LLM agents, each with its own strengths and trade-offs:
+I wanted to write about the development ecosystem in this post, but it has already become too long, so I will reserve this along with examples of open and commercial applications and benchmarks of agentic skills for the next post. Next, I will upload another post showing the implementation of a ReAct agent from basic Python. You can find it in its [GitHub repository](https://github.com/miguelvc6/react-agent). The code is already finished, I just need some free time to keep writing in this blog. I also want to implement a comments section and an email subscription that notifies when a new post is published. In the meantime, feel free to contact me via email.
 
-### OpenAI Assistants
+# References
 
-The OpenAI Assistants API provides the most polished out-of-the-box experience for building agents. The framework comes with comprehensive built-in capabilities for function calling and tool use, allowing developers to quickly integrate custom actions into their agents. It features robust file handling and retrieval systems, making it easy to work with documents and data. Additionally, it includes a powerful code interpreter for executing Python code and advanced image analysis capabilities. The framework also handles conversation management through its thread system, maintaining context across multiple interactions seamlessly.
-
-However, it's limited to OpenAI's models and has less flexibility in customization compared to other frameworks.
-
-### LangChain
-
-LangChain is the most comprehensive and widely-used framework for building LLM applications. The framework stands out for its extensive integration ecosystem, supporting a wide range of LLM providers and external tools. Its flexible architecture provides powerful abstractions for building complex workflows, while maintaining clarity and modularity. The vibrant community has contributed numerous components and extensions, creating a rich ecosystem of ready-to-use solutions. LangChain offers sophisticated memory management with support for various types of memory and storage solutions, and includes a comprehensive set of pre-built agents and tools for common use cases.
-
-The framework's flexibility makes it suitable for both simple chatbots and complex multi-agent systems, though this versatility can come with a steeper learning curve.
-
-### AutoGen
-
-AutoGen specializes in building multi-agent systems with a focus on simplicity and scalability. The framework provides a streamlined API that makes agent-to-agent communication intuitive and efficient, while supporting parallel execution for improved performance. Its conversation management system is specifically designed for complex multi-agent interactions, handling message routing and context maintenance automatically. AutoGen integrates naturally with popular development tools, making it easy to incorporate into existing workflows. The framework particularly shines in scenarios requiring group chat-like interactions between agents, with built-in support for various conversation patterns.
-
-While more focused than LangChain, AutoGen excels in scenarios requiring multiple cooperating agents.
-
-### CrewAI
-
-CrewAI emphasizes human-like collaboration patterns in multi-agent systems. The framework implements a role-based architecture that mirrors real-world team structures, making it intuitive to design complex agent interactions. Its process-oriented task management system helps organize and coordinate work between agents effectively. CrewAI provides access to a vast ecosystem of pre-built agent templates, significantly reducing development time for common use cases. The framework seamlessly integrates with popular development tools and emphasizes hierarchical team structures, making it particularly suitable for business applications.
-
-While only partially open-source, CrewAI offers powerful abstractions for building collaborative agent systems.
-
-The choice of framework often depends on specific requirements like model flexibility, deployment constraints, and complexity of the intended agent system.
-
--   Choose **OpenAI Assistants** for quick prototypes and production-ready single agents
--   Use **LangChain** for maximum flexibility and complex custom solutions
--   Pick **AutoGen** when building systems with multiple interacting agents
--   Select **CrewAI** for business processes that mirror human team structures
-
-## Notable Open Source Agent Projects
-
-The open source community has been at the forefront of LLM agent innovation, producing several groundbreaking projects that push the boundaries of what's possible with this technology. From autonomous agents that can learn and explore virtual environments to collaborative systems that mimic human research teams, these projects serve as both technical demonstrations and foundations for future development.
-
-Let's explore some of the most influential open source agent projects that have emerged in recent years. Each of these implementations showcases unique approaches to agent architecture, demonstrates novel capabilities, and has contributed valuable insights to the field.
-
-### BabyAGI
-
-BabyAGI[^9] represents one of the earliest and most influential autonomous agent projects, with its latest iteration BabyAGI 2o focusing on self-building capabilities. Unlike traditional agents with fixed toolsets, BabyAGI 2o can dynamically create and register new tools as needed to complete user-defined tasks. The agent analyzes tasks, determines what tools it needs, writes the code for those tools, and executes them - all without human intervention.
-
-Key features that make BabyAGI notable:
-- Dynamic tool creation and updating based on task requirements
-- Automatic package management and dependency handling
-- Iterative error handling and self-improvement
-- Support for multiple LLM backends through litellm
-- Ability to handle diverse tasks from web scraping to image generation
-
-For example, BabyAGI 2o can autonomously create tools to scrape news headlines, analyze images, or even generate creative content by combining multiple APIs. This flexibility and self-improving nature has made it an important reference architecture for autonomous agent development.
-
-You can explore BabyAGI 2o through these resources:
-- [BabyAGI 2o GitHub Repository](https://github.com/yoheinakajima/babyagi-2o)
-- [Demo: BabyAGI 2o creating tools for news analysis](https://x.com/yoheinakajima/status/1847160880674623762)
-- [Original BabyAGI announcement and demo](https://x.com/yoheinakajima/status/1839398354364838366)
-
-### Generative Agents
-
-Generative Agents[^11] is a fascinating research project that explores how LLM-powered agents can simulate believable human behavior in interactive environments. Created by researchers at Stanford, this project places 25 autonomous agents in a sandbox world inspired by The Sims, where they live, work, and interact with each other naturally.
-
-Key features of the architecture:
-- **Memory Stream**: A comprehensive database that records agents' experiences in natural language, including both direct observations and inter-agent communications
-- **Retrieval System**: Surfaces relevant context based on three factors:
-  - Recency: Prioritizes recent events
-  - Importance: Distinguishes between mundane and core memories
-  - Relevance: Considers relationship to current situation
-- **Reflection Mechanism**: Synthesizes memories into higher-level inferences that guide future behavior
-- **Planning & Reaction**: Translates reflections and environmental information into actions, considering relationships between agents
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/generative_agents.webp" width="100%" />
-</p>
-<p style="text-align:center; font-style: italic;">Generative Agents places LLMs in a virtual environment simulating a town where they can freely interact with each other. </p>
-
-The simulation demonstrates emergent social behaviors like:
-- Information spreading through the community
-- Relationship memory (agents continuing previous conversations)
-- Spontaneous social event organization
-- Development of opinions and preferences based on experiences
-
-For example, agents wake up, cook breakfast, and head to work; artists create while authors write; they form opinions, notice each other, and initiate conversations. They can remember past interactions and use them to plan future activities, creating a rich tapestry of simulated social life.
-
-This project showcases how LLM agents can create complex, believable behaviors through the combination of memory, planning, and social interaction systems. The emergent behaviors demonstrate the potential for using such systems to study human social dynamics or create more realistic NPCs in games.
-
-### ChatDev
-
-ChatDev is an innovative open-source project that simulates a virtual software company powered by LLM agents. The system creates a collaborative environment where multiple specialized agents work together to develop software from natural language descriptions, similar to how human teams operate in real software companies.
-
-Key features:
-- **Role-Based Architecture**: Includes specialized agents like CEO, CTO, Programmers, Reviewers, and Testers
-- **Natural Communication**: Agents collaborate through natural language discussions to design, implement and test software
-- **Comprehensive Development Process**: Handles the complete software lifecycle from requirements analysis to testing
-- **Customizable Framework**: Allows defining custom roles, development processes, and tool integrations
-- **Multi-Agent Collaboration**: Leverages different agent perspectives and expertise to produce better solutions
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/chatdev.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">ChatDev integrates LLM agents with various social roles, working autonomously to develop comprehensive software solutions via multi-agent collaboration.</p>
-
-For example, when given a task to create a game, the CEO agent might first analyze requirements and create a project plan, the CTO would design the technical architecture, programmers would implement the code, reviewers would check for issues, and testers would verify functionality - all coordinating through natural language conversations.
-
-The project demonstrates how structured multi-agent systems can tackle complex creative tasks by breaking them down into specialized roles and facilitating effective communication between agents. You can explore ChatDev through:
-- [GitHub Repository](https://github.com/OpenBMB/ChatDev)
-- [Interactive Demo Platform](https://chatdev.toscl.com/)
-
-### ChemCrow
-
-ChemCrow[^12] is a specialized LLM agent designed for complex chemistry tasks across organic synthesis, drug discovery, and materials design. Rather than relying on general chemistry knowledge, ChemCrow integrates 18 expert-designed chemistry tools that enable it to perform sophisticated chemical analysis and planning.
-
-Key features:
-- **Comprehensive Toolset**: Includes tools for molecular analysis, safety checks, reaction prediction, and literature search
-- **Safety-First Design**: Automated checks for chemical weapons, explosives, and general safety considerations
-- **Multi-Step Planning**: Can design and validate complex synthesis pathways
-- **Literature Integration**: Combines web search and scientific paper analysis for up-to-date information
-- **Python Integration**: Built-in REPL for computational chemistry tasks
-
-The tools are organized into four main categories:
-1. **General Tools**: Web search, literature search, Python REPL
-2. **Molecule Tools**: Structure analysis, pricing, patent checking, similarity comparison
-3. **Safety Tools**: Chemical weapon checks, explosive detection, safety summaries
-4. **Chemical Reaction Tools**: Reaction naming, prediction, and synthesis planning
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/chemcrow_process.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">ChemCrow's workflow combines expert tools with LLM reasoning for chemistry tasks</p>
-
-ChemCrow follows a "Thought, Action, Action Input, Observation" workflow where it:
-1. Reasons about the current state and goal
-2. Selects appropriate chemistry tools
-3. Executes actions and observes results
-4. Iterates until reaching the solution
-
-The system can integrate with robotic lab systems like IBM's RoboRXN for physical synthesis execution, bridging the gap between computational and experimental chemistry.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/chemcrow_human_colab.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">ChemCrow is designed to collaborate with human chemists, combining AI capabilities with expert oversight</p>
-
-[Source: In Silico Chemistry](https://www.insilicochemistry.io/tutorials/foundations/gpt-4-for-chemistry#h.vb7wz0s6qbcr)
-
-
-### Voyager
-
-Voyager[^13] is a groundbreaking LLM-powered agent that demonstrates autonomous learning and exploration in Minecraft. Unlike traditional game AI that follows predefined objectives, Voyager continuously explores its environment, develops new skills, and makes discoveries without human intervention.
-
-Key components:
-- **Automatic Curriculum**: Generates exploration goals based on current skills and world state
-- **Skill Library**: Stores and retrieves executable code for complex behaviors
-- **Iterative Prompting**: Refines code through environment feedback and self-verification
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/voyager.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Voyager's curriculum generation process adapts to the agent's current capabilities and environment</p>
-
-The agent demonstrates impressive capabilities:
-- Discovers 3.3x more unique items than previous approaches
-- Traverses 2.3x longer distances across diverse terrains
-- Unlocks tech tree milestones up to 15.3x faster than prior methods
-- Successfully transfers skills to new worlds and tasks
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/voyager_tech_discovery.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Voyager progressively discovers new technologies and crafting abilities through autonomous exploration</p>
-
-For example, if Voyager finds itself in a desert, it will prioritize learning to harvest sand and cactus before pursuing iron collection. The agent continuously refines its skills based on environmental feedback and stores mastered behaviors in its skill library for future use, much like how human players learn and adapt to the game.
-
-You can explore Voyager through the [project website](https://voyager.minedojo.org/), which includes detailed documentation, examples, and research findings.
-
-## Commercial Agent Applications & Products
-
-The transition from research to production has begun, with companies deploying agent technology in real-world applications. These implementations often combine multiple advanced capabilities like code generation, tool use, and multi-agent collaboration into cohesive products that showcase what's currently possible with LLM agents.
-
-### OS-Copilot
-
-OS-Copilot[^14] breaks new ground by creating a generalist computer agent that can interact with entire operating systems. Its FRIDAY agent interfaces with comprehensive OS elements including the web, terminals, files, and third-party applications through a three-component architecture of Planner, Configurator, and Actor.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/os_copilot.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">OS-Copilot's architecture enables comprehensive interaction with operating system components through self-improving capabilities</p>
-
-The system implements working, declarative, and procedural memory inspired by human cognition, allowing it to learn from experience. When encountering new tasks, it can generate Python tools on demand and verify their success, storing working solutions for future use. This approach has led to impressive results on the GAIA benchmark and enabled mastery of complex applications like Excel and PowerPoint.
-
-You can explore more through their [project website](https://os-copilot.github.io/).
-
-### Devin
-
-Devin represents the next evolution in AI coding assistants by functioning as a complete development environment. Unlike traditional coding assistants that only suggest snippets, Devin operates autonomously with its own integrated terminal, editor, and browser.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/devin.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Devin's integrated development environment includes a terminal, editor, and browser for autonomous coding</p>
-
-The system handles diverse engineering tasks from code migrations to CI/CD pipeline management, learning from codebases and adapting to team-specific workflows. For instance, when setting up a Next.js repository, Devin can autonomously clone the repo, understand setup instructions, install dependencies, and resolve any issues that arise.
-
-Learn more at [devin.ai](https://devin.ai/).
-
-### Open-Interpreter
-
-Open-Interpreter takes a different approach by providing a natural language interface to your computer's local capabilities. Unlike cloud-based solutions, it runs code directly on your machine with full system access.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/open_interpreter.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Open-Interpreter provides a natural language interface to your computer's capabilities through local code execution</p>
-
-The system supports multiple programming languages and shell commands, with built-in safety controls through a code review system. Its flexibility enables diverse applications from data analysis to system administration, all through a ChatGPT-like terminal interface. With over 55,000 GitHub stars, it has demonstrated significant community adoption.
-
-Explore the project through their [GitHub repository](https://github.com/OpenInterpreter/open-interpreter).
-
-### Claude Computer Use
-
-Claude 3.5 Sonnet introduces a novel approach to computer interaction by enabling direct control of screens, cursors, and keyboards through visual understanding. This allows Claude to interact with any application through its graphical interface, rather than requiring specific API integrations.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/claude_computer_use.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Claude can interact with computers through visual understanding and direct control of mouse and keyboard</p>
-
-The system outperforms other AI systems on the OSWorld benchmark, scoring 14.9% in screenshot-only tasks compared to the next best system's 7.8%. When given more steps, it achieves 22.0% accuracy. The capability is currently in beta and available through Anthropic's API, as detailed in their [announcement](https://www.anthropic.com/news/3-5-models-and-computer-use) and [documentation](https://docs.anthropic.com/en/docs/build-with-claude/computer-use).
-
-### Replit Agent
-
-Replit Agent integrates AI assistance directly into their cloud development environment, enabling end-to-end application development from natural language descriptions to production deployment.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/replit.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">Replit Agent can develop and deploy web applications from natural language descriptions</p>
-
-The system has already enabled impressive real-world applications, from custom health dashboards to interactive campus maps. Available to Replit Core subscribers, it maintains project context across development sessions and even supports mobile development through their app.
-
-Full details are available in their [announcement](https://blog.replit.com/introducing-replit-agent) and [documentation](https://docs.replit.com/replitai/agent).
-
-### AIDE (AI Data Engineer)
-
-AIDE pushes the boundaries of automated data science through its innovative Solution Space Tree Search (SSTS) approach. Unlike linear workflows, AIDE explores multiple solution paths simultaneously while iteratively refining promising approaches.
-
-<p align="center">
-  <img src="../../media/2024-11-17-llm-agents/aide_workflow.webp" width="80%" />
-</p>
-<p style="text-align:center; font-style: italic;">AIDE's Solution Space Tree Search explores multiple solution paths simultaneously</p>
-
-The system has achieved impressive results, reaching top 1% performance on multiple Kaggle competitions while generating novel feature engineering approaches. Its comprehensive pipeline handles everything from data preprocessing to model selection, producing clean, maintainable code throughout the process.
-
-More details can be found in their [technical report](https://www.weco.ai/blog/technical-report).
-
-
-
-## References
-
-[^1]: Russell, S., & Norvig, P. (2020). _Artificial Intelligence: A Modern Approach_ (4th ed.). Pearson.
-[^2]: [What's next for AI agentic workflows ft. Andrew Ng of AI Fund](https://www.youtube.com/watch?v=sal78ACtGTc)
-[^3]: Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). [https://arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629)
-[^4]: Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837. [https://arxiv.org/abs/2201.11903](https://arxiv.org/abs/2201.11903)
-[^5]: [HumanEval Benchmark in paperswithcode](https://paperswithcode.com/sota/code-generation-on-humaneval)
-[^6]: CoALA: Cognitive Architectures for Language Agents. Sumers, Theodore R., et al Transactions on Machine Learning Research (oct 2024). [https://arxiv.org/abs/2309.02427](https://arxiv.org/abs/2309.02427)
-[^7]: Patil, Shishir G., et al. "Gorilla: Large language model connected with massive apis." arXiv preprint arXiv:2305.15334 (2023). [https://arxiv.org/abs/2305.15334](https://arxiv.org/abs/2305.15334)
-[^8]: Shen, Yongliang, et al. "Hugginggpt: Solving ai tasks with chatgpt and its friends in hugging face." Advances in Neural Information Processing Systems 36 (2024). [https://arxiv.org/abs/2303.17580](https://arxiv.org/abs/2303.17580)
 [^9]: Qian, Chen, et al. "Communicative agents for software development." arXiv preprint arXiv:2307.07924 6 (2023). [https://arxiv.org/abs/2307.07924](https://arxiv.org/abs/2307.07924)
 [^10]: Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023).
 [^11]: Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023.
