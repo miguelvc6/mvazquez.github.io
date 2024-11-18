@@ -2,13 +2,13 @@
 
 Over the last few weeks, I have been imparting a full-fledged course on LLMs at my job at oga.ai. It is a fast-paced, deep-dive program consisting of eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry.
 
-The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even though they are in the beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents in production environments, they really shine with potential.
+The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even though they are in the beginning phase of development, they commit many errors and are difficult to control, so much so that there are few agents in production environments, they really shine with potential.
 
 The course is in Spanish, and with it being internal to the company I cannot freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.
 
-In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part.
+In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part. In the second, I showcase the development tools used for LLM agents as well as many examples from the industry and the academia. 
 
-In the following couple of posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure Python (we will see in this post what these are), and I will probably implement a more complex one using a framework like LangChain or AutoGen.
+In the following couple of posts, I plan to program and explain in depth one or two agents. I have already implemented a ReAct agent in pure Python (we will see in this post what these are), and I will probably implement a more complex one using a framework like LangChain or AutoGen.
 
 Finally, I want to use an agent to expand my [Torch-Tracer Project](https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html), with the objective that it needs as little human input as possible.
 
