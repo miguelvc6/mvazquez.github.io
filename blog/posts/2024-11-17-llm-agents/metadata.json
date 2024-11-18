@@ -3,6 +3,6 @@
     "author": "Miguel Vázquez",
     "summary": "Overview of LLM agents, how they work and how to implement them, along with examples.",
     "title": "LLM Agents",
-    "estimated_reading_time": 36,
-    "draft": true
+    "estimated_reading_time": 37,
+    "draft": false
 }

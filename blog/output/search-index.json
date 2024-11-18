@@ -1,5 +1,12 @@
 [
   {
+    "title": "LLM Agents",
+    "date": "2024-11-17",
+    "url": "2024-11-17-llm-agents/content.html",
+    "content": "# LLM Agents Over the last few weeks, I have been imparting a full-fledged course on LLMs at my job at oga.ai. It is a fast-paced, deep-dive program consisting of eight lessons of two hours each, and ",
+    "author": "Miguel Vázquez"
+  },
+  {
     "title": "Torch Tracer - GPU accelerated ray-tracing with PyTorch",
     "date": "2024-11-12",
     "url": "2024-11-12-torch-tracing-01/content.html",

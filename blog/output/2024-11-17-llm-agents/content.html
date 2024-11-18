@@ -143,11 +143,9 @@
             <h1 class="blog-post__title">
                 LLM Agents
                 
-                <span class="draft-badge">Draft</span>
-                
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-17 | Estimated Reading Time: 36 minutes | Author: Miguel Vázquez
+              Date: 2024-11-17 | Estimated Reading Time: 37 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -448,17 +446,17 @@
           </nav>
 
           <section class="blog-post__content"><p>Over the last few weeks, I have been imparting a full-fledged course on LLMs at my job at oga.ai. It is a fast-paced, deep-dive program consisting of eight lessons of two hours each, and covers much of the current landscape of LLMs in the industry.</p>
-<p>The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even though they are in the beginning phase of development and they commit many errors and are difficult to control, so much so that there are few agents in production environments, they really shine with potential.</p>
+<p>The fifth module of the course is about LLM agents, and it has been the most exciting one to prepare and teach, with the seventh about large multimodal models (LMMs) being a close second. Agents truly are a striking application of technology and the results that they can achieve are truly impressive. Even though they are in the beginning phase of development, they commit many errors and are difficult to control, so much so that there are few agents in production environments, they really shine with potential.</p>
 <p>The course is in Spanish, and with it being internal to the company I cannot freely share the videos and materials on my own. Still, I want to write about LLM agents in a series of blog posts.</p>
-<p>In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part.</p>
-<p>In the following couple of posts, I plan to write and explain in depth one or two agents. I have already implemented a ReAct agent in pure Python (we will see in this post what these are), and I will probably implement a more complex one using a framework like LangChain or AutoGen.</p>
+<p>In this first post, I will cover the basics of agents, how they work and how to implement them, along with a few examples. It will be fairly technical at the beginning, but once the basics are covered we can go on to the practical part. In the second, I showcase the development tools used for LLM agents as well as many examples from the industry and the academia. </p>
+<p>In the following couple of posts, I plan to program and explain in depth one or two agents. I have already implemented a ReAct agent in pure Python (we will see in this post what these are), and I will probably implement a more complex one using a framework like LangChain or AutoGen.</p>
 <p>Finally, I want to use an agent to expand my <a href="https://mvazquez.ai/blog/output/2024-11-12-torch-tracing-01/content.html">Torch-Tracer Project</a>, with the objective that it needs as little human input as possible.</p>
 <h1 id="what-are-agents?">What are agents?</h1>
-<p>Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as[^1]</p>
+<p>Artificial Intelligence: A Modern Approach defines an <strong>"agent"</strong> as<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 <blockquote>
 <p><em>"Anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators"</em></p>
 </blockquote>
-<p>This definition gives a general idea of what agents do, but it is way too broad, since a simple thermostat has sensors and actuators. A smarter definition is the one of a <strong>"rational agent"</strong> [^1]</p>
+<p>This definition gives a general idea of what agents do, but it is way too broad, since a simple thermostat has sensors and actuators. A smarter definition is the one of a <strong>"rational agent"</strong> <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 <blockquote>
 <p><em>"For each possible percept sequence, a rational agent should select an action that is expected to maximize its performance measure, given the evidence provided by the percept sequence and whatever built-in knowledge the agent has."</em></p>
 </blockquote>
@@ -470,7 +468,7 @@
 <p>A <strong>"LLM agent"</strong> is one that uses a LLM as its <em>brain</em> to reason. The central idea is that they use a language model to choose what <strong>actions</strong> they take to <strong>accomplish an objective</strong> given a current <strong>state</strong> or environment.</p>
 <p>If you are familiar with prompt chains, as the ones used in LangChain and in Retrieval Augmented Generation (RAG), they have many things in common with agents, but agents are more flexible and can show more complex behavior as it chooses what action to take at each moment by itself, while in chaining the possible workflow of the actions is fixed, rigidly specified in code.</p>
 <h3 id="agentic-workflows">Agentic workflows</h3>
-<p>An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay. This analogy comes from Andrew Ng[^2].</p>
+<p>An analogy that I find illustrative to understand LLM agents can be made with the writing of an essay. This analogy comes from Andrew Ng<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
 <p>In a regular LLM workflow you ask the LLM to write an essay about some topic X. Since they are autoregressive models, they will write it directly from the beginning to the end without ever going back to fix errors or improve any section, or stopping to reflect and research more about topic X. This task would be very difficult for most humans, and yet LLMs are surprisingly good at it.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\regular_llm_workflow.webp" width="80%"/>
@@ -492,17 +490,17 @@
 </p>
 <p style="text-align:center; font-style: italic;">Agentic LLM workflows as loop: Plan, Act, Observe. </p>
 <p>As a simple example, consider the common case of a software developer that uses ChatGPT to write a code program. They start by stating the problem and asking the model to "think step by step". The agent <strong>plans</strong> the actions it should take. Then it <strong>writes</strong> the code. The developer copies that code, pastes it into the script and runs the program. If it fails, they paste the <strong>error trace</strong> to ChatGPT to fix it, and if it <strong>works</strong> then the task is finished.</p>
-<p>If you automate this in a loop, it becomes a simple agentic workflow, where the words in bold font correspond to planning, acting and observing.</p>
+<p>If you automate this in a loop, it becomes a simple agentic workflow, where the words in bold font from the previous paragraph correspond to planning, acting and observing.</p>
 <p>All the text that is generated by the model during a task is called the <strong>reasoning trace</strong>.</p>
 <h3 id="react-agents">ReAct agents</h3>
-<p>You might have noticed that the planning step is not strictly necessary. An agent could just observe the environment and act, and in fact the first agents based on LLMs did just that, but they did not work too well. In 2022 in the ReAct paper[^3] Yao, Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.</p>
-<p>The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."[^3]</p>
+<p>You might have noticed that the planning step is not strictly necessary. An agent could just observe the environment and act, and in fact the first agents based on LLMs did just that, but they did not work too well. In 2022 in the ReAct paper<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup> Yao, Shunyu, et al. introduced the Reason + Act framework and showed that it works better than just acting.</p>
+<p>The setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."<sup id="fnref2:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
 <p>With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\react_01.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
-<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.</p>
+<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>, but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\react_02.webp" width="80%"/>
 </p>
@@ -827,7 +825,7 @@ Final Answer: 25
 <p>As a second showcase of an agent I want to mention <a href="https://agentgpt.reworkd.ai/">AgentGPT</a>. I recommend you create a free account and give it some task. For example, ask it to parse the data of the current season of the Spanish football league's first division and export it in a csv file. It will search the web for the appropriate data, initialize a Python environment with some libraries, write a web scraping script and run it, and finally return the .csv file to the user. From a free account it will run out of iterations before achieving it, but it still is a good showcase of what a simple agent is able to do.</p>
 <h2 id="why-use-agents?">Why use agents?</h2>
 <p>By this point I hope to have delivered an initial idea of what agents are. If you are still not convinced of their power, by the end of this post you will be. For now I want to clearly explain some of their best attributes in this section.</p>
-<p>The first thing to understand is that agents can <em>augment</em> anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example these are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval[^5], a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation of GPT-4 reaching close to a 100% pass.</p>
+<p>The first thing to understand is that agents can <em>augment</em> anything a LLM already does. In any task, you can improve the zero-shot performance by implementing an agentic workflow. For example these are the best scores achieved by GPT-3.5 and GPT-4 in HumanEval<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup>, a coding benchmark. Their 48.1 and 67 pass@1 original scores increase hugely by using agents, with the best implementation of GPT-4 reaching close to a 100% pass.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\humaneval_agents.webp" width="100%"/>
 </p>
@@ -856,7 +854,7 @@ Final Answer: 25
 <h2 id="memory-in-agents">Memory in Agents</h2>
 <p>The last basic component of agents that we need to talk about is <strong>memory</strong>. Earlier in the post I teased the question when talking about the reasoning trace. Large Language Models do not have <em>memory</em> of past interactions: all information for a call must be passed through the prompt.</p>
 <p>So how do we implement the memory in our agent? The truth is that there is not an established solution yet, and it depends heavily on the system that is being built.</p>
-<p>What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents[^6], Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.</p>
+<p>What we do have are some design patterns that have recently emerged as more advanced agentic applications are being built. In a recent paper about cognitive architectures for language agents<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>, Sumers, Theodore R., et al propose several memory patterns that are becoming standard in the field. They are analogies to different classes of human memory, as studied by psychologists.</p>
 <h3 id="types-of-memory">Types of Memory</h3>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\memory_types.webp" width="80%"/>
@@ -879,9 +877,9 @@ Final Answer: 25
 <p align="center"> <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\agent_schema.webp" width="100%"/> </p>
 <p style="text-align:center; font-style: italic;">General schema of an LLM Agent workflow.</p>
 <p>As shown above, the core architecture revolves around four primary components: Memory, Planning, Tools, and Action. Each part plays a crucial role in enabling the agent to operate autonomously:</p>
-<p><strong>Memory</strong> serves as the knowledge backbone of the agent. By leveraging both long-term and short-term memory, agents can recall past interactions, user preferences, and contextual information to maintain coherence across sessions. This is akin to the way humans draw upon their experiences and knowledge when solving new problems. For instance, episodic memory might store a detailed conversation history, while semantic memory allows the agent to access databases or other factual sources dynamically.</p>
 <p><strong>Planning</strong> involves breaking down high-level objectives into actionable steps. Here, the agent employs reasoning techniques like reflection, self-critique, and objective decomposition to optimize its approach. By continuously evaluating its progress through chain-of-thought processes, the agent can refine its actions and adapt to changing circumstances or new information. This enables it to move beyond rigid workflows, making it more resilient in real-world scenarios where uncertainty is the norm.</p>
 <p><strong>Tools</strong> extend the agent's capabilities beyond text generation, granting it access to specialized functions like database queries, web searches, or even code execution. This is where LLM agents distinguish themselves from traditional LLM applications—they can dynamically interact with their environment to gather new data, calculate results, or even automate tasks. The toolbox concept allows for modularity, where new tools can be added or swapped out as the agent's needs evolve.</p>
+<p><strong>Memory</strong> serves as the knowledge backbone of the agent. By leveraging both long-term and short-term memory, agents can recall past interactions, user preferences, and contextual information to maintain coherence across sessions. This is akin to the way humans draw upon their experiences and knowledge when solving new problems. For instance, episodic memory might store a detailed conversation history, while semantic memory allows the agent to access databases or other factual sources dynamically.</p>
 <p>Finally, <strong>Action</strong> is where plans come to fruition. Here, the agent executes the chosen actions, whether it's retrieving data, generating responses, or invoking external tools. By observing the results of its actions, it learns iteratively, adjusting its strategy in the next cycle if needed. This feedback loop—Plan, Act, Observe—is crucial for agents to handle complex, open-ended tasks effectively.</p>
 <h1 id="agent-design-patterns">Agent Design Patterns</h1>
 <p>LLM agents are an emerging technology still in its early stages. While many companies and talented developers are actively exploring applications powered by agents, these projects are largely still in their infancy. This is evident from the limited number of agents currently deployed in production environments. However, the remarkable potential and versatility of agents have sparked rapid development, leading to the emergence of several innovative design patterns. In this section, I’ll introduce some of the most notable ones shaping the future of agent-based systems.</p>
@@ -894,7 +892,7 @@ Final Answer: 25
 <p style="text-align:center; font-style: italic;">Example of reflection in an agent.</p>
 <p>This iterative loop of generation, reflection, and revision continues until the agent is confident that the final result meets all specified requirements. By incorporating this self-critical process, agents can significantly improve their outputs, reducing errors and producing more robust solutions.</p>
 <h2 id="tool-use">Tool Use</h2>
-<p>We’ve previously discussed the concept of tools in LLM agents, enabling models to interact with external resources like databases, APIs, or search engines to extend their capabilities. Now, let's explore what happens when this concept is pushed to its limits through the Gorilla[^7] model.</p>
+<p>We’ve previously discussed the concept of tools in LLM agents, enabling models to interact with external resources like databases, APIs, or search engines to extend their capabilities. Now, let's explore what happens when this concept is pushed to its limits through the Gorilla<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> model.</p>
 <p><strong>Gorilla</strong> is a fine-tuned LLaMA-based model specifically designed to excel at generating precise API calls. This system surpasses even GPT-4 in the accuracy of writing API invocations, demonstrating that specialized finetuning can lead to significant performance improvements over general-purpose LLMs.</p>
 <p>The core idea behind Gorilla is integrating <strong>document retrieval</strong>. By combining the model with a retrieval mechanism, Gorilla can dynamically access the latest API documentation at test time, ensuring that the generated API calls are not only accurate but also aligned with the most current information.</p>
 <p align="center">
@@ -907,8 +905,8 @@ Final Answer: 25
 <p>The result is a system that can adapt to API changes and updates. As demonstrated in the example above, Gorilla can accurately generate API calls like <code>StableDiffusionPipeline.from_pretrained()</code> to achieve its objective.</p>
 <p>You can explore a live demo of Gorilla <a href="https://gorilla.cs.berkeley.edu/leaderboard.html#api-explorer">here</a> and experiment with it yourself using their <a href="https://colab.research.google.com/drive/1DEBPsccVLF_aUnmD0FwPeHFrtdC0QIUP?usp=sharing">Colab notebook</a>.</p>
 <h2 id="planning">Planning</h2>
-<p>To solve complex tasks with agents it is fundamental that they are able to plan a series of simpler steps. Planning capabilities in LLM agents can range from simple task decomposition to sophisticated hierarchical planning systems. More advanced approaches like Tree of Thoughts extend chain-of-thought prompting by exploring multiple reasoning paths simultaneously, evaluating them, and selecting the most promising one to pursue. Some agents even employ meta-planning, where they not only plan the steps to solve a task but also strategize about how to plan effectively, considering factors like resource constraints and potential failure points.</p>
-<p>An illustrative example is the HuggingGPT paper[^8], which uses planning in order to leverage other machine learning models found in web communities (e.g. Hugging Face) to solve AI tasks. Specifically, they use ChatGPT to conduct task planning when receiving a user request, select models according to their function descriptions available in Hugging Face, execute each subtask with the selected AI model, and summarize the response according to the execution results.</p>
+<p>To solve complex tasks with agents it is fundamental that they are able to plan a series of simpler steps. Planning capabilities in LLM agents can range from simple task decomposition to sophisticated hierarchical planning systems. More advanced approaches like tree-of-thoughts extend chain-of-thought prompting by exploring multiple reasoning paths simultaneously, evaluating them, and selecting the most promising one to pursue. Some agents even employ meta-planning, where they not only plan the steps to solve a task but also strategize about how to plan effectively, considering factors like resource constraints and potential failure points.</p>
+<p>An illustrative example is the HuggingGPT paper<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup>, which uses planning in order to leverage other machine learning models found in web communities (e.g. Hugging Face) to solve AI tasks. Specifically, they use ChatGPT to conduct task planning when receiving a user request, select models according to their function descriptions available in Hugging Face, execute each subtask with the selected AI model, and summarize the response according to the execution results.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\agent_planning_hugging_gpt.webp" width="80%"/>
 </p>
@@ -920,13 +918,13 @@ Final Answer: 25
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\multi_agents_critic.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Simple multi-agentic system that replicates the reflection example, with two agents with differentiated roles.</p>
-<p>In <em>ChatDev: Communicative Agents for Software Development</em><sup id="fnref:9"><a class="footnote-ref" href="#fn:9">1</a></sup> Qian, Chen, et al. develop "a chat-powered software development framework in which specialized agents driven by large language models (LLMs) are guided in what to communicate (via chat chain) and how to communicate (via communicative dehallucination). These agents actively contribute to the design, coding, and testing phases through unified language-based communication, with solutions derived from their multi-turn dialogues. We found their utilization of natural language is advantageous for system design, and communicating in programming language proves helpful in debugging. This paradigm demonstrates how linguistic communication facilitates multi-agent collaboration, establishing language as a unifying bridge for autonomous task-solving among LLM agents."</p>
+<p>In <em>ChatDev: Communicative Agents for Software Development</em><sup id="fnref:9"><a class="footnote-ref" href="#fn:9">9</a></sup> Qian, Chen, et al. develop "a chat-powered software development framework in which specialized agents driven by large language models (LLMs) are guided in what to communicate (via chat chain) and how to communicate (via communicative dehallucination). These agents actively contribute to the design, coding, and testing phases through unified language-based communication, with solutions derived from their multi-turn dialogues. We found their utilization of natural language is advantageous for system design, and communicating in programming language proves helpful in debugging. This paradigm demonstrates how linguistic communication facilitates multi-agent collaboration, establishing language as a unifying bridge for autonomous task-solving among LLM agents."</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\chatdev.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">ChatDev, a chat-powered software development framework, integrates LLM agents with various social roles, working autonomously to develop comprehensive solutions via multi-agent collaboration. </p>
 <p>A cool demonstration video of ChatDev can be found in their <a href="https://github.com/OpenBMB/ChatDev?tab=readme-ov-file#-what-can-chatdev-do">GitHub repository</a>.</p>
-<p>In "Improving factuality and reasoning in language models through multiagent debate." Du, Yilun, et al. evaluate the performance of multi-agent systems in a diverse set of tasks and compare them with single-model solutions, and they show that the former consistently outperform the latter.</p>
+<p>In "Improving factuality and reasoning in language models through multiagent debate."<sup id="fnref:10"><a class="footnote-ref" href="#fn:10">10</a></sup> Du, Yilun, et al. evaluate the performance of multi-agent systems in a diverse set of tasks and compare them with single-model solutions, and they show that the former consistently outperform the latter.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-17-llm-agents\multi_agents_evaluation.webp" width="80%"/>
 </p>
@@ -1108,30 +1106,42 @@ agent_chain.run("What's my friend Eric's surname?")
 <p>By incorporating HITL effectively, agents can leverage human expertise while maintaining efficient operation. This creates a symbiotic system where both automated and human intelligence work together to achieve optimal results.</p>
 <h1 id="closing-remarks">Closing Remarks</h1>
 <p>We've talked about what agents are, how to implement them and the most important design patterns. By now, you should have an idea about how to work with them and the incredible potential of these systems. They can augment existing AI capabilities and provide more robust solutions to complex problems. This makes them particularly well-suited for tasks that require dynamic decision-making and adaptability, such as automated customer support, data analysis, and even creative endeavors like content generation.</p>
-<p>While the promise of LLM agents is immense, there are still challenges to overcome. Their potential for such broad applications also means that we need to overcome many complex failure modes, with varying degrees of negative effects. The main reason for there not being many agents in production environments is that, although it is easy to develop one that works right most of the time, it becomes increasingly harder to fight the remaining proportion of failure cases.</p>
+<p>While the promise of LLM agents is immense, there are still challenges to overcome. Their potential for such broad applications also means that we need to confront many complex failure modes, with varying degrees of negative effects. The main reason for there not being many agents in production environments is that, although it is easy to develop one that works right most of the time, it becomes increasingly harder to fight the remaining proportion of failure cases.</p>
 <p>However, these challenges also present opportunities for innovation. As the field of LLM agents continues to evolve, there is a growing need for new tools, frameworks, and methodologies that can support the development and deployment of these systems. </p>
 <p>I wanted to write about the development ecosystem in this post, but it has already become too long, so I will reserve this along with examples of open and commercial applications and benchmarks of agentic skills for the next post. Next, I will upload another post showing the implementation of a ReAct agent from basic Python. You can find it in its <a href="https://github.com/miguelvc6/react-agent">GitHub repository</a>. The code is already finished, I just need some free time to keep writing in this blog. I also want to implement a comments section and an email subscription that notifies when a new post is published. In the meantime, feel free to contact me via email.</p>
 <h1 id="references">References</h1>
 <div class="footnote">
 <hr/>
 <ol>
+<li id="fn:1">
+<p>Russell, S., &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th ed.). Pearson. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://www.youtube.com/watch?v=sal78ACtGTc">What's next for AI agentic workflows ft. Andrew Ng of AI Fund</a> <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:3">
+<p>Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a> <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:4">
+<p>Wei, Jason, et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837. <a href="https://arxiv.org/abs/2201.11903">https://arxiv.org/abs/2201.11903</a> <a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+<li id="fn:5">
+<p><a href="https://paperswithcode.com/sota/code-generation-on-humaneval">HumanEval Benchmark in paperswithcode</a> <a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">↩</a></p>
+</li>
+<li id="fn:6">
+<p>CoALA: Cognitive Architectures for Language Agents. Sumers, Theodore R., et al Transactions on Machine Learning Research (oct 2024). <a href="https://arxiv.org/abs/2309.02427">https://arxiv.org/abs/2309.02427</a> <a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">↩</a></p>
+</li>
+<li id="fn:7">
+<p>Patil, Shishir G., et al. "Gorilla: Large language model connected with massive apis." arXiv preprint arXiv:2305.15334 (2023). <a href="https://arxiv.org/abs/2305.15334">https://arxiv.org/abs/2305.15334</a> <a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">↩</a></p>
+</li>
+<li id="fn:8">
+<p>Shen, Yongliang, et al. "Hugginggpt: Solving ai tasks with chatgpt and its friends in hugging face." Advances in Neural Information Processing Systems 36 (2024). <a href="https://arxiv.org/abs/2303.17580">https://arxiv.org/abs/2303.17580</a> <a class="footnote-backref" href="#fnref:8" title="Jump back to footnote 8 in the text">↩</a></p>
+</li>
 <li id="fn:9">
-<p>Qian, Chen, et al. "Communicative agents for software development." arXiv preprint arXiv:2307.07924 6 (2023). <a href="https://arxiv.org/abs/2307.07924">https://arxiv.org/abs/2307.07924</a> <a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>Qian, Chen, et al. "Communicative agents for software development." arXiv preprint arXiv:2307.07924 6 (2023). <a href="https://arxiv.org/abs/2307.07924">https://arxiv.org/abs/2307.07924</a> <a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 9 in the text">↩</a></p>
 </li>
 <li id="fn:10">
-<p>Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023). <a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 2 in the text">↩</a></p>
-</li>
-<li id="fn:11">
-<p>Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023. <a class="footnote-backref" href="#fnref:11" title="Jump back to footnote 3 in the text">↩</a></p>
-</li>
-<li id="fn:12">
-<p>Bran, Andres M., et al. "ChemCrow: Augmenting large-language models with chemistry tools." arXiv preprint arXiv:2304.05376 (2023). <a href="https://arxiv.org/abs/2304.05376">https://arxiv.org/abs/2304.05376</a> <a class="footnote-backref" href="#fnref:12" title="Jump back to footnote 4 in the text">↩</a></p>
-</li>
-<li id="fn:13">
-<p>Wang, Guanzhi, et al. "Voyager: An open-ended embodied agent with large language models." arXiv preprint arXiv:2305.16291 (2023). <a href="https://arxiv.org/abs/2305.16291">https://arxiv.org/abs/2305.16291</a>^ <a class="footnote-backref" href="#fnref:13" title="Jump back to footnote 5 in the text">↩</a></p>
-</li>
-<li id="fn:14">
-<p>OS-Copilot: Towards Generalist Computer Agents with Self-Improvement. <a href="https://arxiv.org/abs/2402.07456">https://arxiv.org/abs/2402.07456</a> <a class="footnote-backref" href="#fnref:14" title="Jump back to footnote 6 in the text">↩</a></p>
+<p>Du, Yilun, et al. "Improving factuality and reasoning in language models through multiagent debate." arXiv preprint arXiv:2305.14325 (2023). <a href="https://arxiv.org/abs/2305.14325">https://arxiv.org/abs/2305.14325</a> <a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 10 in the text">↩</a></p>
 </li>
 </ol>
 </div></section>
