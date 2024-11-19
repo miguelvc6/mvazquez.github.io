@@ -137,6 +137,18 @@
 
     <!-- Main -->
     <main class="main">
+      <div class="float-nav float-nav--top">
+        <button class="float-nav__button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
+          <i class="uil uil-arrow-up"></i>
+        </button>
+      </div>
+
+      <div class="float-nav float-nav--bottom">
+        <button class="float-nav__button" onclick="window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'smooth'})" aria-label="Scroll to bottom">
+          <i class="uil uil-arrow-down"></i>
+        </button>
+      </div>
+
       <div class="container">
         <article class="blog-post">
           <header class="blog-post__header">
@@ -326,7 +338,7 @@
     </footer>
 
     <script>
-      // Add image zoom functionality
+      // Image zoom functionality
       document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.querySelector('.zoom-overlay');
         const overlayImg = overlay.querySelector('img');
