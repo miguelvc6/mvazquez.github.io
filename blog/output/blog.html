@@ -19,6 +19,18 @@
     <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="../../assets/css/blog-styles.css" />
 
+    <!-- Google Analytics tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7CP0MYZJC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-S7CP0MYZJC");
+    </script>
+
     <title>Miguel - Blog</title>
   </head>
   <body>
@@ -83,12 +95,7 @@
 
     <!-- Add this after the header -->
     <div class="search-container">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search blog posts..."
-        aria-label="Search blog posts"
-      >
+      <input type="text" id="searchInput" placeholder="Search blog posts..." aria-label="Search blog posts" />
       <div id="searchResults" class="search-results"></div>
     </div>
 
@@ -113,6 +120,23 @@
                 <p>Showcase of LLM Agents development frameworks and open and commercial applications and systems.</p>
                 <p class="blog-card__footer">
                   Date: 2024-11-20 | Estimated Reading Time: 18 | Author: Miguel Vázquez
+                </p>
+              </section>
+              <span class="blog-card__link">Read More</span>
+            </a>
+          </article>
+        </section>
+        
+        <section class="blog-cards">
+          <article class="blog-card__item">
+            <a href="2024-11-29-reasoning-and-action-agents/content.html" class="blog-card__wrapper">
+              <header class="blog-card__header">
+                <h2 class="blog-card__title">Reasoning and Action Agents</h2>
+              </header>
+              <section class="blog-card__summary">
+                <p></p>
+                <p class="blog-card__footer">
+                  Date: 2024-11-19 | Estimated Reading Time:  | Author: Miguel Vázquez
                 </p>
               </section>
               <span class="blog-card__link">Read More</span>
@@ -249,47 +273,51 @@
 
     <!-- Add this before the closing body tag -->
     <script>
-    let searchIndex = [];
-    let searchInput = document.getElementById('searchInput');
-    let searchResults = document.getElementById('searchResults');
+      let searchIndex = [];
+      let searchInput = document.getElementById("searchInput");
+      let searchResults = document.getElementById("searchResults");
 
-    // Fetch search index
-    fetch('search-index.json')
-      .then(response => response.json())
-      .then(data => {
-        searchIndex = data;
-      });
+      // Fetch search index
+      fetch("search-index.json")
+        .then((response) => response.json())
+        .then((data) => {
+          searchIndex = data;
+        });
 
-    // Debounce function to limit API calls
-    function debounce(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
+      // Debounce function to limit API calls
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
           clearTimeout(timeout);
-          func(...args);
+          timeout = setTimeout(later, wait);
         };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    }
-
-    // Search function
-    function performSearch() {
-      const query = searchInput.value.toLowerCase();
-      
-      if (query.length < 2) {
-        searchResults.style.display = 'none';
-        return;
       }
 
-      const results = searchIndex.filter(post => {
-        return post.title.toLowerCase().includes(query) ||
-               post.content.toLowerCase().includes(query) ||
-               post.author.toLowerCase().includes(query);
-      });
+      // Search function
+      function performSearch() {
+        const query = searchInput.value.toLowerCase();
 
-      if (results.length > 0) {
-        searchResults.innerHTML = results.map(post => `
+        if (query.length < 2) {
+          searchResults.style.display = "none";
+          return;
+        }
+
+        const results = searchIndex.filter((post) => {
+          return (
+            post.title.toLowerCase().includes(query) ||
+            post.content.toLowerCase().includes(query) ||
+            post.author.toLowerCase().includes(query)
+          );
+        });
+
+        if (results.length > 0) {
+          searchResults.innerHTML = results
+            .map(
+              (post) => `
           <div class="search-result">
             <a href="${post.url}">
               <h3>${post.title}</h3>
@@ -297,23 +325,25 @@
               <p class="search-preview">${post.content}...</p>
             </a>
           </div>
-        `).join('');
-        searchResults.style.display = 'block';
-      } else {
-        searchResults.innerHTML = '<div class="no-results">No posts found</div>';
-        searchResults.style.display = 'block';
+        `
+            )
+            .join("");
+          searchResults.style.display = "block";
+        } else {
+          searchResults.innerHTML = '<div class="no-results">No posts found</div>';
+          searchResults.style.display = "block";
+        }
       }
-    }
 
-    // Add event listener with debounce
-    searchInput.addEventListener('input', debounce(performSearch, 300));
+      // Add event listener with debounce
+      searchInput.addEventListener("input", debounce(performSearch, 300));
 
-    // Close search results when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!searchResults.contains(e.target) && e.target !== searchInput) {
-        searchResults.style.display = 'none';
-      }
-    });
+      // Close search results when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+          searchResults.style.display = "none";
+        }
+      });
     </script>
   </body>
 </html>
