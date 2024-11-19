@@ -159,7 +159,7 @@
                 
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-20 | Estimated Reading Time: 19 minutes | Author: Miguel Vázquez
+              Date: 2024-11-20 | Estimated Reading Time: 18 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -398,10 +398,10 @@
 <h2 id="development-frameworks">Development Frameworks</h2>
 <p>Several frameworks have emerged to facilitate the development of LLM agents, each with its own strengths and trade-offs:</p>
 <h3 id="openai-assistants">OpenAI Assistants</h3>
-<p>The OpenAI Assistants API provides the most straight forward out-of-the-box experience for building agents out of all the frameworks I have tried. It comes with comprehensive built-in capabilities for function calling and tool use, allowing developers to quickly integrate custom actions into their agents. It features robust file handling and retrieval systems, making it easy to work with documents and data. Additionally, it includes a powerful code interpreter for executing Python code and advanced image analysis capabilities. The framework also handles conversation management through its thread system, maintaining context across multiple interactions seamlessly.</p>
+<p>The OpenAI Assistants API provides the most straightforward out-of-the-box experience for building agents among all the frameworks I have tried. It comes with comprehensive built-in capabilities for function calling and tool use, allowing developers to quickly integrate custom actions into their agents. It features robust file handling and retrieval systems, making it easy to work with documents and data. Additionally, it includes a powerful code interpreter for executing Python code and advanced image analysis capabilities. The framework also handles conversation management through its thread system, maintaining context across multiple interactions seamlessly.</p>
 <p>However, it's limited to OpenAI's models and has less flexibility in customization compared to other frameworks.</p>
 <h3 id="langchain">LangChain</h3>
-<p>LangChain is the most comprehensive and widely-used framework for building LLM applications. The framework stands out for its extensive integration ecosystem, supporting a wide range of LLM providers and external tools. Its flexible architecture provides powerful abstractions for building complex workflows, while maintaining clarity and modularity. The vibrant community has contributed numerous components and extensions, creating a rich ecosystem of ready-to-use solutions. LangChain offers sophisticated memory management with support for various types of memory and storage solutions, and includes a comprehensive set of pre-built agents and tools for common use cases.</p>
+<p>LangChain is the most comprehensive and widely used framework for building LLM applications. The framework stands out for its extensive integration ecosystem, supporting a wide range of LLM providers and external tools. Its flexible architecture provides powerful abstractions for building complex workflows while maintaining clarity and modularity. The vibrant community has contributed numerous components and extensions, creating a rich ecosystem of ready-to-use solutions. LangChain offers sophisticated memory management with support for various types of memory and storage solutions, and includes a comprehensive set of pre-built agents and tools for common use cases.</p>
 <p>The framework's flexibility makes it suitable for both simple chatbots and complex multi-agent systems, though this versatility may come with a steeper learning curve.</p>
 <h3 id="autogen">AutoGen</h3>
 <p>AutoGen specializes in building multi-agent systems with a focus on simplicity and scalability. The framework provides a streamlined API that makes agent-to-agent communication intuitive and efficient, while supporting parallel execution for improved performance. Its conversation management system is specifically designed for complex multi-agent interactions, handling message routing and context maintenance automatically. AutoGen integrates naturally with popular development tools, making it easy to incorporate into existing workflows. The framework particularly shines in scenarios requiring group chat-like interactions between agents, with built-in support for various conversation patterns.</p>
@@ -412,23 +412,23 @@
 <p>The choice of framework often depends on specific requirements like model flexibility, deployment constraints, and complexity of the intended agent system.</p>
 <ul>
 <li>
-<p>Choose <strong>OpenAI Assistants</strong> for quick prototypes and production-ready single agents</p>
+<p>Choose <strong>OpenAI Assistants</strong> for quick prototypes and production-ready single agents.</p>
 </li>
 <li>
-<p>Use <strong>LangChain</strong> for maximum flexibility and complex custom solutions</p>
+<p>Use <strong>LangChain</strong> for maximum flexibility and complex custom solutions.</p>
 </li>
 <li>
-<p>Pick <strong>AutoGen</strong> when building systems with multiple interacting agents</p>
+<p>Pick <strong>AutoGen</strong> when building systems with multiple interacting agents.</p>
 </li>
 <li>
-<p>Select <strong>CrewAI</strong> for business processes that mirror human team structures</p>
+<p>Select <strong>CrewAI</strong> for business processes that mirror human team structures.</p>
 </li>
 </ul>
 <h1 id="notable-open-source-agent-projects">Notable Open Source Agent Projects</h1>
-<p>The open source community has been at the forefront of LLM agent innovation, producing several groundbreaking projects that push the boundaries of what's possible with this technology. From autonomous agents that can learn and explore virtual environments to collaborative systems that mimic human research teams, these projects serve as both technical demonstrations and foundations for future development.</p>
-<p>Let's explore some of the most influential open source agent projects that have emerged in recent years. Each of these implementations showcases unique approaches to agent architecture, demonstrates novel capabilities, and has contributed valuable insights to the field.</p>
+<p>The open-source community has been at the forefront of LLM agent innovation, producing several groundbreaking projects that push the boundaries of what's possible with this technology. From autonomous agents that can learn and explore virtual environments to collaborative systems that mimic human research teams, these projects serve as both technical demonstrations and foundations for future development.</p>
+<p>Let's explore some of the most influential open-source agent projects that have emerged in recent years. Each of these implementations showcases unique approaches to agent architecture, demonstrates novel capabilities, and has contributed valuable insights to the field.</p>
 <h3 id="babyagi">BabyAGI</h3>
-<p>BabyAGI<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> represents one of the earliest and most influential autonomous agent projects, with its latest iteration BabyAGI 2o focusing on self-building capabilities. Unlike traditional agents with fixed toolsets, BabyAGI 2o can dynamically create and register new tools as needed to complete user-defined tasks. The agent analyzes tasks, determines what tools it needs, writes the code for those tools, and executes them - all without human intervention.</p>
+<p>BabyAGI<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> represents one of the earliest and most influential autonomous agent projects, with its latest iteration, BabyAGI 2o, focusing on self-building capabilities. Unlike traditional agents with fixed toolsets, BabyAGI 2o can dynamically create and register new tools as needed to complete user-defined tasks. The agent analyzes tasks, determines what tools it needs, writes the code for those tools, and executes them—all without human intervention.</p>
 <p>Key features that make BabyAGI notable:</p>
 <ul>
 <li>
@@ -485,7 +485,7 @@
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\generative_agents.webp" width="100%"/>
 </p>
-<p style="text-align:center; font-style: italic;">Generative Agents places LLMs in a virtual environment simulating a town where they can freely interact with each other. </p>
+<p style="text-align:center; font-style: italic;">Generative Agents places LLMs in a virtual environment simulating a town where they can freely interact with each other.</p>
 <p>The simulation demonstrates emergent social behaviors like information spreading through the community and relationship memory (agents continuing previous conversations), which lead to spontaneous social event organization, like an actual case of a birthday party, and development of opinions and preferences based on experiences.</p>
 <p>For example, agents wake up, cook breakfast, and head to work; artists create while authors write; they form opinions, notice each other, and initiate conversations. They can remember past interactions and use them to plan future activities, creating a rich tapestry of simulated social life.</p>
 <p>This project showcases how LLM agents can create complex, believable behaviors through the combination of memory, planning, and social interaction systems. The emergent behaviors demonstrate the potential for using such systems to study human social dynamics or create more realistic NPCs in games.</p>
@@ -497,7 +497,7 @@
 <p><strong>Role-Based Architecture</strong>: Includes specialized agents like CEO, CTO, Programmers, Reviewers, and Testers</p>
 </li>
 <li>
-<p><strong>Natural Communication</strong>: Agents collaborate through natural language discussions to design, implement and test software</p>
+<p><strong>Natural Communication</strong>: Agents collaborate through natural language discussions to design, implement, and test software</p>
 </li>
 <li>
 <p><strong>Comprehensive Development Process</strong>: Handles the complete software lifecycle from requirements analysis to testing</p>
@@ -506,14 +506,14 @@
 <p><strong>Customizable Framework</strong>: Allows defining custom roles, development processes, and tool integrations</p>
 </li>
 <li>
-<p><strong>Multi-Agent Collaboration</strong>: Leverages different agent perspectives and expertise to produce better solutions</p>
+<p><strong>Multi-Agent Collaboration</strong>: Leverages different agents' perspectives and expertise to produce better solutions</p>
 </li>
 </ul>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\chatdev.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">ChatDev integrates LLM agents with various social roles, working autonomously to develop comprehensive software solutions via multi-agent collaboration.</p>
-<p>For example, when given a task to create a game, the CEO agent might first analyze requirements and create a project plan, the CTO would design the technical architecture, programmers would implement the code, reviewers would check for issues, and testers would verify functionality - all coordinating through natural language conversations.</p>
+<p>For example, when given a task to create a game, the CEO agent might first analyze requirements and create a project plan, the CTO would design the technical architecture, programmers would implement the code, reviewers would check for issues, and testers would verify functionality—all coordinating through natural language conversations.</p>
 <p>The project demonstrates how structured multi-agent systems can tackle complex creative tasks by breaking them down into specialized roles and facilitating effective communication between agents. You can explore ChatDev through:</p>
 <ul>
 <li>
@@ -572,20 +572,20 @@
 <p>Key components:</p>
 <ul>
 <li>
-<p><strong>Automatic Curriculum</strong>: Generates exploration goals based on current skills and world state.</p>
+<p><strong>Automatic Curriculum</strong>: Generates exploration goals based on current skills and world state</p>
 </li>
 <li>
-<p><strong>Skill Library</strong>: Stores and retrieves executable code for complex behaviors.</p>
+<p><strong>Skill Library</strong>: Stores and retrieves executable code for complex behaviors</p>
 </li>
 <li>
-<p><strong>Iterative Prompting</strong>: Refines code through environment feedback and self-verification.</p>
+<p><strong>Iterative Prompting</strong>: Refines code through environment feedback and self-verification</p>
 </li>
 </ul>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\voyager.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Voyager's curriculum generation process adapts to the agent's current capabilities and environment</p>
-<p>If you have ever played Minecraft, which is probable considering that it is the best selling game in history, then you know how impressive it is for an AI to get diamond tools. It is even more impressive since it has nor been trained specifically for that task, nor has it as objective. Its only mission is to explore the world.</p>
+<p>If you have ever played Minecraft, which is probable considering that it is the best-selling game in history, then you know how impressive it is for an AI to get diamond tools. It is even more impressive since it has not been trained specifically for that task, nor is it its objective. Its only mission is to explore the world.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\voyager_tech_discovery.webp" width="80%"/>
 </p>
@@ -619,7 +619,7 @@
 <p>The system supports multiple programming languages and shell commands, with built-in safety controls through a code review system. Its flexibility enables diverse applications from data analysis to system administration, all through a ChatGPT-like terminal interface. With over 55,000 GitHub stars, it has demonstrated significant community adoption.</p>
 <p>Explore the project through their <a href="https://github.com/OpenInterpreter/open-interpreter">GitHub repository</a>.</p>
 <h3 id="claude-computer-use">Claude Computer Use</h3>
-<p>Claude 3.5 Sonnet introduces a novel approach to computer interaction by enabling direct control of screens, cursors, and keyboards through visual understanding trough screenshots. This allows Claude to interact with any application through its graphical interface, rather than requiring specific API integrations.</p>
+<p>Claude 3.5 Sonnet introduces a novel approach to computer interaction by enabling direct control of screens, cursors, and keyboards through visual understanding of screenshots. This allows Claude to interact with any application through its graphical interface, rather than requiring specific API integrations.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\claude_computer_use.webp" width="80%"/>
 </p>
@@ -645,35 +645,35 @@
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\benchmark.webp" width="50%"/>
 </p>
-<p>In this section we will review the benchmarks for agents. As in any machine learning task, evaluating is crucial to compare the different approaches and set the course for further improvements. If it already is hard to evaluate LLMs, then it is extremely hard to evaluate agents since they build up such complex and flexible systems.</p>
-<p>Think about it, what should we evaluate? Only the final result? Arguably, a model that has done half the work should have a better grade than one that did not even begin in the right path but, how do we evaluate intermediate steps? Can we grade if they choose the correct tools with the correct arguments? Many times there is not a single correct option. Maybe if the step sequence is correct? but how do we measure their "correctness"? In closed reward environments where you either win or you lose it is possible, but most tasks don't fulfill that. Also, how do we measure their efficiency in number of steps? An agent that has achieved the correct outcome in a few steps should be better than one that took a longer time and generated more tokens. As you can see these all are hard questions that we don't have answers for.</p>
-<p>After researching many of them, I only found two benchmarks that seem to evaluate relevant skills with real potential for a transformative change. The two of them fall into the type os task with "closed reward environments where you either win or you lose", which makes it easier to define the metrics.</p>
+<p>In this section, we will review the benchmarks for agents. As in any machine learning task, evaluation is crucial to compare the different approaches and set the course for further improvements. If it is already hard to evaluate LLMs, then it is extremely hard to evaluate agents since they build up such complex and flexible systems.</p>
+<p>Think about it, what should we evaluate? Only the final result? Arguably, a model that has done half the work should have a better grade than one that did not even begin in the right path, but how do we evaluate intermediate steps? Can we grade if they choose the correct tools with the correct arguments? Many times there is not a single correct option. Maybe if the step sequence is correct? But how do we measure their "correctness"? In closed reward environments where you either win or you lose, it is possible, but most tasks don't fulfill that. Also, how do we measure their efficiency in number of steps? An agent that has achieved the correct outcome in a few steps should be better than one that took a longer time and generated more tokens. As you can see, these all are hard questions that we don't have answers for.</p>
+<p>After researching many of them, I only found two benchmarks that seem to evaluate relevant skills with real potential for a transformative change. Both of them fall into the type of task with "closed reward environments where you either win or you lose," which makes it easier to define the metrics.</p>
 <h2 id="swe-bench">SWE-Bench</h2>
-<p>In SWE-Bench<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> Jimenez, Carlos E., et al. present an evaluation framework that tests language models' ability to solve real-world software engineering problems. The benchmark consists of 2,294 actual GitHub issues and their corresponding pull requests from 12 popular Python repositories: flask, django, astropy, xarray, sympy, sphinx, seaborn, scikit-learn, requests, pytest, pylint and matplotlib.</p>
+<p>In SWE-Bench<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup>, Jimenez, Carlos E., et al. present an evaluation framework that tests language models' ability to solve real-world software engineering problems. The benchmark consists of 2,294 actual GitHub issues and their corresponding pull requests from 12 popular Python repositories: flask, django, astropy, xarray, sympy, sphinx, seaborn, scikit-learn, requests, pytest, pylint, and matplotlib.</p>
 <p>The evaluation process is straightforward: given a codebase and an issue description, the model must edit the code to resolve the issue and pass all unit tests, which are real. What makes this benchmark particularly challenging is that solutions often require:</p>
 <ul>
 <li>
-<p>Coordinating changes across multiple functions, classes, and files.</p>
+<p>Coordinating changes across multiple functions, classes, and files</p>
 </li>
 <li>
-<p>Interacting with execution environments.</p>
+<p>Interacting with execution environments</p>
 </li>
 <li>
-<p>Processing extremely long contexts.</p>
+<p>Processing extremely long contexts</p>
 </li>
 <li>
-<p>Complex reasoning beyond standard code generation.</p>
+<p>Complex reasoning beyond standard code generation</p>
 </li>
 </ul>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\swe_bench.webp" width="80%"/>
 </p>
-<p style="text-align:center; font-style: italic;">Evaluation process for the SWE Benchmark. The agent ahs to solve the issues and pass all unit tests.</p>
-<p>At the time of the paper's publication the best-performing model, Claude 3 Opus, only managed to solve 4.33% of the issues in the lite version of th benchmark, where there is more competition since there are less issues and it is cheaper to try to solve them. This includes both proprietary state-of-the-art models and SWE-Llama, a model specifically fine-tuned for this task.</p>
-<p>At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues. A great improvement in a year.</p>
+<p style="text-align:center; font-style: italic;">Evaluation process for the SWE Benchmark. The agent has to solve the issues and pass all unit tests.</p>
+<p>At the time of the paper's publication, the best-performing model, Claude 3 Opus, only managed to solve 4.33% of the issues in the lite version of the benchmark, where there is more competition since there are fewer issues and it is cheaper to try to solve them. This includes both proprietary state-of-the-art models and SWE-Llama, a model specifically fine-tuned for this task.</p>
+<p>At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues—a great improvement in a year.</p>
 <p>The benchmark can be accessed at <a href="https://www.swebench.com/">https://www.swebench.com/</a>.</p>
 <h2 id="mle-bench">MLE-Bench</h2>
-<p>MLE-bench<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup> evaluates AI agents' machine learning engineering capabilities through 75 carefully selected Kaggle competitions. The benchmark tests real-world ML engineering skills including model training, dataset preparation, and experiment execution.</p>
+<p>MLE-bench<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup> evaluates AI agents' machine learning engineering capabilities through 75 carefully selected Kaggle competitions. The benchmark tests real-world ML engineering skills, including model training, dataset preparation, and experiment execution.</p>
 <p>The benchmark consists of Kaggle competitions with:</p>
 <ul>
 <li>
@@ -694,13 +694,11 @@
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\mle_bench.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">MLE-bench evaluates ML engineering capabilities through Kaggle competitions</p>
-<p>Current results show that even the best-performing setup - OpenAI's o1-preview with AIDE scaffolding - achieves medals in only 16.9% of competitions, improving to 34.1% when given 8 attempts. The agents perform well on problems solvable with standard approaches but struggle with debugging and error recovery.</p>
+<p>Current results show that even the best-performing setup—OpenAI's o1-preview with AIDE scaffolding—achieves medals in only 16.9% of competitions, improving to 34.1% when given 8 attempts. The agents perform well on problems solvable with standard approaches but struggle with debugging and error recovery.</p>
 <p align="center">
 <img loading="lazy" src="..\..\media\2024-11-20-agents-ecosystem\mle_bench_results.webp" width="80%"/>
 </p>
-<p style="text-align:center; font-style: italic;">MLE-bench evaluations by models. Each experiment is repeated with 3 seeds, except o1-preview (AIDE) and GPT-4o (AIDE) which use 16 and 36 seeds respectively.
-Scores represent the mean ± one standard error of the mean.
-</p>
+<p style="text-align:center; font-style: italic;">MLE-bench evaluations by models. Each experiment is repeated with 3 seeds, except o1-preview (AIDE) and GPT-4o (AIDE), which use 16 and 36 seeds respectively. Scores represent the mean ± one standard error of the mean.</p>
 <h1 id="closing-remarks">Closing Remarks</h1>
 <p>The LLM agent ecosystem has evolved rapidly, creating a rich landscape of frameworks, applications, and evaluation methods. We've explored several key aspects:</p>
 <p>Development frameworks like OpenAI Assistants, LangChain, AutoGen, and CrewAI provide different approaches to agent development, each optimized for specific use cases. Open-source projects such as BabyAGI, Generative Agents, and Voyager demonstrate the potential of autonomous systems, while commercial applications like Devin and OS-Copilot show how these technologies can be applied to real-world problems.</p>
@@ -711,7 +709,7 @@ Scores represent the mean ± one standard error of the mean.
 <hr/>
 <ol>
 <li id="fn:1">
-<p><a href="https://babyagi.org/">https://babyagi.org/</a> <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>BabyAgi: <a href="https://babyagi.org/">https://babyagi.org/</a> <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:2">
 <p>Park, Joon Sung, et al. "Generative agents: Interactive simulacra of human behavior." Proceedings of the 36th annual acm symposium on user interface software and technology. 2023. <a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></p>
