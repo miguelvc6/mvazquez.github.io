@@ -1,6 +1,6 @@
 import argparse
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 
@@ -9,8 +9,7 @@ def create_post(title: str) -> None:
     # Create slug from title
     slug = title.lower().replace(" ", "-")
 
-    # Create date-based directory name
-    today = datetime.now()
+    today = datetime.now() + timedelta(days=7) # One week from now
     dir_name = f"{today.strftime('%Y-%m-%d')}-{slug}"
 
     # Setup paths
@@ -29,6 +28,7 @@ def create_post(title: str) -> None:
         "date": today.strftime("%Y-%m-%d"),
         "tags": [],
         "description": "",
+        "draft": True
     }
 
     with open(post_dir / "metadata.json", "w", encoding="utf-8") as f:
