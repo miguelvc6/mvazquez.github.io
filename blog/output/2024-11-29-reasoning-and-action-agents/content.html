@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="keywords"
+      content="Miguel Vázquez Caraballo, Miguel Vázquez Caraballo GitHub, mvazquez-ai github, mvazquez-ai GitHub, 
+        mvazquez-ai, miguelvazquez, miguel vázquez c, vazq, Artificial Intelligence, AI, Deep Learning, Machine Learning, DL, ML, 
+        Web, web, app, developer, github, git, projects, tutorials, keywords, seo, artificial intelligence, deep learning, machine learning, 
+        dl, ml, deeplearning, machinelearning, DeepLearning, MachineLearning, Cybersecurity, cybersecurity, research, machine learning india, 
+        india, R&D, Vázquez, Caraballo, Vazquez"
+    />
+    <meta name="author" content="Miguel Vázquez" />
+    <meta name="description" content="Hey there! I'm Miguel. I'm an Artificial Intelligence Engineer from Spain." />
+
+    <link rel="icon" href="../../../assets/img/favicon.ico" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+    <link rel="stylesheet" href="../../../assets/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../../../assets/css/blog-styles.css" />
+
+    <!-- Google Analytics tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7CP0MYZJC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-S7CP0MYZJC");
+    </script>
+
+    <title>Reasoning and Action Agents - Miguel's Blog</title>
+
+    <!-- Add Prism.js CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <!-- Add any language support you need -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+    <script>
+      if (window.location.pathname.endsWith("blog.html")) {
+        window.history.replaceState(null, "", "/blog/");
+      }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                ],
+                throwOnError: false,
+                strict: false
+            });
+        });
+    </script>
+    <style>
+      /* Add scroll margin to compensate for fixed header */
+      :target {
+        scroll-margin-top: 40px; /* Adjust this value based on your header height */
+      }
+      
+      /* Alternative approach using scroll padding on html */
+      html {
+        scroll-padding-top: 40px; /* Adjust this value based on your header height */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Add zoom overlay div -->
+    <div class="zoom-overlay">
+      <img src="" alt="Zoomed image">
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="../../../index.html#home" class="nav__logo"><i class="uil uil-circle"></i> Miguel</a>
+        <div style="margin: 0 1rem;"></div>
+        <a href="../blog.html" class="nav__logo"><i class="uil uil-book-open"></i> Blog</a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list grid">
+            <li class="nav__item">
+              <a href="../../../index.html#home" class="nav__link"> <i class="uil uil-estate nav__icon"></i> Home </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#about" class="nav__link"> <i class="uil uil-user nav__icon"></i> About </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#skills" class="nav__link">
+                <i class="uil uil-chart-pie-alt nav__icon"></i> Skills
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#experience" class="nav__link">
+                <i class="uil uil-briefcase-alt nav__icon"></i> Experience
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#portfolio" class="nav__link">
+                <i class="uil uil-scenery nav__icon"></i> Portfolio
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#blog" class="nav__link active-link">
+                <i class="uil uil-blogger-alt nav__icon"></i> Blog
+              </a>
+            </li>
+
+            <li class="nav__item">
+              <a href="../../../index.html#contact" class="nav__link"> <i class="uil uil-message nav__icon"></i> Contact </a>
+            </li>
+          </ul>
+
+          <i class="uil uil-times nav__close" id="nav-close"></i>
+        </div>
+
+        <div class="nav__btns">
+          <i class="uil uil-moon change-theme" id="theme-button"></i>
+
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="uil uil-apps"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="float-nav float-nav--top">
+        <button class="float-nav__button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
+          <i class="uil uil-arrow-up"></i>
+        </button>
+      </div>
+
+      <div class="float-nav float-nav--bottom">
+        <button class="float-nav__button" onclick="window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'smooth'})" aria-label="Scroll to bottom">
+          <i class="uil uil-arrow-down"></i>
+        </button>
+      </div>
+
+      <div class="container">
+        <article class="blog-post">
+          <header class="blog-post__header">
+            <h1 class="blog-post__title">
+                Reasoning and Action Agents
+                
+            </h1>
+            <p class="blog-post__meta">
+              Date: 2024-11-29 | Estimated Reading Time: 1 minutes | Author: Miguel Vázquez
+            </p>
+          </header>
+
+          <nav class="table-of-contents">
+            <details>
+              <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+              </summary>
+              
+              <div class="inner">
+                <ul>
+                  
+                  
+                    
+                    
+                    <li>
+                      <a href="#introduction" aria-label="Introduction">Introduction</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#section-1" aria-label="Section 1">Section 1</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#section-2" aria-label="Section 2">Section 2</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
+                      <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                    </li>
+                    
+                      
+                    
+                  
+                </ul>
+              </div>
+            </details>
+          </nav>
+
+          <section class="blog-post__content"><h2 id="introduction">Introduction</h2>
+<p>Write your introduction here.</p>
+<h2 id="section-1">Section 1</h2>
+<p>Write your content here.</p>
+<!-- To add images, place them in the media folder and reference them like this: -->
+<!-- ![Alt text](../../../media/2024-11-19-reasoning-and-action-agents/image.png) -->
+<h2 id="section-2">Section 2</h2>
+<p>Write more content here.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Write your conclusion here.</p></section>
+
+          <div class="share-buttons">
+            <h3 class="share-title">Share this post</h3>
+            <div class="share-icons">
+              <!-- Twitter/X -->
+              <a href="https://twitter.com/intent/tweet?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Reasoning%20and%20Action%20Agents"
+                 target="_blank"
+                 class="share-button twitter"
+                 aria-label="Share on Twitter">
+                <i class="uil uil-twitter"></i>
+              </a>
+              
+              <!-- LinkedIn -->
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Reasoning%20and%20Action%20Agents"
+                 target="_blank"
+                 class="share-button linkedin"
+                 aria-label="Share on LinkedIn">
+                <i class="uil uil-linkedin"></i>
+              </a>
+              
+              <!-- Reddit -->
+              <a href="https://reddit.com/submit?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Reasoning%20and%20Action%20Agents"
+                 target="_blank"
+                 class="share-button reddit"
+                 aria-label="Share on Reddit">
+                <i class="uil uil-reddit-alien-alt"></i>
+              </a>
+              
+              <!-- Facebook -->
+              <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
+                 target="_blank"
+                 class="share-button facebook"
+                 aria-label="Share on Facebook">
+                <i class="uil uil-facebook"></i>
+              </a>
+              
+              <!-- WhatsApp -->
+              <a href="https://wa.me/?text=Reasoning%20and%20Action%20Agents%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
+                 target="_blank"
+                 class="share-button whatsapp"
+                 aria-label="Share on WhatsApp">
+                <i class="uil uil-whatsapp"></i>
+              </a>
+              
+              <!-- Telegram -->
+              <a href="https://t.me/share/url?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Reasoning%20and%20Action%20Agents"
+                 target="_blank"
+                 class="share-button telegram"
+                 aria-label="Share on Telegram">
+                <i class="uil uil-telegram"></i>
+              </a>
+              
+              <!-- Discord -->
+              <a href="https://discord.com/channels/@me?content=Reasoning%20and%20Action%20Agents%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
+                 target="_blank"
+                 class="share-button discord"
+                 aria-label="Share on Discord">
+                <i class="uil uil-discord"></i>
+              </a>
+              
+              <!-- Copy Link -->
+              <button class="share-button copy-link" aria-label="Copy link to clipboard">
+                <i class="uil uil-link"></i>
+              </button>
+            </div>
+          </div>
+
+          <footer class="article-navigation">
+            
+            <a href="../2024-11-29-reasoning-and-action-agents/content.html" class="nav-button prev-button ">
+                <i class="uil uil-angle-left"></i>
+                Previous: Reasoning and Action Agents
+                
+            </a>
+            
+            
+            
+          </footer>
+        </article>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__bg">
+        <div class="footer__container container grid">
+          <div>
+            <h1 class="footer__title">Miguel</h1>
+            <span class="footer__subtitle">Machine Learning Engineer</span>
+          </div>
+
+          <ul class="footer__links">
+            <li>
+              <a href="index.html#about" class="footer__link">About</a>
+            </li>
+            <li>
+              <a href="index.html#portfolio" class="footer__link">Portfolio</a>
+            </li>
+            <li>
+              <a href="index.html#contact" class="footer__link">Contact</a>
+            </li>
+          </ul>
+
+          <div class="footer__socials">
+            <a href="https://github.com/miguelvc6" target="_blank" class="footer__social">
+              <i class="uil uil-github-alt"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/miguel-v%C3%A1zquez-caraballo-177ba8225/"
+              target="_blank"
+              class="footer__social"
+            >
+              <i class="uil uil-linkedin-alt"></i>
+            </a>
+            <a href="mailto:miguel@mvazquez.ai" target="_blank" class="footer__social">
+              <i class="uil uil-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <p class="footer__copy">&#169; Miguel 2024</p>
+      </div>
+    </footer>
+
+    <script>
+      // Image zoom functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.querySelector('.zoom-overlay');
+        const overlayImg = overlay.querySelector('img');
+        
+        document.querySelectorAll('.blog-post__content img').forEach(img => {
+          img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlayImg.src = this.src;
+            overlayImg.alt = this.alt;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        overlay.addEventListener('click', function() {
+          this.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // Theme
+      const themeButton = document.getElementById('theme-button')
+      const darkTheme = 'dark-theme'
+      const iconTheme = 'uil-sun'
+
+      // Previously selected theme (checking from localStorage)
+      const selectedTheme = localStorage.getItem('selected-theme')
+      const selectedIcon = localStorage.getItem('selected-icon')
+
+      // Get current theme
+      const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+      const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
+
+      // Validate if user previously chose a theme
+      if (selectedTheme) {
+        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+        themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
+      }
+
+      // Activate / deactivate the theme manually with the button
+      themeButton.addEventListener('click', () => {
+        // Add or remove the dark / icon theme
+        document.body.classList.toggle(darkTheme)
+        themeButton.classList.toggle(iconTheme)
+        // Save the theme and the current icon that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        localStorage.setItem('selected-icon', getCurrentIcon())
+      })
+
+      // Copy link functionality
+      document.querySelector('.copy-link').addEventListener('click', function() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+          this.classList.add('copied');
+          setTimeout(() => {
+            this.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>
