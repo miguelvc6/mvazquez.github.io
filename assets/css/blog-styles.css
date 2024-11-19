@@ -1180,6 +1180,26 @@ pre[class*="language-"] {
   background: var(--first-color-alt);
 }
 
+.share-button.reddit:hover {
+  background: #FF4500;
+}
+
+.share-button.facebook:hover {
+  background: #1877F2;
+}
+
+.share-button.whatsapp:hover {
+  background: #25D366;
+}
+
+.share-button.telegram:hover {
+  background: #0088cc;
+}
+
+.share-button.discord:hover {
+  background: #5865F2;
+}
+
 /* Copy link feedback tooltip */
 .copy-link {
   position: relative;
