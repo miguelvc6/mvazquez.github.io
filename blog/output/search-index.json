@@ -1,5 +1,12 @@
 [
   {
+    "title": "Agent Development Ecosystem",
+    "date": "2024-11-20",
+    "url": "2024-11-20-agents-ecosystem/content.html",
+    "content": "# Agent Development Ecosystem The landscape of LLM agent development has rapidly evolved, giving rise to a rich ecosystem of frameworks, tools, and applications. While it's possible to build agents fr",
+    "author": "Miguel Vázquez"
+  },
+  {
     "title": "LLM Agents",
     "date": "2024-11-17",
     "url": "2024-11-17-llm-agents/content.html",
