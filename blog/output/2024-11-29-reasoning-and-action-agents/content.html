@@ -31,7 +31,7 @@
       gtag("config", "G-S7CP0MYZJC");
     </script>
 
-    <title>Reasoning and Action Agents - Miguel's Blog</title>
+    <title>Setup - Miguel's Blog</title>
 
     <!-- Add Prism.js CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
@@ -165,13 +165,13 @@
         <article class="blog-post">
           <header class="blog-post__header">
             <h1 class="blog-post__title">
-                Reasoning and Action Agents
+                Setup
                 
                 <span class="draft-badge">Draft</span>
                 
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-29 | Estimated Reading Time: 27 minutes | Author: Miguel Vázquez
+              Date: 2024-11-29 | Estimated Reading Time: 29 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -184,48 +184,6 @@
               <div class="inner">
                 <ul>
                   
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#introduction-to-react-agents" aria-label="Introduction to ReAct Agents">Introduction to ReAct Agents</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        <ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#react-agents" aria-label="ReAct agents">ReAct agents</a>
-                    </li>
-                    
-                  
-                    
-                    
-                    <li>
-                      <a href="#actions-as-tools" aria-label="Actions as tools">Actions as tools</a>
-                    </li>
-                    
-                  
-                    
-                      
-                        </ul>
-                      
-                        </ul>
-                      
-                    
-                    
-                    <li>
-                      <a href="#setup" aria-label="Setup">Setup</a>
-                    </li>
-                    
                   
                     
                       
@@ -342,7 +300,7 @@
                     
                     
                     <li>
-                      <a href="#observing-the-traces" aria-label="Observing the traces">Observing the traces</a>
+                      <a href="#observing-the-traces" aria-label="Observing the Traces">Observing the Traces</a>
                     </li>
                     
                   
@@ -364,45 +322,7 @@
             </details>
           </nav>
 
-          <section class="blog-post__content"><p>This post is a step-by-step guide to building ReAct Agents. The full code can be found on my github <a href="https://github.com/miguelvc6/react-agent">repository</a>.</p>
-<p>I recommend reading my blog post on <a href="https://mvazquez.ai/blog/output/2024-11-17-llm-agents/content.html">LLM Agents</a> to understand the fundamentals of LLM Agents, and optionally reading the original paper<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> for the theory behind ReAct Agents. The following section will be a brief summary of what the previous sources cover, so feel free to skip it if you have already read either the blog post or the paper.</p>
-<h2 id="introduction-to-react-agents">Introduction to ReAct Agents</h2>
-<h3 id="react-agents">ReAct agents</h3>
-<p>ReAct agents improve upon earlier LLM-based agents by incorporating reasoning into their actions. Previous LLM-based agents simply observed and acted, but this approach was often ineffective. The ReAct framework, introduced in 2022 by Yao et al., combines reasoning with observation and acting, leading to better performance.</p>
-<p>In the paper the setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)<strong>search</strong>[entity] returns the first 5 sentences from the corresponding <em>entity</em> wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)<strong>lookup</strong>[string], which returns the next sentence in the page containing <em>string</em> simulating a ctrl+F command, and (3)<strong>finish</strong>[answer] which would finish the current task with <em>answer</em>."[^3]</p>
-<p>With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-29-reasoning-and-action-agents\react_01.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
-<p>In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.</p>
-<p align="center">
-<img loading="lazy" src="..\..\media\2024-11-29-reasoning-and-action-agents\react_02.webp" width="80%"/>
-</p>
-<p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
-<p>In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able to plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state-of-the-art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.</p>
-<h3 id="actions-as-tools">Actions as tools</h3>
-<p>To implement agents we need to define a <strong>set of possible actions for the agent to take</strong>, among which the agent will have to decide in each iteration. For example it could have access to the following:</p>
-<ul>
-<li>
-<p>Ask the user for information.</p>
-</li>
-<li>
-<p>Search the web.</p>
-</li>
-<li>
-<p>Using an external database.</p>
-</li>
-<li>
-<p>Using a calculator or symbolic programming.</p>
-</li>
-<li>
-<p>Using a Python code interpreter.</p>
-</li>
-</ul>
-<p>These possible actions are commonly referred to as <strong>tools</strong>, and a set of actions is a <strong>toolbox</strong>.</p>
-<h1 id="setup">Setup</h1>
-<p>In this implementation of ReAct agents we will only use <strong>standard Python libraries</strong>, <strong>pydantic</strong> for output validations, and an LLM, which can be run locally with <strong>ollama</strong> or using an <strong>API</strong> from OpenAI, Anthropic, Google, etc. Besides, we will also use <strong>ansi2html</strong> to convert the output of the LLM to HTML to display the reasoning trace with colors and <strong>dotenv</strong> for the api key, but they are not necessary.</p>
+          <section class="blog-post__content"><p>In this implementation of ReAct agents we will only use <strong>standard Python libraries</strong>, <strong>pydantic</strong> for output validations, and an LLM, which can be run locally with <strong>ollama</strong> or using an <strong>API</strong> from OpenAI, Anthropic, Google, etc. Besides, we will also use <strong>ansi2html</strong> to convert the output of the LLM to HTML to display the reasoning trace with colors and <strong>dotenv</strong> for the api key, but they are not necessary.</p>
 <h2 id="running-the-llm-with-openai">Running the LLM with OpenAI</h2>
 <p>With the OpenAI API we can use the <code>openai</code> library. This is the easiest way to get started and the model is way more capable than the ones we can run locally, but you will have to create an account with payments information and pay for the API calls. It is not expensive, for development of this project and some evaluations expect it to cost less than 1USD. Just use the <code>gpt-4o-mini</code> model until it is completely implemented and then use the <code>gpt-4o</code> model to run it.</p>
 <p>In this scenario you would need the following libraries:</p>
@@ -424,6 +344,9 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 # Hello! How can I assist you today?
 </code></pre>
+<p>In the code above, we first import the necessary libraries. The <code>dotenv</code> library allows us to load environment variables from the <code>.env</code> file, ensuring that our API key is securely stored and easily accessible. By calling <code>load_dotenv()</code>, we make the <code>OPENAI_API_KEY</code> available to our script.</p>
+<p>Next, we create an instance of the OpenAI client. We then use the <code>chat.completions.create</code> method to send a message to the model. The <code>model</code> parameter specifies which OpenAI model to use—in this case, <code>gpt-4o-mini</code>. The <code>messages</code> parameter is a list of messages in the conversation; here, we start with a simple user message saying "Hello!".</p>
+<p>Finally, we print the assistant's response by accessing <code>response.choices[0].message.content</code>. This should output a friendly greeting from the model, demonstrating that our setup is working correctly.</p>
 <h2 id="running-the-llm-with-ollama">Running the LLM with Ollama</h2>
 <p>For running the LLM with <strong>ollama</strong>, which is a lightweight, open-source, and easy-to-use tool to run large language models on your own hardware, you can download it from the <a href="https://ollama.com/download">official website</a>.</p>
 <p>Next, you will have to download a model. At the time of writing this post, I recommend downloading the <a href="https://ollama.com/library/llama3.2">llama3.2</a> model or the <a href="https://ollama.com/library/qwen2.5-coder">qwen2.5-coder</a> model. Choose one with size 3B if your hardware is not too powerful, otherwise you can use one with around 7B. You can download them with the following command: <code>ollama pull llama3.2:3b</code> or <code>ollama pull qwen2.5-coder:7b</code>.</p>
@@ -441,6 +364,8 @@ response = ollama.chat(
 print(response["message"]["content"])
 # Hello! How can I assist you today?
 </code></pre>
+<p>In this snippet, we import the <code>ollama</code> library, which provides an interface to interact with the locally hosted LLM. The <code>ollama.chat</code> function sends a message to the model specified by the <code>model</code> parameter. We pass a list of messages to simulate a conversation, starting with the user's greeting "Hello!". The model's response is captured in the <code>response</code> variable, and we print out the assistant's reply by accessing <code>response["message"]["content"]</code>.</p>
+<p>By running this code, you're effectively communicating with the LLM running on your local machine, without the need for external API calls. This is particularly useful if you want to avoid API costs or have more control over the model's execution.</p>
 <p>In my implementation I have written a simple wrapper around both APIs to allow for a unified interface, that determines which API to use based on the model name.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">import os
 
@@ -484,6 +409,8 @@ class UnifiedChatAPI:
         response = ollama.chat(model=self.model, messages=messages)
         return response["message"]["content"]
 </code></pre>
+<p>This <code>UnifiedChatAPI</code> class provides a seamless way to switch between OpenAI and Ollama models based on the model name. In the <code>__init__</code> method, we determine which API to use by checking the prefix of the <code>model</code> name. If it starts with <code>gpt-</code> or <code>o1-</code>, we use the OpenAI API; otherwise, we default to Ollama.</p>
+<p>The <code>chat</code> method acts as a wrapper that directs the chat request to the appropriate underlying API. This abstraction allows the rest of our code to remain agnostic of the backend, making it easier to manage and switch between different models.</p>
 <p>I recommend you copy the previous code since I will be using the <code>UnifiedChatAPI</code> class with the <code>chat</code> method, or at least implement a wrapper with a similar <code>chat</code> method for your own use.</p>
 <h1 id="agent-design">Agent Design</h1>
 <p>Once we have the LLM running, we can start designing the agent. The first thing we need to do is to define the <strong>toolbox</strong>, the actions that the agent can take. In this case I will give my agent the capabilities to query a structured database using SQL, and use a calculator. In this way it can answer questions about the database and do basic calculations.</p>
@@ -492,8 +419,10 @@ class UnifiedChatAPI:
 <img loading="lazy" src="..\..\media\2024-11-29-reasoning-and-action-agents\tablas.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Database schema.</p>
+<p>The diagram above illustrates the structure of our SQLite database, showcasing the relationships between the <code>AGENTS</code>, <code>CUSTOMER</code>, and <code>ORDERS</code> tables. This simple schema allows our agent to interact with real data, perform queries, and answer questions that involve retrieving and processing information from these tables.</p>
+<p>By giving the agent access to this database, we enable it to handle more complex tasks such as calculating sales figures, analyzing customer behavior, or summarizing order details. This setup provides a practical context for demonstrating how the agent uses tools to interact with external data sources.</p>
 <h2 id="tools">Tools</h2>
-<p>To interact with the database I will give the agent the capability to list all the tables, to get the schema of a table and to execute SQL queries and return the results. For the calculator I will give it the capability to perform arithmetic operations with the eval function. A more sophisticated calculator could be implemented using the <a href="https://www.sympy.org/en/index.html">sympy</a> library for symbolic mathematics. A simple implementation of the tools is the following:</p>
+<p>To interact with the database I will give the agent the capability to list all the tables, to get the schema of a table and to execute SQL queries and return the results. For the calculator I will give it the capability to perform arithmetic operations with the eval function. A simple implementation of the tools is the following:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">import sqlite3
 
 def math_calculator(expression: str) -&gt; float:
@@ -523,6 +452,22 @@ def sql_db_query(query: str) -&gt; str:
     result = cursor.fetchall()
     return str(result)
 </code></pre>
+<p>In this code, we define four functions that the agent will use as tools:</p>
+<ul>
+<li>
+<p><strong><code>math_calculator</code></strong>: This function evaluates a mathematical expression passed as a string. It uses Python's built-in <code>eval()</code> function to compute the result. While this is sufficient for basic arithmetic, be cautious with <code>eval()</code> due to potential security risks if the input is not properly sanitized. A more sophisticated calculator could be implemented using the <a href="https://www.sympy.org/en/index.html">sympy</a> library for symbolic mathematics.</p>
+</li>
+<li>
+<p><strong><code>list_sql_tables</code></strong>: This function retrieves a list of all table names in the SQLite database. It executes a query on the <code>sqlite_master</code> table, which stores metadata about the database schema.</p>
+</li>
+<li>
+<p><strong><code>sql_db_schema</code></strong>: Given a table name, this function returns the schema of that table. It uses the <code>PRAGMA table_info</code> command to get details about each column in the table, such as the column name and data type.</p>
+</li>
+<li>
+<p><strong><code>sql_db_query</code></strong>: This function executes an SQL query provided as a string and returns the fetched results. It's a powerful tool that allows the agent to perform custom queries on the database.</p>
+</li>
+</ul>
+<p>By implementing these tools, we equip our agent with the capabilities to interact with the database and perform calculations, enabling it to handle a variety of queries involving data retrieval and processing.</p>
 <h2 id="reasoning-prompt">Reasoning Prompt</h2>
 <p>Now that we have the tools, we can start designing the prompts. Since it is a ReAct agent, we need to design a prompt for the reasoning step and a prompt for the acting step.</p>
 <p>The objective of the <strong>reasoning</strong> step is to plan the action that the agent will take. The prompt should give the agent the capability to plan and reason about the result of its actions. We have to pass the descriptions and arguments of the tools to the agent so it can select the appropriate one, along with an extra <code>final_answer</code> tool that will allow the agent to answer the question and finish the task if it has enough information.</p>
@@ -557,6 +502,19 @@ RESPONSE FORMAT
 REFLECTION &gt;&gt; &lt;Fill&gt;
 """
 </code></pre>
+<p>This prompt instructs the agent on how to perform the reasoning step. It includes:</p>
+<ul>
+<li>
+<p><strong>General Instructions</strong>: Guidance on reflecting upon the question and deciding the best course of action.</p>
+</li>
+<li>
+<p><strong>Available Tools and Assistants</strong>: A detailed list of tools and assistants the agent can use, including their descriptions and required arguments. This helps the agent understand its capabilities.</p>
+</li>
+<li>
+<p><strong>Response Format</strong>: Specifies that the agent should output its reflection in a particular format (<code>REFLECTION &gt;&gt; &lt;Fill&gt;</code>), ensuring consistency and ease of parsing.</p>
+</li>
+</ul>
+<p>By providing these details, we help the agent plan its approach effectively, deciding whether to use a tool, an assistant, or provide the final answer directly.</p>
 <p>To test the reasoning step, I have called gpt with <code>REFLECTION_SYSTEM_PROMPT</code> as system prompt, and have asked it a question.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">import textwrap
 
@@ -571,14 +529,33 @@ reflection = reflection.choices[0].message.content
 print(textwrap.fill(reflection, width=100))
 </code></pre>
 <p>The response is the following:</p>
-<pre class="line-numbers toolbar-top" data-language="output"><code class="language-output">REFLECTION &gt;&gt; To answer this question, I would need to access the database 
-that contains the records of income for the specific quarters between 2024. 
-First, it would be useful to identify the available tables and then check 
+<pre class="line-numbers toolbar-top" data-language="output"><code class="language-output">REFLECTION &gt;&gt; To answer this question, I would need to access the database
+that contains the records of income for the specific quarters between 2024.
+First, it would be useful to identify the available tables and then check
 the schema of the table that contains the income data.
-This will allow me to prepare an SQL query that calculates the growth between 
-the first and second quarter of 2024. 
+This will allow me to prepare an SQL query that calculates the growth between
+the first and second quarter of 2024.
 Therefore, I should start by listing the tables in the database.
 </code></pre>
+<p>In this output, the agent demonstrates a logical plan to solve the question:</p>
+<ul>
+<li>
+<p><strong>Accessing the Database</strong>: Recognizes the need to retrieve income data from the database.</p>
+</li>
+<li>
+<p><strong>Identifying Tables</strong>: Decides to list the available tables to find where the income data might be stored.</p>
+</li>
+<li>
+<p><strong>Checking Table Schema</strong>: Plans to examine the schema of the relevant table to understand its structure.</p>
+</li>
+<li>
+<p><strong>Preparing SQL Query</strong>: Intends to write an SQL query to calculate the income growth between the specified quarters.</p>
+</li>
+<li>
+<p><strong>First Step</strong>: Concludes that the initial action should be listing the tables.</p>
+</li>
+</ul>
+<p>This reflection shows that the agent is effectively reasoning about the steps required to answer the question, leveraging the tools at its disposal.</p>
 <h2 id="action-prompt">Action Prompt</h2>
 <p>In the act step, the agent must take the action decided in the reflection step. The prompt should give the agent the capability to act and use the tools. It is also important to specify a format for the model's response, in this case a JSON format. We will later use pydantic to validate the format.</p>
 <p>An important detail is that we don't want our model to be able to use the <code>decomposition</code> tool while answering a decomposed subquestion, since it could lead to many nested loops, which could potentially increase our token consumption and waiting time. To avoid this we will only write the tool name in the prompt when we are not in a decomposed subquestion.</p>
@@ -654,7 +631,6 @@ EXAMPLES:
   "request": "final_answer",
   "argument": "There were a total of 305 orders in 2024."
 }
-"""
 </code></pre>
 <p>Our action prompt will be either <code>ACTION_SYSTEM_PROMPT_01 + ACTION_SYSTEM_PROMPT_DECOMPOSITION + ACTION_SYSTEM_PROMPT_02</code> if the agent is working on the main question, or <code>ACTION_SYSTEM_PROMPT_01 + ACTION_SYSTEM_PROMPT_02</code> if it is working on a decomposed subquestion.</p>
 <p>We have also given some examples of tool calls to gain some few-shot learning performance increase. This could be improved with a vector database that stores tool call examples that are later dynamically retrieved through Retrieval Augmented Generation depending on the context in every Act step.</p>
@@ -680,8 +656,9 @@ print(validated_action)
 <p>The response is to use the <code>list_sql_tables</code> tool with no arguments.</p>
 <pre class="line-numbers toolbar-top" data-language="output"><code class="language-output">AgentAction(request='list_sql_tables', argument=None)
 </code></pre>
-<p>The AgentAction class is a pydantic model that validates the response format. If the response is not in the correct format, the model will raise an error. We can then use a try except block to handle the error with, for example, some retries while passing the error trace to the model, so it can learn from its mistakes.</p>
-<p>We can now use this validated action to call the appropriate tool with previously defined functions.</p>
+<p>In this test, we simulate the agent's decision-making process during the action step. We define a <code>AgentAction</code> pydantic model to validate the assistant's response, ensuring it follows the expected JSON format.</p>
+<p>The agent decides to use the <code>list_sql_tables</code> tool, which aligns with the reflection where it planned to list the tables first. The absence of an argument (<code>argument=None</code>) indicates that this tool doesn't require any additional input.</p>
+<p>By validating the response using pydantic, we can catch any formatting errors early and prompt the assistant to correct them, enhancing the robustness of our agent.</p>
 <p>These are all the main prompts we are going to use for our agent. They can be stored in a <code>prompts.py</code> script and then imported into our main script.</p>
 <h1 id="implementation">Implementation</h1>
 <p>With the prompts ready, we can start implementing the agent. I will use an Object-Oriented approach to implement the agent, its loop of reflection and acting, and the tools.</p>
@@ -705,7 +682,9 @@ from prompts import (
     REFLECTION_SYSTEM_PROMPT,
 )
 </code></pre>
-<p>Now define the previous <code>UnifiedChatAPI</code> class. Next, we implement the pydantic models.</p>
+<p>Here, we import standard Python libraries for handling JSON, operating system interactions, database connections, and text formatting. We also import <code>openai</code> and <code>ollama</code> for interacting with the respective APIs, <code>ansi2html</code> for converting ANSI escape sequences to HTML (useful for saving the reasoning trace), and <code>pydantic</code> for data validation.</p>
+<p>We import our prompt definitions from the <code>prompts.py</code> script, keeping our main script clean and focused on the implementation.</p>
+<p>Now you can define the previous <code>UnifiedChatAPI</code> class. Next, we implement the pydantic models.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python"># Pydantic Models for output validation
 class DecomposedQuestion(BaseModel):
     sub_questions: List[str]
@@ -719,6 +698,19 @@ class AgentAction(BaseModel):
 class AnswersSummary(BaseModel):
     summary: str
 </code></pre>
+<p>These pydantic models are used to validate the agent's outputs at different stages:</p>
+<ul>
+<li>
+<p><strong><code>DecomposedQuestion</code></strong>: Validates the output of the <code>decomposition</code> assistant, ensuring we receive a list of sub-questions.</p>
+</li>
+<li>
+<p><strong><code>AgentAction</code></strong>: Validates the action the agent decides to take, ensuring it includes a <code>request</code> and an optional <code>argument</code>.</p>
+</li>
+<li>
+<p><strong><code>AnswersSummary</code></strong>: Validates the summary generated after answering decomposed sub-questions.</p>
+</li>
+</ul>
+<p>By enforcing strict output formats, we reduce the risk of errors and make our agent's behavior more predictable.</p>
 <p>The <code>AnswersSummary</code> model will be used when, after decomposing the question into subquestions, and they have been answered, we want to summarize the answers into a single final answer before continuing with the main task. This will be easily understood later on when we implement the <code>decomposition</code> tool.</p>
 <h2 id="memory">Memory</h2>
 <p>The main memory we will use is the <code>context</code> class attribute, which will store the context of the conversation. This will be updated at each iteration of the loop, and it will be used to pass the context to the next iteration. This includes the user question, the tools' outputs and all the text that the agent has generated so far.</p>
@@ -744,6 +736,7 @@ class AnswersSummary(BaseModel):
                 context_lines.append(f"ANSWER: {a}")
             return "\n".join(context_lines)
 </code></pre>
+<p>This <code>SimpleMemory</code> class provides a way to store and retrieve past interactions. The <code>add_interaction</code> method appends new questions and answers to the respective lists, and <code>get_context</code> constructs a context string from the stored interactions. This context can then be used by the agent to maintain continuity in the conversation.</p>
 <p>This is a simple implementation of a memory that stores the question and answer traces in a list. It is not a sophisticated memory, but it is enough for our purposes.</p>
 <h2 id="agent-class">Agent Class</h2>
 <p>We can finally implement the agent class. This will include the loop of reflection and acting, as well as the tools. I will divide the code in different blocks, although it actually is a single class.</p>
@@ -764,6 +757,21 @@ class AgentReAct:
         self._connect_db() # Connect to the database
         self.memory_path = memory_path # Path to the memory file
 </code></pre>
+<p>In this constructor, we set up the agent's environment:</p>
+<ul>
+<li>
+<p><strong>Model and Client</strong>: Specify which language model to use and initialize the <code>UnifiedChatAPI</code> client.</p>
+</li>
+<li>
+<p><strong>Memory</strong>: Load the agent's memory from a file or initialize a new one.</p>
+</li>
+<li>
+<p><strong>Database Connection</strong>: Establish a connection to the SQLite database and create a cursor for executing SQL commands.</p>
+</li>
+<li>
+<p><strong>Context and Paths</strong>: Initialize the conversation context and store paths to the database and memory files.</p>
+</li>
+</ul>
 <p>All the attributes should be self-explanatory, except for the <code>load_memory</code> and <code>_connect_db</code> methods, which load the memory from the <code>self.memory_path</code> file and connect to the database and initialize the cursor. Let's implement the database management logic.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Database Management
     def _connect_db(self):
@@ -790,7 +798,18 @@ class AgentReAct:
         """Destructor to ensure the database connection is closed."""
         self._close_db()
 </code></pre>
-<p>This involves a method to connect to the sqlite database, a method to close the connection and a destructor to ensure the connection is closed when the object is deleted.</p>
+<p>These methods handle the database lifecycle:</p>
+<ul>
+<li>
+<p><strong><code>_connect_db</code></strong>: Checks if the database file exists and attempts to connect to it. If the connection fails, it raises an error.</p>
+</li>
+<li>
+<p><strong><code>_close_db</code></strong>: Closes the database connection and cursor, ensuring no resources are left open.</p>
+</li>
+<li>
+<p><strong><code>__del__</code></strong>: A destructor method that ensures the database connection is closed when the agent is destroyed.</p>
+</li>
+</ul>
 <p>Now we implement a couple methods to load and save the memory to the <code>agent_memory.json</code> file.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Memory Management
     def load_memory(self):
@@ -810,6 +829,15 @@ class AgentReAct:
                 indent=4,
             )
 </code></pre>
+<p>These methods handle persisting the agent's memory:</p>
+<ul>
+<li>
+<p><strong><code>load_memory</code></strong>: Attempts to load the memory from a JSON file. If the file doesn't exist, it initializes a new <code>SimpleMemory</code> instance.</p>
+</li>
+<li>
+<p><strong><code>save_memory</code></strong>: Writes the current memory state to a JSON file, allowing the agent to retain information across sessions.</p>
+</li>
+</ul>
 <p>We can now implement the main loop of the agent. Let's start with the reflection step.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Agent Reflections
     def reflection(self, question: str) -&gt; str:
@@ -829,10 +857,10 @@ QUESTION
         )
         return assistant_reply
 </code></pre>
-<p>This method takes the user question and the context of the conversation and uses the reflection prompt to generate a response. This response is the agent's plan to answer the question. Since the answer does not need a specific format, we do not need to validate it with a pydantic model.</p>
+<p>In the <code>reflection</code> method, the agent constructs a message containing the context and the question, and sends it to the LLM with the <code>REFLECTION_SYSTEM_PROMPT</code>. The assistant's reply is the agent's reflection on how to approach the question.</p>
 <p>Now the action step is a little more complex.</p>
-<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Agent Actions
-    def action(self, question: str, recursion=False, max_retrials: int = 3) -&gt; AgentAction:
+<p>In the <code>action</code> method, the agent constructs an action prompt similar to the reflection prompt but tailored for decision-making. The method determines whether the agent is in a recursive call (i.e., answering a decomposed subquestion) and adjusts the prompt accordingly to prevent excessive recursion.</p>
+<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    def action(self, question: str, recursion=False, max_retrials: int = 3) -&gt; AgentAction:
         """Determine the next action for the agent."""
         action_system_prompt = (
             ACTION_SYSTEM_PROMPT_01 + (not recursion) * ACTION_SYSTEM_PROMPT_DECOMPOSITION + ACTION_SYSTEM_PROMPT_02
@@ -844,68 +872,41 @@ QUESTION
 
 QUESTION
 {question}"""
-
-        for attempt in range(max_retrials):
-            assistant_reply = self.client.chat(
-                [
-                    {"role": "system", "content": action_system_prompt},
-                    {"role": "user", "content": agent_template},
-                ]
-            )
-
-            try:
-                # Attempt to extract the JSON object from the assistant's reply
-                start_index = assistant_reply.find("{")
-                end_index = assistant_reply.rfind("}") + 1
-                json_str = assistant_reply[start_index:end_index]
-                agent_action = json.loads(json_str)
-                validated_response = AgentAction.model_validate(agent_action)
-                return validated_response
-            except (json.JSONDecodeError, ValidationError) as e:
-                error_msg = self.format_message(f"Validation error on attempt {attempt + 1}: {e}", "ERROR", 0)
-                print(f"Assistant reply on attempt {attempt + 1}:\n{assistant_reply}\n")
-                self.context += error_msg
-                # Provide feedback to the assistant about the error
-                agent_template += (
-                    "\n\nERROR &gt;&gt; The previous response was not valid JSON or did not follow the expected format."
-                    " Please respond with a valid JSON object matching the required format."
-                )
-                continue
-
-        raise RuntimeError("Maximum number of retries reached without successful validation.")
 </code></pre>
-<p>The <code>action</code> method in the <code>AgentReAct</code> class is responsible for determining the next action the agent should take based on the current question and context. Here's a breakdown of how it works:</p>
-<ol>
-<li>
-<p><strong>Prompt Construction</strong>: <br/>
-   - The method constructs an action system prompt by combining predefined prompt segments. If the agent is not in a recursive call (i.e., not handling a decomposed subquestion), it includes the <code>ACTION_SYSTEM_PROMPT_DECOMPOSITION</code> to allow the use of the <code>decomposition</code> tool.</p>
-</li>
-<li>
-<p><strong>Context Preparation</strong>:<br/>
-   - It prepares a template that includes the current context of the conversation and the question being asked. This context is used to inform the model about the current state and what has been discussed so far.</p>
-</li>
-<li>
-<p><strong>Model Interaction</strong>:<br/>
-   - It sends the constructed prompt to the model using the <code>UnifiedChatAPI</code> and receives a response.</p>
-</li>
-<li>
-<p><strong>Response Parsing and Validation</strong>:<br/>
-   - The method attempts to extract a JSON object from the model's response. It looks for the JSON structure within the response string.<br/>
-   - It then tries to parse this JSON and validate it against the <code>AgentAction</code> pydantic model. This ensures the response is in the correct format and contains the necessary fields.</p>
-</li>
-<li>
-<p><strong>Error Handling</strong>:<br/>
-   - If the response is not valid JSON or does not match the expected format, the method appends an error message to the context and provides feedback to the model, asking it to try again with a valid JSON response.<br/>
-   - This is one of the reasons why the pydantic model is used, to allow the model to try again until it provides a valid response while also providing feedback to the model about the error.<br/>
-   - This process is repeated for <code>max_retrials</code> number of retries. If all attempts fail, a <code>RuntimeError</code> is raised and the task is aborted.</p>
-</li>
-<li>
-<p><strong>Return</strong>:<br/>
-   - If a valid action is determined, it is returned as an <code>AgentAction</code> object, which includes the action request and any necessary arguments.</p>
-</li>
-</ol>
-<p>This method is crucial for the agent's decision-making process, allowing it to choose the appropriate tool or action to take based on the current task and context.</p>
-<p>With the reflection and action methods implemented, we can now implement the main loop of the agent.</p>
+<p>In this code, the <code>action_system_prompt</code> is built by concatenating the appropriate prompts. If the agent is not in a recursive call (<code>recursion=False</code>), it includes the <code>ACTION_SYSTEM_PROMPT_DECOMPOSITION</code> to allow the use of the <code>decomposition</code> tool. The <code>agent_template</code> includes the context and the current question.</p>
+<p>The agent then enters a loop to attempt parsing the model's response:</p>
+<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    for attempt in range(max_retrials):
+        assistant_reply = self.client.chat(
+            [
+                {"role": "system", "content": action_system_prompt},
+                {"role": "user", "content": agent_template},
+            ]
+        )
+
+        try:
+            # Attempt to extract the JSON object from the assistant's reply
+            start_index = assistant_reply.find("{")
+            end_index = assistant_reply.rfind("}") + 1
+            json_str = assistant_reply[start_index:end_index]
+            agent_action = json.loads(json_str)
+            validated_response = AgentAction.model_validate(agent_action)
+            return validated_response
+        except (json.JSONDecodeError, ValidationError) as e:
+            error_msg = self.format_message(f"Validation error on attempt {attempt + 1}: {e}", "ERROR", 0)
+            print(f"Assistant reply on attempt {attempt + 1}:\n{assistant_reply}\n")
+            self.context += error_msg
+            # Provide feedback to the assistant about the error
+            agent_template += (
+                "\n\nERROR &gt;&gt; The previous response was not valid JSON or did not follow the expected format."
+                " Please respond with a valid JSON object matching the required format."
+            )
+            continue
+
+    raise RuntimeError("Maximum number of retries reached without successful validation.")
+</code></pre>
+<p>Here, the agent tries to extract a JSON object from the assistant's reply, ensuring it matches the expected format. If parsing fails due to a <code>JSONDecodeError</code> or validation fails due to a <code>ValidationError</code>, it appends an error message to the context and updates the <code>agent_template</code> to inform the assistant of the mistake. The process retries up to <code>max_retrials</code> times before raising an exception.</p>
+<p>This loop helps the agent handle cases where the model's output isn't in the correct format, making the system more robust by allowing the model to correct its response.</p>
+<p>Now, we implement the main loop where the agent continuously reflects, decides on actions, and executes them until it reaches a final answer or encounters an error.</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    def run_agent(self, question: str, recursion: bool = False, indent_level: int = 0) -&gt; str:
         """Run the ReAct agent to answer a question."""
         if not recursion:
@@ -926,9 +927,25 @@ QUESTION
                 self.context += error_msg
                 break
 </code></pre>
-<p>This method uses a while loop to keep the agent running until it has either found the final answer or an error occurs. Three steps are repeated in the loop: reflection, action and execution. The reflection step is used to generate a plan to answer the question, the action step is used to determine the next action to take and the execution step is used to actually execute the action. The first two steps are just the reflection and action methods we implemented earlier with a little formatting to add to the context.</p>
-<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Helper Methods
-    def perform_reflection(self, question: str, indent_level: int):
+<p>In the <code>run_agent</code> method:</p>
+<ul>
+<li>
+<p><strong>Initialization</strong>: If not in recursion, it resets the context using the agent's memory.</p>
+</li>
+<li>
+<p><strong>Loop</strong>: It enters a loop where it:</p>
+<ul>
+<li>Performs reflection to plan the next steps.</li>
+<li>Decides on the next action based on the reflection.</li>
+<li>Executes the action and checks if a final result is obtained.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Handling</strong>: If an exception occurs, it logs the error and breaks the loop.</p>
+</li>
+</ul>
+<p>The helper methods <code>perform_reflection</code>, <code>decide_action</code>, and <code>execute_action</code> manage specific tasks in the loop.</p>
+<pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    def perform_reflection(self, question: str, indent_level: int):
         """Perform reflection and update context."""
         reflection = self.reflection(question=question)
         reflection_msg = self.format_message(reflection.split("&gt;&gt; ")[1], "REFLECTION", indent_level)
@@ -946,7 +963,8 @@ QUESTION
         print(self.context)
         return action
 </code></pre>
-<p>We can now implement the execution of the action. This method takes the output of the <code>decide_action</code> method to call the appropriate tool with the correct arguments.</p>
+<p>These methods update the context with the reflection and action, format the messages for readability, and handle indentation levels for nested subquestions.</p>
+<p>The <code>execute_action</code> method carries out the chosen action:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    def execute_action(self, action: AgentAction, question: str, indent_level: int) -&gt; Optional[str]:
         """Execute the chosen action and handle the result."""
         try:
@@ -979,7 +997,22 @@ QUESTION
             self.context += error_msg
         return None  # Continue the loop
 </code></pre>
-<p>We can now write the tools. These will be methods similar to the functions we defined at the beginning of the post, with a little of error handling added.</p>
+<p>This method:</p>
+<ul>
+<li>
+<p><strong>Action Execution</strong>: Calls the appropriate tool method based on <code>action.request</code>.</p>
+</li>
+<li>
+<p><strong>Special Cases</strong>: Handles <code>decomposition</code> and <code>final_answer</code> differently, as they involve recursive behavior or concluding the task.</p>
+</li>
+<li>
+<p><strong>Context Update</strong>: Adds observations or errors to the context for transparency.</p>
+</li>
+<li>
+<p><strong>Loop Control</strong>: Returns <code>None</code> to continue the loop unless a final answer is reached.</p>
+</li>
+</ul>
+<p>Next, we define the tool methods that the agent can use:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Tools
     def math_calculator(self, expression: str) -&gt; Optional[float]:
         """Evaluate a mathematical expression."""
@@ -1021,7 +1054,8 @@ QUESTION
             print(f"Error executing query: {e}")
             return None
 </code></pre>
-<p>We also need to implement the methods to handle the final answer. The model can call the <code>final_answer</code> tool when it considers that it is able to answer the question.</p>
+<p>These methods implement the functionalities of the tools specified in the prompts, allowing the agent to perform calculations and interact with the database.</p>
+<p>We also need to handle the <code>final_answer</code> action appropriately:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Final Answer Tool
     def handle_final_answer(self, question: str, action: AgentAction, indent_level: int):
         """Handle the final answer action."""
@@ -1032,15 +1066,16 @@ QUESTION
         os.system("cls" if os.name == "nt" else "clear")
         print(self.context)
 </code></pre>
-<p>With this we could finish the implementation of the <code>AgentReAct</code> class. But we are going to add the decomposition tool, which is used to decompose complex questions into simpler subquestions. This will make the agent more powerful and able to handle more complex questions.</p>
+<p>This method updates the agent's memory with the question and final answer, formats the answer for display, and updates the context.</p>
+<p>To implement the <code>decomposition</code> tool, we include methods to decompose complex questions and summarize answers:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Assistants
     def decompose_question(self, question: str, max_retrials: int = 3) -&gt; DecomposedQuestion:
         """Decompose a complex question into simpler parts."""
         decomp_system_prompt = """GENERAL INSTRUCTIONS
-You are an expert in the domain of the following question. Your task is to decompose a complex question into simpler parts.
+    You are an expert in the domain of the following question. Your task is to decompose a complex question into simpler parts.
 
-RESPONSE FORMAT
-{"sub_questions":["&lt;FILL&gt;"]}"""
+    RESPONSE FORMAT
+    {"sub_questions":["&lt;FILL&gt;"]}"""
 
         for attempt in range(max_retrials):
             assistant_reply = self.client.chat(
@@ -1062,10 +1097,10 @@ RESPONSE FORMAT
     def answers_summarizer(self, questions: List[str], answers: List[str], max_retrials: int = 3) -&gt; AnswersSummary:
         """Summarize a list of answers to the decomposed questions."""
         answer_summarizer_system_prompt = """GENERAL INSTRUCTIONS
-You are an expert in the domain of the following questions. Your task is to summarize the answers to the questions into a single response.
+    You are an expert in the domain of the following questions. Your task is to summarize the answers to the questions into a single response.
 
-RESPONSE FORMAT
-{"summary": "&lt;FILL&gt;"}"""
+    RESPONSE FORMAT
+    {"summary": "&lt;FILL&gt;"}"""
 
         q_and_a_prompt = "\n\n".join(
             [f"SUBQUESTION {i+1}\n{q}\nANSWER {i+1}\n{a}" for i, (q, a) in enumerate(zip(questions, answers))]
@@ -1088,8 +1123,8 @@ RESPONSE FORMAT
 
         raise RuntimeError("Maximum number of retries reached without successful validation.")
 </code></pre>
-<p>Here we can see the two assistants that are used to decompose the question and summarize the answers. When the question is decomposed, the agent will recursively call itself to answer the subquestions. Once all subquestions are answered, the answers are summarized and the final answer is returned. With this agent has the ability to use a divide and conquer strategy to answer complex questions.</p>
-<p>Finally, we write some utility methods to format the messages and to export the reasoning traces to a file for later analysis and our enjoyment.</p>
+<p>These methods enable the agent to break down complex questions into manageable subquestions and then combine the answers into a coherent final response.</p>
+<p>Finally, we add utility methods to format messages and save the agent's reasoning trace:</p>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">    # Formatting
     def format_message(self, text: str, action: str, indent_level: int) -&gt; str:
         """Format messages with indentation and color."""
@@ -1124,6 +1159,7 @@ RESPONSE FORMAT
             f.write(html_content)
         print(f"Context saved to {filename}")
 </code></pre>
+<p>These methods enhance the readability of the agent's output by adding colors and indentation. The <code>save_context_to_html</code> method allows us to export the entire reasoning process to an HTML file, preserving the formatting.</p>
 <h1 id="testing-the-agent">Testing the Agent</h1>
 <h2 id="running-the-agent">Running the Agent</h2>
 <pre class="line-numbers toolbar-top" data-language="python"><code class="language-python">if __name__ == "__main__":
@@ -1151,7 +1187,9 @@ RESPONSE FORMAT
         agent.run_agent(simpler_question)
         agent.save_context_to_html("agent_context_ollama.html")
 </code></pre>
-<h2 id="observing-the-traces">Observing the traces</h2>
+<p>In this test script, we initialize the <code>AgentReAct</code> class with the desired model and database path. We then define a question for the agent to answer. After running the agent with <code>run_agent</code>, we save the reasoning trace to an HTML file and the memory to a JSON file. This allows us to inspect the agent's thought process and verify its performance.</p>
+<h2 id="observing-the-traces">Observing the Traces</h2>
+<p>After running the agent, open the generated HTML file (e.g., <code>agent_context_ollama.html</code>) to observe the reasoning trace. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.</p>
 <h1 id="references">References</h1>
 <div class="footnote">
 <hr/>
@@ -1166,7 +1204,7 @@ RESPONSE FORMAT
             <h3 class="share-title">Share this post</h3>
             <div class="share-icons">
               <!-- Twitter/X -->
-              <a href="https://twitter.com/intent/tweet?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Reasoning%20and%20Action%20Agents"
+              <a href="https://twitter.com/intent/tweet?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Setup"
                  target="_blank"
                  class="share-button twitter"
                  aria-label="Share on Twitter">
@@ -1174,7 +1212,7 @@ RESPONSE FORMAT
               </a>
               
               <!-- LinkedIn -->
-              <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Reasoning%20and%20Action%20Agents"
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Setup"
                  target="_blank"
                  class="share-button linkedin"
                  aria-label="Share on LinkedIn">
@@ -1182,7 +1220,7 @@ RESPONSE FORMAT
               </a>
               
               <!-- Reddit -->
-              <a href="https://reddit.com/submit?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Reasoning%20and%20Action%20Agents"
+              <a href="https://reddit.com/submit?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&title=Setup"
                  target="_blank"
                  class="share-button reddit"
                  aria-label="Share on Reddit">
@@ -1198,7 +1236,7 @@ RESPONSE FORMAT
               </a>
               
               <!-- WhatsApp -->
-              <a href="https://wa.me/?text=Reasoning%20and%20Action%20Agents%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
+              <a href="https://wa.me/?text=Setup%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
                  target="_blank"
                  class="share-button whatsapp"
                  aria-label="Share on WhatsApp">
@@ -1206,7 +1244,7 @@ RESPONSE FORMAT
               </a>
               
               <!-- Telegram -->
-              <a href="https://t.me/share/url?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Reasoning%20and%20Action%20Agents"
+              <a href="https://t.me/share/url?url=https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html&text=Setup"
                  target="_blank"
                  class="share-button telegram"
                  aria-label="Share on Telegram">
@@ -1214,7 +1252,7 @@ RESPONSE FORMAT
               </a>
               
               <!-- Discord -->
-              <a href="https://discord.com/channels/@me?content=Reasoning%20and%20Action%20Agents%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
+              <a href="https://discord.com/channels/@me?content=Setup%20https%3A//mvazquez.ai/blog/output/2024-11-29-reasoning-and-action-agents/content.html"
                  target="_blank"
                  class="share-button discord"
                  aria-label="Share on Discord">

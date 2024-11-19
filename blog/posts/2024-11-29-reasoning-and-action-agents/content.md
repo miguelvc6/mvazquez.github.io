@@ -1,47 +1,3 @@
-# Reasoning and Action Agents
-
-This post is a step-by-step guide to building ReAct Agents. The full code can be found on my github [repository](https://github.com/miguelvc6/react-agent).
-
-I recommend reading my blog post on [LLM Agents](https://mvazquez.ai/blog/output/2024-11-17-llm-agents/content.html) to understand the fundamentals of LLM Agents, and optionally reading the original paper[^1] for the theory behind ReAct Agents. The following section will be a brief summary of what the previous sources cover, so feel free to skip it if you have already read either the blog post or the paper.
-
-## Introduction to ReAct Agents
-
-### ReAct agents
-
-ReAct agents improve upon earlier LLM-based agents by incorporating reasoning into their actions. Previous LLM-based agents simply observed and acted, but this approach was often ineffective. The ReAct framework, introduced in 2022 by Yao et al., combines reasoning with observation and acting, leading to better performance.
-
-In the paper the setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)**search**\[entity] returns the first 5 sentences from the corresponding _entity_ wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)**lookup**\[string], which returns the next sentence in the page containing _string_ simulating a ctrl+F command, and (3)**finish**\[answer] which would finish the current task with _answer_."[^3]
-
-With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.
-
-<p align="center">
-  <img src="../../media/2024-11-29-reasoning-and-action-agents/react_01.webp" width="80%" />
-</p>
-
-<p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
-
-In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.
-
-<p align="center">
-  <img src="../../media/2024-11-29-reasoning-and-action-agents/react_02.webp" width="80%" />
-</p>
-
-<p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
-
-In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able to plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state-of-the-art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.
-
-### Actions as tools
-
-To implement agents we need to define a **set of possible actions for the agent to take**, among which the agent will have to decide in each iteration. For example it could have access to the following:
-
--   Ask the user for information.
--   Search the web.
--   Using an external database.
--   Using a calculator or symbolic programming.
--   Using a Python code interpreter.
-
-These possible actions are commonly referred to as **tools**, and a set of actions is a **toolbox**.
-
 # Setup
 
 In this implementation of ReAct agents we will only use **standard Python libraries**, **pydantic** for output validations, and an LLM, which can be run locally with **ollama** or using an **API** from OpenAI, Anthropic, Google, etc. Besides, we will also use **ansi2html** to convert the output of the LLM to HTML to display the reasoning trace with colors and **dotenv** for the api key, but they are not necessary.
@@ -78,6 +34,12 @@ print(response.choices[0].message.content)
 # Hello! How can I assist you today?
 ```
 
+In the code above, we first import the necessary libraries. The `dotenv` library allows us to load environment variables from the `.env` file, ensuring that our API key is securely stored and easily accessible. By calling `load_dotenv()`, we make the `OPENAI_API_KEY` available to our script.
+
+Next, we create an instance of the OpenAI client. We then use the `chat.completions.create` method to send a message to the model. The `model` parameter specifies which OpenAI model to use—in this case, `gpt-4o-mini`. The `messages` parameter is a list of messages in the conversation; here, we start with a simple user message saying "Hello!".
+
+Finally, we print the assistant's response by accessing `response.choices[0].message.content`. This should output a friendly greeting from the model, demonstrating that our setup is working correctly.
+
 ## Running the LLM with Ollama
 
 For running the LLM with **ollama**, which is a lightweight, open-source, and easy-to-use tool to run large language models on your own hardware, you can download it from the [official website](https://ollama.com/download).
@@ -104,6 +66,10 @@ response = ollama.chat(
 print(response["message"]["content"])
 # Hello! How can I assist you today?
 ```
+
+In this snippet, we import the `ollama` library, which provides an interface to interact with the locally hosted LLM. The `ollama.chat` function sends a message to the model specified by the `model` parameter. We pass a list of messages to simulate a conversation, starting with the user's greeting "Hello!". The model's response is captured in the `response` variable, and we print out the assistant's reply by accessing `response["message"]["content"]`.
+
+By running this code, you're effectively communicating with the LLM running on your local machine, without the need for external API calls. This is particularly useful if you want to avoid API costs or have more control over the model's execution.
 
 In my implementation I have written a simple wrapper around both APIs to allow for a unified interface, that determines which API to use based on the model name.
 
@@ -151,6 +117,10 @@ class UnifiedChatAPI:
         return response["message"]["content"]
 ```
 
+This `UnifiedChatAPI` class provides a seamless way to switch between OpenAI and Ollama models based on the model name. In the `__init__` method, we determine which API to use by checking the prefix of the `model` name. If it starts with `gpt-` or `o1-`, we use the OpenAI API; otherwise, we default to Ollama.
+
+The `chat` method acts as a wrapper that directs the chat request to the appropriate underlying API. This abstraction allows the rest of our code to remain agnostic of the backend, making it easier to manage and switch between different models.
+
 I recommend you copy the previous code since I will be using the `UnifiedChatAPI` class with the `chat` method, or at least implement a wrapper with a similar `chat` method for your own use.
 
 # Agent Design
@@ -165,9 +135,13 @@ For the database I will use a simple SQLite database with three tables: `AGENTS`
 
 <p style="text-align:center; font-style: italic;">Database schema.</p>
 
+The diagram above illustrates the structure of our SQLite database, showcasing the relationships between the `AGENTS`, `CUSTOMER`, and `ORDERS` tables. This simple schema allows our agent to interact with real data, perform queries, and answer questions that involve retrieving and processing information from these tables.
+
+By giving the agent access to this database, we enable it to handle more complex tasks such as calculating sales figures, analyzing customer behavior, or summarizing order details. This setup provides a practical context for demonstrating how the agent uses tools to interact with external data sources.
+
 ## Tools
 
-To interact with the database I will give the agent the capability to list all the tables, to get the schema of a table and to execute SQL queries and return the results. For the calculator I will give it the capability to perform arithmetic operations with the eval function. A more sophisticated calculator could be implemented using the [sympy](https://www.sympy.org/en/index.html) library for symbolic mathematics. A simple implementation of the tools is the following:
+To interact with the database I will give the agent the capability to list all the tables, to get the schema of a table and to execute SQL queries and return the results. For the calculator I will give it the capability to perform arithmetic operations with the eval function. A simple implementation of the tools is the following:
 
 ```python
 import sqlite3
@@ -199,6 +173,18 @@ def sql_db_query(query: str) -> str:
     result = cursor.fetchall()
     return str(result)
 ```
+
+In this code, we define four functions that the agent will use as tools:
+
+-   **`math_calculator`**: This function evaluates a mathematical expression passed as a string. It uses Python's built-in `eval()` function to compute the result. While this is sufficient for basic arithmetic, be cautious with `eval()` due to potential security risks if the input is not properly sanitized. A more sophisticated calculator could be implemented using the [sympy](https://www.sympy.org/en/index.html) library for symbolic mathematics.
+
+-   **`list_sql_tables`**: This function retrieves a list of all table names in the SQLite database. It executes a query on the `sqlite_master` table, which stores metadata about the database schema.
+
+-   **`sql_db_schema`**: Given a table name, this function returns the schema of that table. It uses the `PRAGMA table_info` command to get details about each column in the table, such as the column name and data type.
+
+-   **`sql_db_query`**: This function executes an SQL query provided as a string and returns the fetched results. It's a powerful tool that allows the agent to perform custom queries on the database.
+
+By implementing these tools, we equip our agent with the capabilities to interact with the database and perform calculations, enabling it to handle a variety of queries involving data retrieval and processing.
 
 ## Reasoning Prompt
 
@@ -234,6 +220,16 @@ REFLECTION >> <Fill>
 """
 ```
 
+This prompt instructs the agent on how to perform the reasoning step. It includes:
+
+-   **General Instructions**: Guidance on reflecting upon the question and deciding the best course of action.
+
+-   **Available Tools and Assistants**: A detailed list of tools and assistants the agent can use, including their descriptions and required arguments. This helps the agent understand its capabilities.
+
+-   **Response Format**: Specifies that the agent should output its reflection in a particular format (`REFLECTION >> <Fill>`), ensuring consistency and ease of parsing.
+
+By providing these details, we help the agent plan its approach effectively, deciding whether to use a tool, an assistant, or provide the final answer directly.
+
 To test the reasoning step, I have called gpt with `REFLECTION_SYSTEM_PROMPT` as system prompt, and have asked it a question.
 
 ```python
@@ -253,14 +249,28 @@ print(textwrap.fill(reflection, width=100))
 The response is the following:
 
 ```output
-REFLECTION >> To answer this question, I would need to access the database 
-that contains the records of income for the specific quarters between 2024. 
-First, it would be useful to identify the available tables and then check 
+REFLECTION >> To answer this question, I would need to access the database
+that contains the records of income for the specific quarters between 2024.
+First, it would be useful to identify the available tables and then check
 the schema of the table that contains the income data.
-This will allow me to prepare an SQL query that calculates the growth between 
-the first and second quarter of 2024. 
+This will allow me to prepare an SQL query that calculates the growth between
+the first and second quarter of 2024.
 Therefore, I should start by listing the tables in the database.
 ```
+
+In this output, the agent demonstrates a logical plan to solve the question:
+
+-   **Accessing the Database**: Recognizes the need to retrieve income data from the database.
+
+-   **Identifying Tables**: Decides to list the available tables to find where the income data might be stored.
+
+-   **Checking Table Schema**: Plans to examine the schema of the relevant table to understand its structure.
+
+-   **Preparing SQL Query**: Intends to write an SQL query to calculate the income growth between the specified quarters.
+
+-   **First Step**: Concludes that the initial action should be listing the tables.
+
+This reflection shows that the agent is effectively reasoning about the steps required to answer the question, leveraging the tools at its disposal.
 
 ## Action Prompt
 
@@ -330,7 +340,6 @@ EXAMPLES:
   "request": "final_answer",
   "argument": "There were a total of 305 orders in 2024."
 }
-"""
 ```
 
 Our action prompt will be either `ACTION_SYSTEM_PROMPT_01 + ACTION_SYSTEM_PROMPT_DECOMPOSITION + ACTION_SYSTEM_PROMPT_02` if the agent is working on the main question, or `ACTION_SYSTEM_PROMPT_01 + ACTION_SYSTEM_PROMPT_02` if it is working on a decomposed subquestion.
@@ -365,9 +374,11 @@ The response is to use the `list_sql_tables` tool with no arguments.
 AgentAction(request='list_sql_tables', argument=None)
 ```
 
-The AgentAction class is a pydantic model that validates the response format. If the response is not in the correct format, the model will raise an error. We can then use a try except block to handle the error with, for example, some retries while passing the error trace to the model, so it can learn from its mistakes.
+In this test, we simulate the agent's decision-making process during the action step. We define a `AgentAction` pydantic model to validate the assistant's response, ensuring it follows the expected JSON format.
 
-We can now use this validated action to call the appropriate tool with previously defined functions.
+The agent decides to use the `list_sql_tables` tool, which aligns with the reflection where it planned to list the tables first. The absence of an argument (`argument=None`) indicates that this tool doesn't require any additional input.
+
+By validating the response using pydantic, we can catch any formatting errors early and prompt the assistant to correct them, enhancing the robustness of our agent.
 
 These are all the main prompts we are going to use for our agent. They can be stored in a `prompts.py` script and then imported into our main script.
 
@@ -399,7 +410,11 @@ from prompts import (
 )
 ```
 
-Now define the previous `UnifiedChatAPI` class. Next, we implement the pydantic models.
+Here, we import standard Python libraries for handling JSON, operating system interactions, database connections, and text formatting. We also import `openai` and `ollama` for interacting with the respective APIs, `ansi2html` for converting ANSI escape sequences to HTML (useful for saving the reasoning trace), and `pydantic` for data validation.
+
+We import our prompt definitions from the `prompts.py` script, keeping our main script clean and focused on the implementation.
+
+Now you can define the previous `UnifiedChatAPI` class. Next, we implement the pydantic models.
 
 ```python
 # Pydantic Models for output validation
@@ -415,6 +430,16 @@ class AgentAction(BaseModel):
 class AnswersSummary(BaseModel):
     summary: str
 ```
+
+These pydantic models are used to validate the agent's outputs at different stages:
+
+-   **`DecomposedQuestion`**: Validates the output of the `decomposition` assistant, ensuring we receive a list of sub-questions.
+
+-   **`AgentAction`**: Validates the action the agent decides to take, ensuring it includes a `request` and an optional `argument`.
+
+-   **`AnswersSummary`**: Validates the summary generated after answering decomposed sub-questions.
+
+By enforcing strict output formats, we reduce the risk of errors and make our agent's behavior more predictable.
 
 The `AnswersSummary` model will be used when, after decomposing the question into subquestions, and they have been answered, we want to summarize the answers into a single final answer before continuing with the main task. This will be easily understood later on when we implement the `decomposition` tool.
 
@@ -447,6 +472,8 @@ class SimpleMemory:
             return "\n".join(context_lines)
 ```
 
+This `SimpleMemory` class provides a way to store and retrieve past interactions. The `add_interaction` method appends new questions and answers to the respective lists, and `get_context` constructs a context string from the stored interactions. This context can then be used by the agent to maintain continuity in the conversation.
+
 This is a simple implementation of a memory that stores the question and answer traces in a list. It is not a sophisticated memory, but it is enough for our purposes.
 
 ## Agent Class
@@ -472,6 +499,16 @@ class AgentReAct:
         self._connect_db() # Connect to the database
         self.memory_path = memory_path # Path to the memory file
 ```
+
+In this constructor, we set up the agent's environment:
+
+-   **Model and Client**: Specify which language model to use and initialize the `UnifiedChatAPI` client.
+
+-   **Memory**: Load the agent's memory from a file or initialize a new one.
+
+-   **Database Connection**: Establish a connection to the SQLite database and create a cursor for executing SQL commands.
+
+-   **Context and Paths**: Initialize the conversation context and store paths to the database and memory files.
 
 All the attributes should be self-explanatory, except for the `load_memory` and `_connect_db` methods, which load the memory from the `self.memory_path` file and connect to the database and initialize the cursor. Let's implement the database management logic.
 
@@ -502,7 +539,13 @@ All the attributes should be self-explanatory, except for the `load_memory` and 
         self._close_db()
 ```
 
-This involves a method to connect to the sqlite database, a method to close the connection and a destructor to ensure the connection is closed when the object is deleted.
+These methods handle the database lifecycle:
+
+-   **`_connect_db`**: Checks if the database file exists and attempts to connect to it. If the connection fails, it raises an error.
+
+-   **`_close_db`**: Closes the database connection and cursor, ensuring no resources are left open.
+
+-   **`__del__`**: A destructor method that ensures the database connection is closed when the agent is destroyed.
 
 Now we implement a couple methods to load and save the memory to the `agent_memory.json` file.
 
@@ -526,6 +569,12 @@ Now we implement a couple methods to load and save the memory to the `agent_memo
             )
 ```
 
+These methods handle persisting the agent's memory:
+
+-   **`load_memory`**: Attempts to load the memory from a JSON file. If the file doesn't exist, it initializes a new `SimpleMemory` instance.
+
+-   **`save_memory`**: Writes the current memory state to a JSON file, allowing the agent to retain information across sessions.
+
 We can now implement the main loop of the agent. Let's start with the reflection step.
 
 ```python
@@ -548,12 +597,13 @@ QUESTION
         return assistant_reply
 ```
 
-This method takes the user question and the context of the conversation and uses the reflection prompt to generate a response. This response is the agent's plan to answer the question. Since the answer does not need a specific format, we do not need to validate it with a pydantic model.
+In the `reflection` method, the agent constructs a message containing the context and the question, and sends it to the LLM with the `REFLECTION_SYSTEM_PROMPT`. The assistant's reply is the agent's reflection on how to approach the question.
 
 Now the action step is a little more complex.
 
+In the `action` method, the agent constructs an action prompt similar to the reflection prompt but tailored for decision-making. The method determines whether the agent is in a recursive call (i.e., answering a decomposed subquestion) and adjusts the prompt accordingly to prevent excessive recursion.
+
 ```python
-    # Agent Actions
     def action(self, question: str, recursion=False, max_retrials: int = 3) -> AgentAction:
         """Determine the next action for the agent."""
         action_system_prompt = (
@@ -566,63 +616,48 @@ Now the action step is a little more complex.
 
 QUESTION
 {question}"""
-
-        for attempt in range(max_retrials):
-            assistant_reply = self.client.chat(
-                [
-                    {"role": "system", "content": action_system_prompt},
-                    {"role": "user", "content": agent_template},
-                ]
-            )
-
-            try:
-                # Attempt to extract the JSON object from the assistant's reply
-                start_index = assistant_reply.find("{")
-                end_index = assistant_reply.rfind("}") + 1
-                json_str = assistant_reply[start_index:end_index]
-                agent_action = json.loads(json_str)
-                validated_response = AgentAction.model_validate(agent_action)
-                return validated_response
-            except (json.JSONDecodeError, ValidationError) as e:
-                error_msg = self.format_message(f"Validation error on attempt {attempt + 1}: {e}", "ERROR", 0)
-                print(f"Assistant reply on attempt {attempt + 1}:\n{assistant_reply}\n")
-                self.context += error_msg
-                # Provide feedback to the assistant about the error
-                agent_template += (
-                    "\n\nERROR >> The previous response was not valid JSON or did not follow the expected format."
-                    " Please respond with a valid JSON object matching the required format."
-                )
-                continue
-
-        raise RuntimeError("Maximum number of retries reached without successful validation.")
 ```
 
-The `action` method in the `AgentReAct` class is responsible for determining the next action the agent should take based on the current question and context. Here's a breakdown of how it works:
+In this code, the `action_system_prompt` is built by concatenating the appropriate prompts. If the agent is not in a recursive call (`recursion=False`), it includes the `ACTION_SYSTEM_PROMPT_DECOMPOSITION` to allow the use of the `decomposition` tool. The `agent_template` includes the context and the current question.
 
-1. **Prompt Construction**: 
-   - The method constructs an action system prompt by combining predefined prompt segments. If the agent is not in a recursive call (i.e., not handling a decomposed subquestion), it includes the `ACTION_SYSTEM_PROMPT_DECOMPOSITION` to allow the use of the `decomposition` tool.
+The agent then enters a loop to attempt parsing the model's response:
 
-2. **Context Preparation**:
-   - It prepares a template that includes the current context of the conversation and the question being asked. This context is used to inform the model about the current state and what has been discussed so far.
+```python
+    for attempt in range(max_retrials):
+        assistant_reply = self.client.chat(
+            [
+                {"role": "system", "content": action_system_prompt},
+                {"role": "user", "content": agent_template},
+            ]
+        )
 
-3. **Model Interaction**:
-   - It sends the constructed prompt to the model using the `UnifiedChatAPI` and receives a response.
+        try:
+            # Attempt to extract the JSON object from the assistant's reply
+            start_index = assistant_reply.find("{")
+            end_index = assistant_reply.rfind("}") + 1
+            json_str = assistant_reply[start_index:end_index]
+            agent_action = json.loads(json_str)
+            validated_response = AgentAction.model_validate(agent_action)
+            return validated_response
+        except (json.JSONDecodeError, ValidationError) as e:
+            error_msg = self.format_message(f"Validation error on attempt {attempt + 1}: {e}", "ERROR", 0)
+            print(f"Assistant reply on attempt {attempt + 1}:\n{assistant_reply}\n")
+            self.context += error_msg
+            # Provide feedback to the assistant about the error
+            agent_template += (
+                "\n\nERROR >> The previous response was not valid JSON or did not follow the expected format."
+                " Please respond with a valid JSON object matching the required format."
+            )
+            continue
 
-4. **Response Parsing and Validation**:
-   - The method attempts to extract a JSON object from the model's response. It looks for the JSON structure within the response string.
-   - It then tries to parse this JSON and validate it against the `AgentAction` pydantic model. This ensures the response is in the correct format and contains the necessary fields.
+    raise RuntimeError("Maximum number of retries reached without successful validation.")
+```
 
-5. **Error Handling**:
-   - If the response is not valid JSON or does not match the expected format, the method appends an error message to the context and provides feedback to the model, asking it to try again with a valid JSON response.
-   - This is one of the reasons why the pydantic model is used, to allow the model to try again until it provides a valid response while also providing feedback to the model about the error.
-   - This process is repeated for `max_retrials` number of retries. If all attempts fail, a `RuntimeError` is raised and the task is aborted.
+Here, the agent tries to extract a JSON object from the assistant's reply, ensuring it matches the expected format. If parsing fails due to a `JSONDecodeError` or validation fails due to a `ValidationError`, it appends an error message to the context and updates the `agent_template` to inform the assistant of the mistake. The process retries up to `max_retrials` times before raising an exception.
 
-6. **Return**:
-   - If a valid action is determined, it is returned as an `AgentAction` object, which includes the action request and any necessary arguments.
+This loop helps the agent handle cases where the model's output isn't in the correct format, making the system more robust by allowing the model to correct its response.
 
-This method is crucial for the agent's decision-making process, allowing it to choose the appropriate tool or action to take based on the current task and context.
-
-With the reflection and action methods implemented, we can now implement the main loop of the agent.
+Now, we implement the main loop where the agent continuously reflects, decides on actions, and executes them until it reaches a final answer or encounters an error.
 
 ```python
     def run_agent(self, question: str, recursion: bool = False, indent_level: int = 0) -> str:
@@ -646,10 +681,18 @@ With the reflection and action methods implemented, we can now implement the mai
                 break
 ```
 
-This method uses a while loop to keep the agent running until it has either found the final answer or an error occurs. Three steps are repeated in the loop: reflection, action and execution. The reflection step is used to generate a plan to answer the question, the action step is used to determine the next action to take and the execution step is used to actually execute the action. The first two steps are just the reflection and action methods we implemented earlier with a little formatting to add to the context.
+In the `run_agent` method:
+
+-   **Initialization**: If not in recursion, it resets the context using the agent's memory.
+-   **Loop**: It enters a loop where it:
+    -   Performs reflection to plan the next steps.
+    -   Decides on the next action based on the reflection.
+    -   Executes the action and checks if a final result is obtained.
+-   **Error Handling**: If an exception occurs, it logs the error and breaks the loop.
+
+The helper methods `perform_reflection`, `decide_action`, and `execute_action` manage specific tasks in the loop.
 
 ```python
-    # Helper Methods
     def perform_reflection(self, question: str, indent_level: int):
         """Perform reflection and update context."""
         reflection = self.reflection(question=question)
@@ -669,7 +712,9 @@ This method uses a while loop to keep the agent running until it has either foun
         return action
 ```
 
-We can now implement the execution of the action. This method takes the output of the `decide_action` method to call the appropriate tool with the correct arguments.
+These methods update the context with the reflection and action, format the messages for readability, and handle indentation levels for nested subquestions.
+
+The `execute_action` method carries out the chosen action:
 
 ```python
     def execute_action(self, action: AgentAction, question: str, indent_level: int) -> Optional[str]:
@@ -705,7 +750,14 @@ We can now implement the execution of the action. This method takes the output o
         return None  # Continue the loop
 ```
 
-We can now write the tools. These will be methods similar to the functions we defined at the beginning of the post, with a little of error handling added.
+This method:
+
+-   **Action Execution**: Calls the appropriate tool method based on `action.request`.
+-   **Special Cases**: Handles `decomposition` and `final_answer` differently, as they involve recursive behavior or concluding the task.
+-   **Context Update**: Adds observations or errors to the context for transparency.
+-   **Loop Control**: Returns `None` to continue the loop unless a final answer is reached.
+
+Next, we define the tool methods that the agent can use:
 
 ```python
     # Tools
@@ -750,7 +802,9 @@ We can now write the tools. These will be methods similar to the functions we de
             return None
 ```
 
-We also need to implement the methods to handle the final answer. The model can call the `final_answer` tool when it considers that it is able to answer the question.
+These methods implement the functionalities of the tools specified in the prompts, allowing the agent to perform calculations and interact with the database.
+
+We also need to handle the `final_answer` action appropriately:
 
 ```python
     # Final Answer Tool
@@ -764,17 +818,19 @@ We also need to implement the methods to handle the final answer. The model can 
         print(self.context)
 ```
 
-With this we could finish the implementation of the `AgentReAct` class. But we are going to add the decomposition tool, which is used to decompose complex questions into simpler subquestions. This will make the agent more powerful and able to handle more complex questions.
+This method updates the agent's memory with the question and final answer, formats the answer for display, and updates the context.
+
+To implement the `decomposition` tool, we include methods to decompose complex questions and summarize answers:
 
 ```python
     # Assistants
     def decompose_question(self, question: str, max_retrials: int = 3) -> DecomposedQuestion:
         """Decompose a complex question into simpler parts."""
         decomp_system_prompt = """GENERAL INSTRUCTIONS
-You are an expert in the domain of the following question. Your task is to decompose a complex question into simpler parts.
+    You are an expert in the domain of the following question. Your task is to decompose a complex question into simpler parts.
 
-RESPONSE FORMAT
-{"sub_questions":["<FILL>"]}"""
+    RESPONSE FORMAT
+    {"sub_questions":["<FILL>"]}"""
 
         for attempt in range(max_retrials):
             assistant_reply = self.client.chat(
@@ -796,10 +852,10 @@ RESPONSE FORMAT
     def answers_summarizer(self, questions: List[str], answers: List[str], max_retrials: int = 3) -> AnswersSummary:
         """Summarize a list of answers to the decomposed questions."""
         answer_summarizer_system_prompt = """GENERAL INSTRUCTIONS
-You are an expert in the domain of the following questions. Your task is to summarize the answers to the questions into a single response.
+    You are an expert in the domain of the following questions. Your task is to summarize the answers to the questions into a single response.
 
-RESPONSE FORMAT
-{"summary": "<FILL>"}"""
+    RESPONSE FORMAT
+    {"summary": "<FILL>"}"""
 
         q_and_a_prompt = "\n\n".join(
             [f"SUBQUESTION {i+1}\n{q}\nANSWER {i+1}\n{a}" for i, (q, a) in enumerate(zip(questions, answers))]
@@ -823,9 +879,9 @@ RESPONSE FORMAT
         raise RuntimeError("Maximum number of retries reached without successful validation.")
 ```
 
-Here we can see the two assistants that are used to decompose the question and summarize the answers. When the question is decomposed, the agent will recursively call itself to answer the subquestions. Once all subquestions are answered, the answers are summarized and the final answer is returned. With this agent has the ability to use a divide and conquer strategy to answer complex questions.
+These methods enable the agent to break down complex questions into manageable subquestions and then combine the answers into a coherent final response.
 
-Finally, we write some utility methods to format the messages and to export the reasoning traces to a file for later analysis and our enjoyment.
+Finally, we add utility methods to format messages and save the agent's reasoning trace:
 
 ```python
     # Formatting
@@ -863,6 +919,8 @@ Finally, we write some utility methods to format the messages and to export the 
         print(f"Context saved to {filename}")
 ```
 
+These methods enhance the readability of the agent's output by adding colors and indentation. The `save_context_to_html` method allows us to export the entire reasoning process to an HTML file, preserving the formatting.
+
 # Testing the Agent
 
 ## Running the Agent
@@ -894,8 +952,11 @@ if __name__ == "__main__":
         agent.save_context_to_html("agent_context_ollama.html")
 ```
 
-## Observing the traces
+In this test script, we initialize the `AgentReAct` class with the desired model and database path. We then define a question for the agent to answer. After running the agent with `run_agent`, we save the reasoning trace to an HTML file and the memory to a JSON file. This allows us to inspect the agent's thought process and verify its performance.
 
+## Observing the Traces
+
+After running the agent, open the generated HTML file (e.g., `agent_context_ollama.html`) to observe the reasoning trace. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.
 
 # References
 
