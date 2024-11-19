@@ -9,8 +9,8 @@ def create_post(title: str) -> None:
     # Create slug from title
     slug = title.lower().replace(" ", "-")
 
-    today = datetime.now() + timedelta(days=7) # One week from now
-    dir_name = f"{today.strftime('%Y-%m-%d')}-{slug}"
+    publish_date = datetime.now() + timedelta(days=7)  # One week from now
+    dir_name = f"{publish_date.strftime('%Y-%m-%d')}-{slug}"
 
     # Setup paths
     posts_dir = Path("blog/posts")
@@ -23,16 +23,16 @@ def create_post(title: str) -> None:
 
     # Create metadata.json
     metadata = {
-        "title": title,
+        "date": publish_date.strftime("%Y-%m-%d"),
         "author": "Miguel Vázquez",
-        "date": today.strftime("%Y-%m-%d"),
-        "tags": [],
-        "description": "",
-        "draft": True
+        "summary": "",
+        "title": title,
+        "estimated_reading_time": 0,
+        "draft": True,
     }
 
     with open(post_dir / "metadata.json", "w", encoding="utf-8") as f:
-        json.dump(metadata, f, indent=2, ensure_ascii=False)
+        json.dump(metadata, f, indent=4, ensure_ascii=False)
 
     # Create content.md with template
     markdown_template = f"""# {title}
