@@ -159,7 +159,7 @@
                 
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-20 | Estimated Reading Time: 18 minutes | Author: Miguel Vázquez
+              Date: 2024-11-20 | Estimated Reading Time: 19 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -670,7 +670,7 @@
 </p>
 <p style="text-align:center; font-style: italic;">Evaluation process for the SWE Benchmark. The agent ahs to solve the issues and pass all unit tests.</p>
 <p>At the time of the paper's publication the best-performing model, Claude 3 Opus, only managed to solve 4.33% of the issues in the lite version of th benchmark, where there is more competition since there are less issues and it is cheaper to try to solve them. This includes both proprietary state-of-the-art models and SWE-Llama, a model specifically fine-tuned for this task.</p>
-<p>At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues. A great improvement in a year. </p>
+<p>At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues. A great improvement in a year.</p>
 <p>The benchmark can be accessed at <a href="https://www.swebench.com/">https://www.swebench.com/</a>.</p>
 <h2 id="mle-bench">MLE-Bench</h2>
 <p>MLE-bench<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup> evaluates AI agents' machine learning engineering capabilities through 75 carefully selected Kaggle competitions. The benchmark tests real-world ML engineering skills including model training, dataset preparation, and experiment execution.</p>
@@ -702,10 +702,10 @@
 Scores represent the mean ± one standard error of the mean.
 </p>
 <h1 id="closing-remarks">Closing Remarks</h1>
-<p>In this blog post we have reviewed the current state of development of LLM agents. </p>
-<p>First, we have commented the most used frameworks and when to use them. Then, we have seen many example agent applications both commercial and open source. Finally, we have thought about how to evaluate these applications and we have seen two different benchmarks.</p>
-<p>Together with the previous post ni this blog, this should give a broad idea of how agents work and the current snapshot in academia and commercial applications.</p>
-<p>In the next post we will implement a ReAct agent using just pure python and an LLM api.</p>
+<p>The LLM agent ecosystem has evolved rapidly, creating a rich landscape of frameworks, applications, and evaluation methods. We've explored several key aspects:</p>
+<p>Development frameworks like OpenAI Assistants, LangChain, AutoGen, and CrewAI provide different approaches to agent development, each optimized for specific use cases. Open-source projects such as BabyAGI, Generative Agents, and Voyager demonstrate the potential of autonomous systems, while commercial applications like Devin and OS-Copilot show how these technologies can be applied to real-world problems.</p>
+<p>The emergence of standardized benchmarks like SWE-Bench and MLE-Bench helps track progress in this fast-moving field, though current performance metrics indicate we're still in the early stages of agent development. The best models achieve success rates of 41.67% on SWE-Bench and medals in 34.1% of MLE-Bench competitions, suggesting significant room for improvement.</p>
+<p>Together with the previous post in this series, this overview provides a comprehensive understanding of both the theoretical foundations and practical applications of LLM agents. In the next post, we'll take a hands-on approach by implementing a ReAct agent using pure Python and an LLM API.</p>
 <h2 id="references">References</h2>
 <div class="footnote">
 <hr/>

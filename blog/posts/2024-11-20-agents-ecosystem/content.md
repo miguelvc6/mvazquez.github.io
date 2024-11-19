@@ -290,7 +290,7 @@ The evaluation process is straightforward: given a codebase and an issue descrip
 
 At the time of the paper's publication the best-performing model, Claude 3 Opus, only managed to solve 4.33% of the issues in the lite version of th benchmark, where there is more competition since there are less issues and it is cheaper to try to solve them. This includes both proprietary state-of-the-art models and SWE-Llama, a model specifically fine-tuned for this task.
 
-At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues. A great improvement in a year. 
+At the moment of writing this post, the best model "OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)" achieves 41.67% of resolved issues. A great improvement in a year.
 
 The benchmark can be accessed at [https://www.swebench.com/](https://www.swebench.com/).
 
@@ -299,10 +299,11 @@ The benchmark can be accessed at [https://www.swebench.com/](https://www.swebenc
 MLE-bench[^8] evaluates AI agents' machine learning engineering capabilities through 75 carefully selected Kaggle competitions. The benchmark tests real-world ML engineering skills including model training, dataset preparation, and experiment execution.
 
 The benchmark consists of Kaggle competitions with:
-- Competition descriptions and datasets
-- Local grading code for evaluations
-- Historical leaderboard data for human performance comparison
-- New train-test splits to prevent data leakage
+
+-   Competition descriptions and datasets
+-   Local grading code for evaluations
+-   Historical leaderboard data for human performance comparison
+-   New train-test splits to prevent data leakage
 
 Performance is measured using Kaggle's medal system, where agents can earn bronze, silver, or gold medals based on their ranking against human participants. The headline metric is the percentage of competitions where an agent achieves any medal.
 
@@ -322,13 +323,13 @@ Scores represent the mean ± one standard error of the mean.
 
 # Closing Remarks
 
-In this blog post we have reviewed the current state of development of LLM agents. 
+The LLM agent ecosystem has evolved rapidly, creating a rich landscape of frameworks, applications, and evaluation methods. We've explored several key aspects:
 
-First, we have commented the most used frameworks and when to use them. Then, we have seen many example agent applications both commercial and open source. Finally, we have thought about how to evaluate these applications and we have seen two different benchmarks.
+Development frameworks like OpenAI Assistants, LangChain, AutoGen, and CrewAI provide different approaches to agent development, each optimized for specific use cases. Open-source projects such as BabyAGI, Generative Agents, and Voyager demonstrate the potential of autonomous systems, while commercial applications like Devin and OS-Copilot show how these technologies can be applied to real-world problems.
 
-Together with the previous post ni this blog, this should give a broad idea of how agents work and the current snapshot in academia and commercial applications.
+The emergence of standardized benchmarks like SWE-Bench and MLE-Bench helps track progress in this fast-moving field, though current performance metrics indicate we're still in the early stages of agent development. The best models achieve success rates of 41.67% on SWE-Bench and medals in 34.1% of MLE-Bench competitions, suggesting significant room for improvement.
 
-In the next post we will implement a ReAct agent using just pure python and an LLM api.
+Together with the previous post in this series, this overview provides a comprehensive understanding of both the theoretical foundations and practical applications of LLM agents. In the next post, we'll take a hands-on approach by implementing a ReAct agent using pure Python and an LLM API.
 
 ## References
 
