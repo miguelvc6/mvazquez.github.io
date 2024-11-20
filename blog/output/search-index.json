@@ -3,7 +3,7 @@
     "title": "Reasoning and Action Agents",
     "date": "2024-11-29",
     "url": "2024-11-29-reasoning-and-action-agents/content.html",
-    "content": "# Reasoning and Action Agents # Setup In this implementation of ReAct agents we will only use **standard Python libraries**, **pydantic** for output validations, and an LLM, which can be run locally w",
+    "content": "# Reasoning and Action Agents This post is a step-by-step guide to building ReAct Agents. The full code can be found on my github [repository](https://github.com/miguelvc6/react-agent). I recommend re",
     "author": "Miguel Vázquez"
   },
   {

@@ -1,5 +1,47 @@
 # Reasoning and Action Agents
 
+This post is a step-by-step guide to building ReAct Agents. The full code can be found on my github [repository](https://github.com/miguelvc6/react-agent).
+
+I recommend reading my blog post on [LLM Agents](https://mvazquez.ai/blog/output/2024-11-17-llm-agents/content.html) to understand the fundamentals of LLM Agents, and optionally reading the original paper[^1] for the theory behind ReAct Agents. The following section will be a brief summary of what the previous sources cover, so feel free to skip it if you have already read either the blog post or the paper.
+
+## Introduction to ReAct Agents
+
+### ReAct agents
+
+ReAct agents improve upon earlier LLM-based agents by incorporating reasoning into their actions. Previous LLM-based agents simply observed and acted, but this approach was often ineffective. The ReAct framework, introduced in 2022 by Yao et al., combines reasoning with observation and acting, leading to better performance.
+
+In the paper the setup is an agent with access to three different actions that leverage a "simple Wikipedia web API: (1)**search**\[entity] returns the first 5 sentences from the corresponding _entity_ wiki page if it exists, or else suggests top-5 similar entities from the Wikipedia search engine, (2)**lookup**\[string], which returns the next sentence in the page containing _string_ simulating a ctrl+F command, and (3)**finish**\[answer] which would finish the current task with _answer_."[^3]
+
+With this environment they compare four different approaches: standard zero-shot, chain of thought prompting, act-only agent and Reason + Act agent. The following example from the paper shows how they try to solve a question about the Apple Remote device. Let's review the first three approaches first.
+
+<p align="center">
+  <img src="../../media/2024-11-25-reasoning-and-action-agents/react_01.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Example of standard zero-shot, chain of thought prompting, act-only from the ReAct paper. </p>
+
+In (1a) zero-shot the LLM just answers directly and gets it wrong. With (1b) chain-of-thought the LLM is prompted to "think step by step before answering", a technique that improves accuracy of language models[^4], but still gets it wrong. In (1c) we have a simple agentic workflow that acts and observes, and allows to use the Wikipedia tools. This time it actually gets close to the answer, but ends up returning "yes" as its final answer. The problem with this approach is that the model cannot reflect on what tool to use, how to use it or plan how to get the final answer. The only possibility is to act, stating the action and its argument. ReAct was created to address this problem.
+
+<p align="center">
+  <img src="../../media/2024-11-25-reasoning-and-action-agents/react_02.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Example of a ReAct agent from the ReAct paper. In this case it manages to get the right answer.</p>
+
+In this last case the agent follows a loop of reason-act-observe that overcomes the previously stated limitations, and it actually gets the correct answer: "keyboard function keys". This example showcases how the model is able to plan and reason about the result of its actions. This is a simple yet extremely powerful workflow, and most state-of-the-art agents follow it, with improvements in the reasoning step and an increase in freedom to act. It leverages the powerful large language models by using them as the "brain" of the agent.
+
+### Actions as tools
+
+To implement agents we need to define a **set of possible actions for the agent to take**, among which the agent will have to decide in each iteration. For example it could have access to the following:
+
+-   Ask the user for information.
+-   Search the web.
+-   Using an external database.
+-   Using a calculator or symbolic programming.
+-   Using a Python code interpreter.
+
+These possible actions are commonly referred to as **tools**, and a set of actions is a **toolbox**.
+
 # Setup
 
 In this implementation of ReAct agents we will only use **standard Python libraries**, **pydantic** for output validations, and an LLM, which can be run locally with **ollama** or using an **API** from OpenAI, Anthropic, Google, etc. Besides, we will also use **ansi2html** to convert the output of the LLM to HTML to display the reasoning trace with colors and **dotenv** for the api key, but they are not necessary.
@@ -1010,4 +1052,3 @@ As always, you can contact me via mail at [miguel@mvazquez.ai](mailto:miguel@mva
 # References
 
 [^1]: Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). [https://arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629)
-
