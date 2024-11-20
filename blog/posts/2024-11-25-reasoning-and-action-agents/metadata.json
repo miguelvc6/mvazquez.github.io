@@ -1,5 +1,5 @@
 {
-    "date": "2024-11-29",
+    "date": "2024-11-25",
     "author": "Miguel Vázquez",
     "summary": "Implementing a reasoning and acting agent using the ReAct framework with python and the OpenAI API or locally with Ollama.",
     "title": "Reasoning and Action Agents",
