@@ -171,7 +171,7 @@
                 
             </h1>
             <p class="blog-post__meta">
-              Date: 2024-11-29 | Estimated Reading Time: 29 minutes | Author: Miguel Vázquez
+              Date: 2024-11-29 | Estimated Reading Time: 32 minutes | Author: Miguel Vázquez
             </p>
           </header>
 
@@ -318,6 +318,13 @@
                     
                     
                     <li>
+                      <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                    </li>
+                    
+                  
+                    
+                    
+                    <li>
                       <a href="#references" aria-label="References">References</a>
                     </li>
                     
@@ -422,9 +429,9 @@ class UnifiedChatAPI:
 <p>I recommend you copy the previous code since I will be using the <code>UnifiedChatAPI</code> class with the <code>chat</code> method, or at least implement a wrapper with a similar <code>chat</code> method for your own use.</p>
 <h1 id="agent-design">Agent Design</h1>
 <p>Once we have the LLM running, we can start designing the agent. The first thing we need to do is to define the <strong>toolbox</strong>, the actions that the agent can take. In this case I will give my agent the capabilities to query a structured database using SQL, and use a calculator. In this way it can answer questions about the database and do basic calculations.</p>
-<p>For the database I will use a simple SQLite database with three tables: <code>AGENTS</code>, <code>CUSTOMER</code> and <code>ORDERS</code>. You can download the database from the same <a href="https://github.com/miguelvc6/react-agent/blob/main/sql_lite_database.db">repository</a> or build it by running the <code>create_database.py</code> <a href="../../media/2024-11-29-reasoning-and-action-agents/create_database.py">script</a>.</p>
+<p>For the database I will use a simple SQLite database with three tables: <code>AGENTS</code>, <code>CUSTOMER</code> and <code>ORDERS</code>. You can download the database from the same <a href="https://github.com/miguelvc6/react-agent/blob/main/sql_lite_database.db">repository</a> or build it by running the <code>create_database.py</code> <a href="../../media/2024-11-25-reasoning-and-action-agents/create_database.py">script</a>.</p>
 <p align="center">
-<img loading="lazy" src="..\..\media\2024-11-29-reasoning-and-action-agents\tablas.webp" width="80%"/>
+<img loading="lazy" src="..\..\media\2024-11-25-reasoning-and-action-agents\tablas.webp" width="80%"/>
 </p>
 <p style="text-align:center; font-style: italic;">Database schema.</p>
 <p>The diagram above illustrates the structure of our SQLite database, showcasing the relationships between the <code>AGENTS</code>, <code>CUSTOMER</code>, and <code>ORDERS</code> tables. This simple schema allows our agent to interact with real data, perform queries, and answer questions that involve retrieving and processing information from these tables.</p>
@@ -738,7 +745,10 @@ class AnswersSummary(BaseModel):
         if not self.question_trace:
             return ""
         else:
-            context_lines = []
+            context_lines = [
+                "Here are the questions and answers from the previous interactions.",
+                "Use them to answer the current question if they are relevant:",
+            ]
             for q, a in zip(self.question_trace, self.answer_trace):
                 context_lines.append(f"QUESTION: {q}")
                 context_lines.append(f"ANSWER: {a}")
@@ -1197,7 +1207,64 @@ QUESTION
 </code></pre>
 <p>In this test script, we initialize the <code>AgentReAct</code> class with the desired model and database path. We then define a question for the agent to answer. After running the agent with <code>run_agent</code>, we save the reasoning trace to an HTML file and the memory to a JSON file. This allows us to inspect the agent's thought process and verify its performance.</p>
 <h2 id="observing-the-traces">Observing the Traces</h2>
-<p>After running the agent, open the generated HTML file (e.g., <code>agent_context_ollama.html</code>) to observe the reasoning trace. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.</p>
+<p>After running the agent, open the generated HTML file to observe the reasoning trace. Mine is in the github repository with the name <code>agent_context_gpt.html</code>, which you can download clicking <a href="https://github.com/miguelvc6/react-agent/blob/main/agent_context_gpt.html">here</a> and open in your browser. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.</p>
+<p>In the following images you can see the beginning and end of the reasoning trace. I skip most of the subquestions for brevity.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-25-reasoning-and-action-agents\reasoning_traces_01.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">Beginning of the reasoning trace. We can see how the agent reasons about the question and decomposes it into simpler subquestions. Then it starts to sequentially answer each subquestion.</p>
+<p align="center">
+<img loading="lazy" src="..\..\media\2024-11-25-reasoning-and-action-agents\reasoning_traces_02.webp" width="80%"/>
+</p>
+<p style="text-align:center; font-style: italic;">End of the reasoning trace. We can see how the agent answers the last subquestion, the summarizer summarizes the subquestion answers, and does a final reasoning and action loop to answer the original question.</p>
+<p>After all this, you can see that the agent has answered the question correctly. <em>"The total sales for Q1 were 5500, while for Q2 they were 17200. The absolute increase in sales from Q1 to Q2 was 11700, whilst the percentage increase was approximately 212.73%."</em>.</p>
+<p>In the json memory file you can see all the pairs of questions and answers. Next time you call the agent with a new task, it will use the memory to answer the question if they are relevant or repeated.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this post, we have implemented a reasoning and acting agent using the ReAct framework. The key components and features include:</p>
+<ul>
+<li>
+<p>A modular design that separates reasoning and action steps, allowing the agent to plan before executing</p>
+</li>
+<li>
+<p>Integration with both local (Ollama) and cloud-based (OpenAI) language models through a unified interface</p>
+</li>
+<li>
+<p>A set of tools for database interaction and mathematical calculations</p>
+</li>
+<li>
+<p>Question decomposition capabilities for handling complex queries</p>
+</li>
+<li>
+<p>A simple memory persistence to learn from previous interactions</p>
+</li>
+<li>
+<p>Comprehensive error handling and validation</p>
+</li>
+<li>
+<p>Detailed reasoning traces for transparency and debugging</p>
+</li>
+</ul>
+<p>The implementation demonstrates how to:</p>
+<ul>
+<li>
+<p>Structure prompts to guide model behavior</p>
+</li>
+<li>
+<p>Use pydantic for robust output validation</p>
+</li>
+<li>
+<p>Handle tool execution safely</p>
+</li>
+<li>
+<p>Manage conversation context and memory</p>
+</li>
+<li>
+<p>Format and visualize the agent's reasoning process</p>
+</li>
+</ul>
+<p>This ReAct agent serves as a foundation that can be extended with additional tools, improved prompting strategies, or more sophisticated memory systems. The modular design makes it easy to add new capabilities or adapt the agent for different use cases.</p>
+<p>In my next post I will use a set of agents based on several different implementations to try to get them to expand on my <a href="https://github.com/miguelvc6/torch-tracer">torch-tracer project</a> by implementing new features without as little human intervention as possible.</p>
+<p>As always, you can contact me via mail at <a href="mailto:miguel@mvazquez.ai">miguel@mvazquez.ai</a> if you have any questions or feedback.</p>
 <h1 id="references">References</h1>
 <div class="footnote">
 <hr/>

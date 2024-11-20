@@ -129,10 +129,10 @@ I recommend you copy the previous code since I will be using the `UnifiedChatAPI
 
 Once we have the LLM running, we can start designing the agent. The first thing we need to do is to define the **toolbox**, the actions that the agent can take. In this case I will give my agent the capabilities to query a structured database using SQL, and use a calculator. In this way it can answer questions about the database and do basic calculations.
 
-For the database I will use a simple SQLite database with three tables: `AGENTS`, `CUSTOMER` and `ORDERS`. You can download the database from the same [repository](https://github.com/miguelvc6/react-agent/blob/main/sql_lite_database.db) or build it by running the `create_database.py` [script](../../media/2024-11-29-reasoning-and-action-agents/create_database.py).
+For the database I will use a simple SQLite database with three tables: `AGENTS`, `CUSTOMER` and `ORDERS`. You can download the database from the same [repository](https://github.com/miguelvc6/react-agent/blob/main/sql_lite_database.db) or build it by running the `create_database.py` [script](../../media/2024-11-25-reasoning-and-action-agents/create_database.py).
 
 <p align="center">
-  <img src="../../media/2024-11-29-reasoning-and-action-agents/tablas.webp" width="80%" />
+  <img src="../../media/2024-11-25-reasoning-and-action-agents/tablas.webp" width="80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Database schema.</p>
@@ -467,7 +467,10 @@ class SimpleMemory:
         if not self.question_trace:
             return ""
         else:
-            context_lines = []
+            context_lines = [
+                "Here are the questions and answers from the previous interactions.",
+                "Use them to answer the current question if they are relevant:",
+            ]
             for q, a in zip(self.question_trace, self.answer_trace):
                 context_lines.append(f"QUESTION: {q}")
                 context_lines.append(f"ANSWER: {a}")
@@ -958,8 +961,53 @@ In this test script, we initialize the `AgentReAct` class with the desired model
 
 ## Observing the Traces
 
-After running the agent, open the generated HTML file (e.g., `agent_context_ollama.html`) to observe the reasoning trace. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.
+After running the agent, open the generated HTML file to observe the reasoning trace. Mine is in the github repository with the name `agent_context_gpt.html`, which you can download clicking [here](https://github.com/miguelvc6/react-agent/blob/main/agent_context_gpt.html) and open in your browser. You'll see the reflections, actions, observations, and final answers, all color-coded for clarity. This visualization helps in debugging and understanding how the agent arrives at its conclusions.
+
+In the following images you can see the beginning and end of the reasoning trace. I skip most of the subquestions for brevity.
+
+<p align="center">
+  <img src="../../media/2024-11-25-reasoning-and-action-agents/reasoning_traces_01.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">Beginning of the reasoning trace. We can see how the agent reasons about the question and decomposes it into simpler subquestions. Then it starts to sequentially answer each subquestion.</p>
+
+<p align="center">
+  <img src="../../media/2024-11-25-reasoning-and-action-agents/reasoning_traces_02.webp" width="80%" />
+</p>
+
+<p style="text-align:center; font-style: italic;">End of the reasoning trace. We can see how the agent answers the last subquestion, the summarizer summarizes the subquestion answers, and does a final reasoning and action loop to answer the original question.</p>
+
+After all this, you can see that the agent has answered the question correctly. _"The total sales for Q1 were 5500, while for Q2 they were 17200. The absolute increase in sales from Q1 to Q2 was 11700, whilst the percentage increase was approximately 212.73%."_.
+
+In the json memory file you can see all the pairs of questions and answers. Next time you call the agent with a new task, it will use the memory to answer the question if they are relevant or repeated.
+
+# Conclusion
+
+In this post, we have implemented a reasoning and acting agent using the ReAct framework. The key components and features include:
+
+-   A modular design that separates reasoning and action steps, allowing the agent to plan before executing
+-   Integration with both local (Ollama) and cloud-based (OpenAI) language models through a unified interface
+-   A set of tools for database interaction and mathematical calculations
+-   Question decomposition capabilities for handling complex queries
+-   A simple memory persistence to learn from previous interactions
+-   Comprehensive error handling and validation
+-   Detailed reasoning traces for transparency and debugging
+
+The implementation demonstrates how to:
+
+-   Structure prompts to guide model behavior
+-   Use pydantic for robust output validation
+-   Handle tool execution safely
+-   Manage conversation context and memory
+-   Format and visualize the agent's reasoning process
+
+This ReAct agent serves as a foundation that can be extended with additional tools, improved prompting strategies, or more sophisticated memory systems. The modular design makes it easy to add new capabilities or adapt the agent for different use cases.
+
+In my next post I will use a set of agents based on several different implementations to try to get them to expand on my [torch-tracer project](https://github.com/miguelvc6/torch-tracer) by implementing new features without as little human intervention as possible.
+
+As always, you can contact me via mail at [miguel@mvazquez.ai](mailto:miguel@mvazquez.ai) if you have any questions or feedback.
 
 # References
 
 [^1]: Yao, Shunyu, et al. "React: Synergizing reasoning and acting in language models." arXiv preprint arXiv:2210.03629 (2022). [https://arxiv.org/abs/2210.03629](https://arxiv.org/abs/2210.03629)
+
