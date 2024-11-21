@@ -497,9 +497,9 @@ Additionally, we implement a long term memory using a simple `agent_memory.json`
 class SimpleMemory:
     """Simple in-memory storage for question and answer traces."""
 
-    def __init__(self):
-        self.question_trace = []
-        self.answer_trace = []
+    def __init__(self, question_trace: List[str] = [], answer_trace: List[str] = []):
+        self.question_trace = question_trace
+        self.answer_trace = answer_trace
 
     def add_interaction(self, question, answer):
         self.question_trace.append(question)
@@ -538,13 +538,13 @@ class AgentReAct:
         """Initialize Agent with database path and model."""
         self.model = model # Model to use for the agent
         self.client = UnifiedChatAPI(model=self.model) # Unified chat API
-        self.memory = self.load_memory() # Memory
         self.context = "" # Context of the conversation
         self.db_path = db_path # Path to the database
         self.conn = None # Connection to the database
         self.cursor = None # Cursor to the database
         self._connect_db() # Connect to the database
         self.memory_path = memory_path # Path to the memory file
+        self.memory = self.load_memory() # Memory
 ```
 
 In this constructor, we set up the agent's environment:
@@ -602,7 +602,11 @@ Now we implement a couple methods to load and save the memory to the `agent_memo
         """Load the agent memory from a JSON file."""
         if os.path.exists(self.memory_path):
             with open(self.memory_path, "r", encoding="utf-8") as f:
-                return json.load(f)
+                memory = json.load(f)
+                return SimpleMemory(
+                    question_trace=memory["question_trace"],
+                    answer_trace=memory["answer_trace"],
+                )
         else:
             return SimpleMemory()
 
@@ -717,7 +721,9 @@ Now, we implement the main loop where the agent continuously reflects, decides o
             try:
                 self.perform_reflection(question, indent_level)
                 action = self.decide_action(question, recursion, indent_level)
-                result = self.execute_action(action, question, recursion, indent_level)
+                result = self.execute_action(
+                    action, question, indent_level
+                )
 
                 if result is not None:
                     return result
