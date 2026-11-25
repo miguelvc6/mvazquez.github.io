@@ -1,4 +1,4 @@
-import portrait from '../assets/photo_03_lightweight.webp';
+import portrait from '../assets/miguel-vazquez-portrait.webp';
 import aboutPhoto from '../assets/photo_01_lightweight.webp';
 
 export const profile = {

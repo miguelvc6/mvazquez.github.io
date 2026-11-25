@@ -39,7 +39,8 @@ const jsonLd = schema ? JSON.stringify({ '@context': 'https://schema.org', ...sc
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
     <link rel="alternate" type="application/rss+xml" title={`${profile.name} — Writing`} href="/rss.xml" />
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={profile.name} />
