@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { resolve, join, relative } from 'node:path';
 import { load } from 'cheerio';
 
@@ -29,14 +29,14 @@ async function entries(dir) {
   return files.flat();
 }
 
-async function findFile(pathname) {
+const deployedFiles = await entries(dist);
+const deployedPaths = new Set(deployedFiles);
+
+function findFile(pathname) {
   const path = resolve(dist, `.${decodeURIComponent(pathname)}`);
   assert.ok(path === dist || path.startsWith(`${dist}/`), pathname);
-  for (const candidate of [path, join(path, 'index.html')]) {
-    const info = await stat(candidate).catch(() => null);
-    if (info?.isFile()) return candidate;
-  }
-  return undefined;
+  // GitHub Pages paths are case-sensitive even when the build runs on macOS.
+  return [path, join(path, 'index.html')].find((candidate) => deployedPaths.has(candidate));
 }
 
 const failures = [];
@@ -46,11 +46,10 @@ async function markup(file) {
   return pages.get(file);
 }
 
-for (const path of paths) assert.ok(await findFile(path), `Missing build artifact ${path}`);
+for (const path of paths) assert.ok(findFile(path), `Missing build artifact ${path}`);
 assert.equal((await readFile(join(dist, 'CNAME'), 'utf8')).trim(), 'mvazquez.ai');
 assert.ok((await readFile(join(dist, 'cv/Miguel_Vazquez_CV.pdf'))).subarray(0, 5).equals(Buffer.from('%PDF-')));
 
-const deployedFiles = await entries(dist);
 assert.ok(!deployedFiles.some((file) => /(?:\.tex|\.md|\.DS_Store)$|\/docs\//.test(relative(dist, file))), 'Development files leaked');
 const htmlFiles = deployedFiles.filter((file) => file.endsWith('.html'));
 let checked = 0;
@@ -68,7 +67,7 @@ for (const file of htmlFiles) {
     const url = new URL(address, site + path);
     if (url.origin !== site) continue;
     checked++;
-    const target = await findFile(url.pathname);
+    const target = findFile(url.pathname);
     if (!target) {
       failures.push(`${path} → ${address} (missing file)`);
       continue;
@@ -83,11 +82,11 @@ for (const file of htmlFiles) {
 }
 
 for (const path of articlePaths) {
-  const $ = await markup(await findFile(path));
+  const $ = await markup(findFile(path));
   assert.equal($('link[rel="canonical"]').attr('href'), site + path, path);
   assert.ok($('.article-body').text().trim().length > 100, path);
 }
-const torch = await markup(await findFile(articlePaths[1]));
+const torch = await markup(findFile(articlePaths[1]));
 assert.ok(torch('math').length >= 5 && !torch('.katex-error').length, 'Torch Tracer equations');
 assert.ok(torch('pre.astro-code span[style]').length > 5, 'Torch Tracer highlighted code');
 const rss = load(await readFile(join(dist, 'rss.xml'), 'utf8'), { xml: true });

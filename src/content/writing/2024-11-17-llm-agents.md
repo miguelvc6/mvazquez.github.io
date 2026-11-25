@@ -526,7 +526,7 @@ The concept of reflection in LLM agents is centered around enabling the agent to
 Imagine you prompt a coding agent to write a function to accomplish a specific task. Initially, the agent drafts a solution and then immediately shifts to a self-evaluation mode. In this mode, it reviews the code it just generated, checking for correctness, efficiency, and coding style. If the agent identifies any issues—be it logical errors, inefficiencies, or stylistic inconsistencies—it provides feedback and attempts to improve the function.
 
 <p align="center">
-  <img src="/blog/media/2024-11-17-llm-agents/reflection.webp" alt="An agent reviews its output and uses the feedback on a later attempt" width="1594" height="873" style="width: 80%" />
+  <img src="/blog/media/2024-11-17-llm-agents/REFLECTION.webp" alt="An agent reviews its output and uses the feedback on a later attempt" width="1594" height="873" style="width: 80%" />
 </p>
 
 <p style="text-align:center; font-style: italic;">Example of reflection in an agent.</p>
