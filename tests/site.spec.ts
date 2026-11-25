@@ -68,6 +68,26 @@ test('research map works with the keyboard and without JavaScript', async ({ bro
   await context.close();
 });
 
+test('clicking research modes keeps the viewport in place', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 660 });
+    for (const path of ['/', '/research/']) {
+      await page.goto(path);
+      await page.evaluate(async () => { await document.fonts.ready; });
+      const map = page.locator('#research-map');
+      await map.locator('.modes').evaluate((controls) => {
+        window.scrollBy(0, controls.getBoundingClientRect().top - 80);
+      });
+      const scrollY = await page.evaluate(() => window.scrollY);
+      for (const mode of ['Verify', 'Guide', 'Repair']) {
+        await map.locator('label').filter({ hasText: mode }).click();
+        await expect(map.getByRole('radio', { name: mode })).toBeChecked();
+        expect(await page.evaluate(() => window.scrollY), `${path} at ${width}px, ${mode}`).toBe(scrollY);
+      }
+    }
+  }
+});
+
 test('publications, clipboard, and CV download', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/publications/');
