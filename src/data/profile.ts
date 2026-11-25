@@ -13,7 +13,7 @@ export const profile = {
   cv: '/cv/Miguel_Vazquez_CV.pdf',
   portrait,
   aboutPhoto,
-  introduction: 'I study how knowledge graphs and symbolic constraints can help AI systems detect factual errors, repair structured knowledge, and use feedback to revise their answers.',
+  introduction: 'I study how explicit semantics in knowledge graphs can help AI systems detect factual errors, repair structured knowledge, and use feedback to revise their answers.',
   profiles: [
     { label: 'Google Scholar', url: 'https://scholar.google.com/citations?user=hrX5DZQAAAAJ' },
     { label: 'ORCID', url: 'https://orcid.org/0009-0002-9067-959X' },

@@ -8,8 +8,8 @@ const { id = 'research-map' } = Astro.props;
   <div class="map-canvas">
     <p class="meta">Conceptual map</p>
     <svg viewBox="0 0 480 282" role="img" aria-labelledby={`${id}-title ${id}-description`}>
-      <title id={`${id}-title`}>Knowledge graphs, neural models, and symbolic verification</title>
-      <desc id={`${id}-description`}>A knowledge graph and a neural network connect to a box representing executable constraints. Selecting Repair, Verify, or Guide highlights relationships relevant to that research question. An explanation follows the controls.</desc>
+      <title id={`${id}-title`}>Knowledge graphs, neural models, and explicit semantics</title>
+      <desc id={`${id}-description`}>The diagram links knowledge graphs and neural models with explicit semantics, which can be expressed using ontologies, schemas, shapes, and constraints. Selecting Repair, Verify, or Guide highlights relationships relevant to that research question. An explanation follows the controls.</desc>
       <defs>
         <pattern id={`${id}-grid`} width="20" height="20" patternUnits="userSpaceOnUse">
           <circle cx="1" cy="1" r=".8" class="grid-dot" />
@@ -41,10 +41,10 @@ const { id = 'research-map' } = Astro.props;
       <rect class="constraint" x="204" y="169" width="72" height="68" />
       <path class="constraint-icon" d="M224 185h-7v36h7m32-36h7v36h-7m-22-28h13m-13 10h13m-13 10h13" />
       <text x="114" y="170">Knowledge graphs</text>
-      <text class="subtext" x="114" y="191">Facts &amp; ontologies</text>
+      <text class="subtext" x="114" y="191">Facts &amp; relations</text>
       <text x="366" y="170">Neural models</text>
       <text class="subtext" x="366" y="191">GNNs &amp; LLMs</text>
-      <text x="240" y="268">Executable constraints</text>
+      <text x="240" y="268">Explicit semantics</text>
     </svg>
   </div>
   <div class="modes">

@@ -55,7 +55,7 @@ test('research map works with the keyboard and without JavaScript', async ({ bro
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/research/');
-  await expect(page.getByRole('img', { name: 'Knowledge graphs, neural models, and symbolic verification' })).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Knowledge graphs, neural models, and explicit semantics' })).toBeVisible();
   await expect(page.getByText('Which edit improves the graph?')).toBeVisible();
   await page.getByRole('radio', { name: 'Repair' }).focus();
   await page.keyboard.press('ArrowRight');

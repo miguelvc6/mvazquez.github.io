@@ -1,4 +1,4 @@
-export const researchIntro = 'My research connects knowledge graphs and symbolic reasoning with graph neural networks and large language models. I use executable constraints to study which edits or generated claims can be checked and what a model can learn from the outcome.';
+export const researchIntro = 'My research connects knowledge graphs and symbolic reasoning with graph neural networks and large language models. I study how explicit semantics help us check proposed graph edits and generated claims, and what models can learn from those checks.';
 
 export const directions = [
   {
@@ -6,7 +6,7 @@ export const directions = [
     mode: 'Repair',
     title: 'Constraint-aware knowledge graph repair',
     question: 'Which edit improves the graph?',
-    summary: 'A graph neural network can use the structure around a violation to rank candidate edits. Executable constraints help assess what each edit fixes and what else it affects.',
+    summary: 'A graph neural network can use the structure around a violation to rank candidate edits. Constraint checks help assess what each edit fixes and what else it affects.',
     status: 'Published work and submitted research',
     problem: 'A knowledge graph can contain statements that fail its own rules. A proposed repair can resolve one violation while introducing another or leaving a previously checkable condition undecidable.',
     approach: 'I use graph representations and graph neural networks to learn from the relationships around a violation. Symbolic validation helps evaluate the candidate edits and their consequences across nearby constraints.',
