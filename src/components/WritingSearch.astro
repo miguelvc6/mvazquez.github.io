@@ -1,0 +1,51 @@
+<div class="writing-search" data-writing-search hidden>
+  <label for="writing-query">Search articles</label>
+  <input id="writing-query" type="search" autocomplete="off" />
+  <p role="status" id="writing-search-status"></p>
+</div>
+<script>
+  interface SearchEntry { url: string; content: string }
+
+  const search = document.querySelector<HTMLElement>('[data-writing-search]');
+  const query = document.querySelector<HTMLInputElement>('#writing-query');
+  const status = document.querySelector<HTMLElement>('#writing-search-status');
+  const articles = [...document.querySelectorAll<HTMLElement>('[data-writing-result]')];
+
+  if (search && query && status && articles.length > 0) {
+    search.hidden = false;
+    let corpus: Promise<Map<string, string>> | undefined;
+
+    query.addEventListener('input', async () => {
+      const value = query.value.trim().toLowerCase();
+      if (!value) {
+        articles.forEach((article) => { article.hidden = false; });
+        status.textContent = '';
+        return;
+      }
+
+      corpus ??= fetch('/blog/output/search-index.json').then(async (response) => {
+        if (!response.ok) throw new Error('Search index unavailable');
+        const entries: SearchEntry[] = await response.json();
+        return new Map(entries.map(({ url, content }) => [`/blog/output/${url}`, content.toLowerCase()]));
+      }).catch(() => new Map<string, string>());
+
+      const index = await corpus;
+      if (query.value.trim().toLowerCase() !== value) return;
+      const terms = value.split(/\s+/);
+      let matches = 0;
+      for (const article of articles) {
+        const text = `${article.textContent?.toLowerCase() ?? ''} ${index.get(article.dataset.writingResult ?? '') ?? ''}`;
+        article.hidden = !terms.every((term) => text.includes(term));
+        if (!article.hidden) matches++;
+      }
+      status.textContent = matches === 0 ? 'No matching articles.' : `${matches} matching ${matches === 1 ? 'article' : 'articles'}.`;
+    });
+  }
+</script>
+<style>
+  .writing-search { display: grid; grid-template-columns: minmax(0, 23rem) minmax(0, 1fr); gap: .35rem 1rem; align-items: center; padding-bottom: var(--space-row); }
+  label { grid-column: 1 / -1; font-size: .9rem; font-weight: 650; }
+  input { padding: .55rem .7rem; font: inherit; border: 1px solid var(--rule); background: var(--panel); color: var(--ink); }
+  p { margin: 0; color: var(--muted); font-size: .9rem; }
+  @media (max-width: 640px) { .writing-search { grid-template-columns: minmax(0, 1fr); } }
+</style>

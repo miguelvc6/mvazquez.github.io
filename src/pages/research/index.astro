@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ResearchMap from '../../components/ResearchMap.astro';
+import { directions, researchIntro } from '../../data/research';
+import { publications } from '../../data/publications';
+import { bilaiProject } from '../../data/projects';
+---
+<Base title="Research" description="Neuro-symbolic AI research on knowledge graph repair, factual verification, and feedback for language models.">
+  <PageIntro label="Neuro-symbolic artificial intelligence" title="Research" intro={researchIntro} />
+  <div class="wrap page-body">
+    <section class="split overview" aria-label="Research overview">
+      <div class="flow">
+        <h2>Making constraints useful</h2>
+        <p>A knowledge graph represents facts as relationships between entities. An ontology defines the vocabulary and structure of those relationships. Executable constraints make some of the graph’s requirements explicit and checkable.</p>
+        <p>I study how neural models can use graph structure and how the results of symbolic checks can inform proposed edits or flag problems with generated claims. The diagram illustrates three related research questions.</p>
+      </div>
+      <ResearchMap />
+    </section>
+    <div class="directions row-list">
+      {directions.map((direction) => (
+        <section class="row split direction" id={direction.id}>
+          <div><p class="eyebrow">{direction.status}</p><h2>{direction.title}</h2></div>
+          <div>
+            <p>{direction.problem}</p><p>{direction.approach}</p><p>{direction.evidence}</p>
+            {!!direction.publications.length && <ul class="link-list" role="list">
+              {publications.filter(({ id }) => direction.publications.some((reference) => reference === id)).map(({ id, shortVenue, status }) =>
+                <li><a href={`/publications/#${id}`}>{status === 'Submitted manuscript' ? status : `${shortVenue} paper`} <span aria-hidden="true">↗</span></a></li>
+              )}
+            </ul>}
+          </div>
+        </section>
+      ))}
+      <section class="row split direction" id="bilai-kg">
+        <div><p class="eyebrow">Research collaboration</p><h2>{bilaiProject.title}</h2></div>
+        <div><p>{bilaiProject.description}</p><p>{bilaiProject.contribution}</p><a class="text-link" href="/projects/#bilai-kg">Project details <span aria-hidden="true">↗</span></a></div>
+      </section>
+    </div>
+  </div>
+</Base>
+<style>
+  .overview { align-items: center; border-top: 1px solid var(--rule); padding-top: var(--space-row); }
+  .directions { margin-top: var(--space-section); }
+  .direction { padding-block: clamp(2rem, 5vw, 4rem); }
+  .direction h2 { font-size: clamp(1.9rem, 3.35vw, 3.2rem); max-width: 15ch; }
+  @media (max-width: 640px) { .direction { gap: .9rem; } }
+</style>

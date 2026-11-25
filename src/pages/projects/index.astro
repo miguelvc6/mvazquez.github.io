@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ProjectEntry from '../../components/ProjectEntry.astro';
+import { projects } from '../../data/projects';
+import { person } from '../../data/profile';
+
+const research = projects.filter(({ kind }) => kind.startsWith('Research'));
+const experiments = projects.filter(({ kind }) => !kind.startsWith('Research'));
+const software = projects.filter(({ kind }) => kind !== 'Research collaboration').map((item) => ({
+  '@type': 'SoftwareSourceCode',
+  '@id': `https://mvazquez.ai/projects/#${item.id}`,
+  name: item.title,
+  description: item.description,
+  codeRepository: item.links.find(({ url }) => url.startsWith('https://github.com/'))?.url,
+  contributor: { '@id': person['@id'] },
+}));
+---
+<Base title="Projects" description="Research collaborations, reproducible software, and interactive experiments by Miguel Vázquez." schema={{ '@graph': [person, ...software] }}>
+  <PageIntro title="Projects" intro="Research software, educational examples, and experiments in graph search, language models, rendering, and visualization." />
+  <div class="wrap page-body">
+    <section aria-labelledby="research-software">
+      <div class="section-heading"><h2 id="research-software">Research projects</h2></div>
+      {research.map((item) => <ProjectEntry item={item} />)}
+    </section>
+    <section class="project-section" aria-labelledby="experiments">
+      <div class="section-heading"><h2 id="experiments">Tools and experiments</h2></div>
+      {experiments.map((item) => <ProjectEntry item={item} />)}
+    </section>
+  </div>
+</Base>
+<style>
+  .project-section { margin-top: clamp(3rem, 7vw, 6rem); }
+</style>

@@ -1,0 +1,19 @@
+---
+import type { Course } from '../data/teaching';
+import ResourceLinks from './ResourceLinks.astro';
+
+interface Props { item: Course; compact?: boolean }
+const { item, compact = false } = Astro.props;
+---
+<article class="course row" id={item.id}>
+  <p class="meta">{item.level} · {item.date}</p>
+  <h3>{compact ? <a href={`/teaching/#${item.id}`}>{item.title}</a> : item.title}</h3>
+  <p class="role">{item.role} · {item.institution}</p>
+  <p>{item.description}</p>
+  {!compact && <ResourceLinks links={item.links} />}
+</article>
+<style>
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+  .role { color: var(--accent); font-size: .92rem; font-weight: 620; margin-bottom: .47rem; }
+</style>

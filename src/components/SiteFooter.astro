@@ -1,0 +1,17 @@
+---
+import { profile } from '../data/profile';
+---
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer-main">
+      <div><h2>Get in touch</h2><p>For research, teaching, or collaboration.</p></div>
+      <a class="footer-email" href={`mailto:${profile.email}`}>{profile.email} <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="footer-bottom">
+      <nav aria-label="Professional profiles">
+        {profile.profiles.map(({ label, url }) => <a href={url}>{label} <span aria-hidden="true">↗</span></a>)}
+      </nav>
+      <span>{profile.location}</span>
+    </div>
+  </div>
+</footer>

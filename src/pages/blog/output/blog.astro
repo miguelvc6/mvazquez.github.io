@@ -1,0 +1,10 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageIntro from '../../../components/PageIntro.astro';
+---
+<Base title="Writing archive" description="The personal writing archive has moved to the Writing page." canonicalPath="/writing/" noindex>
+  <meta slot="head" http-equiv="refresh" content="0;url=/writing/" />
+  <PageIntro title="Writing archive" intro="Find the articles in the writing archive.">
+    <a class="text-link" href="/writing/">Open Writing <span aria-hidden="true">→</span></a>
+  </PageIntro>
+</Base>

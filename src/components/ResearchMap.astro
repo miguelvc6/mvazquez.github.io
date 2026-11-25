@@ -1,0 +1,99 @@
+---
+import { directions } from '../data/research';
+interface Props { id?: string }
+const { id = 'research-map' } = Astro.props;
+---
+<fieldset class="map" id={id}>
+  <legend class="map-legend">Explore the research</legend>
+  {directions.map(({ id: mode, mode: label }, index) => (
+    <input class="mode-input" type="radio" name={id} id={`${id}-${mode}`} value={mode} aria-label={label} checked={index === 0} />
+  ))}
+  <div class="map-canvas">
+    <p class="meta">Conceptual map</p>
+    <svg viewBox="0 0 480 282" role="img" aria-labelledby={`${id}-title ${id}-description`}>
+      <title id={`${id}-title`}>Knowledge graphs, neural models, and symbolic verification</title>
+      <desc id={`${id}-description`}>A knowledge graph and a neural network connect to a box representing executable constraints. Selecting Repair, Verify, or Guide highlights relationships relevant to that research question. An explanation follows the controls.</desc>
+      <defs>
+        <pattern id={`${id}-grid`} width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r=".8" class="grid-dot" />
+        </pattern>
+      </defs>
+      <rect x="8" y="8" width="464" height="261" fill={`url(#${id}-grid)`} />
+      <g class="edges">
+        <path d="M61 92 112 53 166 81 137 125 80 138 61 92 137 125 112 53M80 138 166 81" />
+        <path d="M318 58 364 91 415 53M318 58 364 128 415 92 364 55 318 91 364 128 415 132M318 124 364 91 415 132M318 91 364 91 415 92M318 124 364 55 415 53" />
+        <path d="M166 81h36q38 0 38 40v48M318 91h-43q-35 0-35 35M277 210h146q22 0 22-20v-64h-18" />
+      </g>
+      <g class="mode-line repair">
+        <path d="M61 92 112 53 166 81 137 125 80 138M166 81h36q38 0 38 40v48" />
+      </g>
+      <g class="mode-line verify">
+        <path d="M166 81h36q38 0 38 40v48M318 91h-43q-35 0-35 35" />
+        <circle cx="240" cy="203" r="44" stroke-dasharray="2 5" />
+      </g>
+      <g class="mode-line guide">
+        <path d="M318 58 364 91 415 53M318 124 364 91 415 132M318 91h-43q-35 0-35 35v43" />
+        <path stroke-dasharray="4 4" d="M277 210h146q22 0 22-20v-64h-18m6-5-6 5 6 5" />
+      </g>
+      <g class="dots graph-dots">
+        {[[61,92],[112,53],[166,81],[137,125],[80,138]].map(([x,y]) => <circle cx={x} cy={y} r="5" />)}
+      </g>
+      <g class="dots model-dots">
+        {[[318,58],[318,91],[318,124],[364,55],[364,91],[364,128],[415,53],[415,92],[415,132]].map(([x,y]) => <circle cx={x} cy={y} r="4.5" />)}
+      </g>
+      <rect class="constraint" x="204" y="169" width="72" height="68" />
+      <path class="constraint-icon" d="M224 185h-7v36h7m32-36h7v36h-7m-22-28h13m-13 10h13m-13 10h13" />
+      <text x="114" y="170">Knowledge graphs</text>
+      <text class="subtext" x="114" y="191">Facts &amp; ontologies</text>
+      <text x="366" y="170">Neural models</text>
+      <text class="subtext" x="366" y="191">GNNs &amp; LLMs</text>
+      <text x="240" y="268">Executable constraints</text>
+    </svg>
+  </div>
+  <div class="modes">
+    {directions.map(({ id: mode, mode: label }) => <label for={`${id}-${mode}`} class={mode}>{label}</label>)}
+  </div>
+  {directions.map(({ id: mode, question, summary }) => (
+    <div class={`explanation ${mode}`}>
+      <p class="question">{question}</p>
+      <p>{summary}</p>
+    </div>
+  ))}
+</fieldset>
+<style>
+  .map { --map-padding: clamp(.85rem, 3vw, 1.7rem); min-inline-size: 0; margin: 0; padding: 0 var(--map-padding) var(--map-padding); background: var(--panel); border: 1px solid var(--rule); }
+  .map-legend, .mode-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .map-canvas { padding-top: var(--map-padding); }
+  .map-canvas > p { margin-bottom: 0; }
+  .map svg { width: 100%; margin: .15rem auto .5rem; }
+  .grid-dot { fill: var(--rule); }
+  .edges, .mode-line, .constraint-icon { fill: none; stroke-width: 1.65; }
+  .edges { stroke: var(--diagram-line); }
+  .dots { fill: var(--panel); stroke: var(--diagram-line); stroke-width: 1.6; }
+  .mode-line { display: none; stroke: var(--accent); stroke-width: 2.5; }
+  .constraint { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; }
+  .constraint-icon { stroke: var(--accent); }
+  .map text { fill: var(--ink); text-anchor: middle; font: 650 16px var(--sans); }
+  .map .subtext { fill: var(--muted); font: 520 13px var(--sans); }
+  .modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: .7rem; border: 1px solid var(--rule); }
+  .modes label { display: grid; align-items: center; text-align: center; min-height: 2.75rem; cursor: pointer; font-weight: 650; }
+  .modes label + label { border-inline-start: 1px solid var(--rule); }
+  .modes label:hover { color: var(--accent); }
+  .explanation { display: none; padding-top: 1rem; min-height: 8.1rem; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+  .question { font: 520 clamp(1.35rem, 2.4vw, 1.7rem)/1.15 var(--serif); color: var(--ink); margin: 0 0 .28rem; }
+  .map:has([value='repair']:checked) label.repair,
+  .map:has([value='verify']:checked) label.verify,
+  .map:has([value='guide']:checked) label.guide { background: var(--accent); color: var(--paper); }
+  .map:has([value='repair']:focus-visible) label.repair,
+  .map:has([value='verify']:focus-visible) label.verify,
+  .map:has([value='guide']:focus-visible) label.guide { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .map:has([value='repair']:checked) :is(.mode-line, .explanation).repair,
+  .map:has([value='verify']:checked) :is(.mode-line, .explanation).verify,
+  .map:has([value='guide']:checked) :is(.mode-line, .explanation).guide { display: block; }
+  .map:has([value='repair']:checked) .graph-dots,
+  .map:has([value='guide']:checked) .model-dots { stroke: var(--accent); fill: var(--accent-soft); }
+  @media (max-width: 450px) {
+    .map text { font-size: 19px; }
+    .map .subtext { font-size: 16px; }
+  }
+</style>

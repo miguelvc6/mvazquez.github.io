@@ -1,0 +1,34 @@
+---
+import type { Project } from '../data/projects';
+import ResourceLinks from './ResourceLinks.astro';
+
+interface Props { item: Project; compact?: boolean }
+const { item, compact = false } = Astro.props;
+---
+<article class:list={['project-entry', { illustrated: item.image && !compact }]} id={item.id}>
+  <div class="project-copy">
+    <p class="meta">{item.kind}</p>
+    <h3>{compact ? <a href={`/projects/#${item.id}`}>{item.title}</a> : item.title}</h3>
+    <p>{item.description}</p>
+    {!compact && <>
+      <p>{item.contribution}</p>
+      <p class="technologies">{item.technologies.join(' · ')}</p>
+      <ResourceLinks links={item.links} />
+    </>}
+  </div>
+  {item.image && !compact && (
+    <figure><img src={item.image.path} alt={item.image.alt} width={item.image.width} height={item.image.height} loading="lazy" decoding="async" /></figure>
+  )}
+</article>
+<style>
+  .project-entry { padding-block: var(--space-row); border-bottom: 1px solid var(--rule); }
+  .illustrated { display: grid; align-items: start; grid-template-columns: minmax(0, 1fr) minmax(0, .7fr); gap: 1.1rem clamp(1.5rem, 6vw, 6rem); }
+  .project-copy { max-width: 42rem; }
+  .project-entry h3 { margin: .35rem 0 .55rem; }
+  .project-entry h3 a { text-decoration: none; }
+  .project-entry h3 a:hover { text-decoration: underline; }
+  .project-entry figure { background: var(--surface); border: 1px solid var(--rule); }
+  .project-entry figure img { width: 100%; max-height: 19rem; object-fit: contain; }
+  .technologies { color: var(--muted); font-size: .9rem; }
+  @media (max-width: 640px) { .illustrated { grid-template-columns: minmax(0, 1fr); } }
+</style>

@@ -1,0 +1,13 @@
+---
+import type { Resource } from '../data/schema';
+
+interface Props { links: Resource[] }
+const { links } = Astro.props;
+---
+{links.length > 0 && (
+  <ul class="link-list" role="list">
+    {links.map(({ url, label }) => (
+      <li><a href={url}>{label} <span aria-hidden="true">{url.startsWith('/') ? '→' : '↗'}</span></a></li>
+    ))}
+  </ul>
+)}

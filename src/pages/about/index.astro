@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import { person, profile } from '../../data/profile';
+---
+<Base title="About" description="About Miguel Vázquez, PhD researcher at WU Vienna, with a background in mathematics, logic, and applied machine learning." schema={{ '@type': 'ProfilePage', mainEntity: person }}>
+  <PageIntro title="About" intro="I’m from Seville and based in Vienna. I came to AI through mathematics, logic, and a few years of building systems in industry." />
+  <div class="wrap page-body">
+    <section class="split about-main row-list" aria-label="Biography">
+      <figure>
+        <Image src={profile.aboutPhoto} alt="Portrait of Miguel Vázquez" widths={[320, 480, 800]} sizes="(max-width: 640px) 90vw, 380px" />
+        <figcaption class="meta">{profile.name}</figcaption>
+      </figure>
+      <div class="flow">
+        <h2>From mathematics to AI</h2>
+        <p>I’m a PhD researcher in artificial intelligence at WU Vienna’s Institute for Data, Process and Knowledge Management. I work with Axel Polleres in the Bilateral AI Cluster of Excellence, studying how symbolic reasoning and structured knowledge can inform what neural models do.</p>
+        <p>I completed a BSc in Mathematics at the Universidad de Sevilla, including an international study period at Bergische Universität Wuppertal. I went on to complete an MSc in Logic, Computation and Artificial Intelligence in Seville and received the Best Academic Record Award in 2023.</p>
+        <p>Before starting my doctorate, I worked as a data scientist at oga. I built retrieval-augmented assistants for unstructured data and worked on statistical and machine learning approaches to equipment fault diagnosis.</p>
+        <p>Outside work I read, keep up with strength training and calisthenics, and still appreciate a good rugby match after ten years of playing.</p>
+        <a class="text-link" href={profile.cv} download>Download academic CV (PDF) <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+    <div class="about-notes row-list">
+      <section class="split row" id="academic-service">
+        <h2>Academic activity</h2>
+        <div>
+          <p>In 2026 I served on the program committee of the Wikidata Workshop at ISWC, participated in the ISWC Doctoral Consortium, and organized and presented a BilAI Knowledge Graph workshop at the cluster retreat in Graz. I also tutored at ESSAI in Vienna.</p>
+          <p>In 2025 I attended the International Semantic Web Research Summer School in Bertinoro and the Bilateral AI PhD Summer School in Klagenfurt. I presented my doctoral proposal at the Bilateral AI Research Retreat in Vienna.</p>
+        </div>
+      </section>
+      <section class="split row" id="technical-background">
+        <h2>Technical background</h2>
+        <p>I work with RDF, SPARQL, OWL, and SHACL to represent and check structured knowledge. I use Python and PyTorch for graph learning, and build datasets, benchmarks, and reproducible experiments for evaluating language models.</p>
+      </section>
+    </div>
+  </div>
+</Base>
+<style>
+  .about-main { padding-top: var(--space-row); grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); }
+  .about-main figure { max-width: 24rem; }
+  .about-main img { width: 100%; }
+  .about-main figcaption { margin-top: .65rem; }
+  .about-notes { margin-top: var(--space-section); }
+  .about-notes h2 { font-size: clamp(1.9rem, 3.5vw, 3.15rem); }
+  @media (max-width: 640px) {
+    .about-main { grid-template-columns: minmax(0, 1fr); }
+    .about-main figure { max-width: 16rem; }
+    .about-notes section { gap: .9rem; }
+  }
+</style>

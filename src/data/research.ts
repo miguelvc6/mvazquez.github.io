@@ -1,0 +1,40 @@
+export const researchIntro = 'My research connects knowledge graphs and symbolic reasoning with graph neural networks and large language models. I use executable constraints to study which edits or generated claims can be checked and what a model can learn from the outcome.';
+
+export const directions = [
+  {
+    id: 'repair',
+    mode: 'Repair',
+    title: 'Constraint-aware knowledge graph repair',
+    question: 'Which edit improves the graph?',
+    summary: 'A graph neural network can use the structure around a violation to rank candidate edits. Executable constraints help assess what each edit fixes and what else it affects.',
+    status: 'Published work and submitted research',
+    problem: 'A knowledge graph can contain statements that fail its own rules. A proposed repair can resolve one violation while introducing another or leaving a previously checkable condition undecidable.',
+    approach: 'I use graph representations and graph neural networks to learn from the relationships around a violation. Symbolic validation helps evaluate the candidate edits and their consequences across nearby constraints.',
+    evidence: 'Our ESWC 2026 paper compares graph encodings and neural architectures using historical Wikidata edits. A submitted manuscript investigates learning the consequences of edits alongside symbolic verification.',
+    publications: ['structure-is-the-signal', 'neural-constraint-factors'],
+  },
+  {
+    id: 'verify',
+    mode: 'Verify',
+    title: 'Knowledge graph constraints for factual error detection',
+    question: 'Can a rule flag a generated claim?',
+    summary: 'Ground a generated claim in a knowledge graph and check the relevant rules. A violation can flag an inconsistency. A passing check only establishes conformance to the rules evaluated.',
+    status: 'Published work and ongoing research',
+    problem: 'A language model can produce a fluent factual claim that contradicts what is known about the entities it mentions. This can happen in systems that retrieve supporting documents, too.',
+    approach: 'I study how to map model outputs to graph statements and evaluate constraints on types, relations or temporal ranges. The coverage of the graph and the rules determines what can be checked.',
+    evidence: 'Our Wikidata Workshop paper evaluates this approach on generated answers. I am investigating when constraint checks complement other factual error detectors, including those designed for retrieval-augmented generation (RAG).',
+    publications: ['wikidata-claim-verification'],
+  },
+  {
+    id: 'guide',
+    mode: 'Guide',
+    title: 'Verifier-guided language models and knowledge graph repair',
+    question: 'What feedback helps revise an edit?',
+    summary: 'A language model can propose an edit. A symbolic verifier can describe the constraints affected by that edit and provide feedback for a revision.',
+    status: 'Ongoing research',
+    problem: 'A language model can suggest plausible graph edits, yet miss requirements elsewhere in a schema. A single pass or fail gives it little information about what needs revision.',
+    approach: 'I investigate how a verifier can report which constraints changed, which remain violated and which could be evaluated. This makes it possible to study which kinds of feedback help a model revise its proposal.',
+    evidence: 'An open question is how well useful feedback transfers across graphs and types of constraints.',
+    publications: [],
+  },
+] as const;

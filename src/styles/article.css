@@ -1,0 +1,63 @@
+.post { padding-block: clamp(2.7rem, 7vw, 6.5rem) var(--space-section); }
+.post-header { max-width: 59rem; margin-bottom: clamp(2rem, 5vw, 4.8rem); }
+.post-header h1 { font-size: clamp(2.65rem, 7vw, 6.2rem); margin: .32em 0 .24em; }
+.post-header .lede { max-width: 39rem; }
+.post-byline, .post-tags { font-size: .91rem; color: var(--muted); margin-bottom: .35em; }
+.post-tags { color: var(--accent); }
+.post-layout { display: grid; grid-template-columns: minmax(0, var(--reading-width)); align-items: start; }
+.post-layout.has-toc { grid-template-columns: minmax(10rem, 14rem) minmax(0, var(--reading-width)); gap: clamp(1.5rem, 5vw, 5rem); }
+.post-aside { position: sticky; top: 1.5rem; max-height: calc(100vh - 3rem); overflow: auto; padding: .4rem .6rem .3rem .15rem; border-top: 1px solid var(--rule); }
+.post-aside summary { color: var(--ink); min-height: 1.7rem; font-weight: 680; }
+.post-aside ul { margin: .5rem 0; padding: 0; list-style: none; }
+.post-aside li { padding-block: .18rem; }
+.post-aside li.nested { padding-inline-start: .65rem; }
+.post-aside a { color: var(--muted); text-decoration: none; font-size: .86rem; line-height: 1.4; display: inline-block; }
+.post-aside a:hover { color: var(--accent); text-decoration: underline; }
+.article-body { min-width: 0; font-size: 1.05rem; line-height: 1.75; overflow-wrap: anywhere; }
+.article-body :is(h2, h3, h4, h5, h6) { margin: 1.55em 0 .45em; }
+.article-body h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+.article-body h3 { font-size: clamp(1.5rem, 3vw, 2.12rem); }
+.article-body > :first-child { margin-top: 0; }
+.article-body p { margin-bottom: 1.14em; }
+.article-body img { margin: 1.25rem auto .65rem; }
+.article-body a { color: var(--accent); }
+.article-body :is(ul, ol) { margin-block: .55rem 1.2rem; }
+.article-body li + li { margin-top: .25rem; }
+.article-body li p { margin-bottom: .5em; }
+.article-body blockquote { margin-inline: 0; padding-inline-start: 1rem; border-inline-start: 2px solid var(--accent); color: var(--muted); }
+.article-body :not(pre) > code { background-color: var(--surface); padding: .11em .25em; font-size: .91em; }
+.article-body pre { margin-block: 1rem 1.25rem; padding: .88rem 1rem; border: 1px solid var(--rule); overflow: auto; font-size: .88rem; line-height: 1.55; background: var(--panel); }
+.article-body pre code { overflow-wrap: normal; }
+.article-body .code-frame pre { margin-top: .25rem; }
+.article-body .table-scroll { overflow: auto; margin: 1rem 0 1.25rem; }
+.article-body table { border-collapse: collapse; min-width: 100%; font-size: .94rem; }
+.article-body :is(th, td) { padding: .42rem .7rem; border: 1px solid var(--rule); }
+.article-body th { background: var(--surface); }
+.article-body math[display='block'] { display: block; max-width: 100%; padding: .45rem; overflow: auto; }
+.article-body .footnotes { border-top: 1px solid var(--rule); color: var(--muted); font-size: .93rem; }
+.article-body pre.astro-code { background: var(--shiki-light-bg); color: var(--shiki-light); }
+.article-body .footnotes .data-footnote-backref {
+  display: inline-grid;
+  min-width: 24px;
+  min-height: 24px;
+  place-items: center;
+}
+.astro-code span { color: var(--shiki-light, inherit); }
+:root[data-theme='dark'] .article-body pre.astro-code { background: var(--shiki-dark-bg); color: var(--shiki-dark); }
+:root[data-theme='dark'] .astro-code span { color: var(--shiki-dark, inherit); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .article-body pre.astro-code { background: var(--shiki-dark-bg); color: var(--shiki-dark); }
+  :root:not([data-theme='light']) .astro-code span { color: var(--shiki-dark, inherit); }
+}
+.post-neighbors { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; margin-top: 3rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; }
+.post-neighbors a { display: grid; text-decoration: none; gap: .35rem; max-width: 27rem; }
+.post-neighbors a:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  .post-layout.has-toc { grid-template-columns: minmax(0, var(--reading-width)); gap: 1.7rem; }
+  .post-aside { position: static; max-height: none; }
+  .post-aside ul { columns: 2; column-gap: 1.3rem; }
+  .post-aside li { break-inside: avoid; }
+}
+@media (max-width: 430px) {
+  .post-aside ul { columns: auto; }
+}

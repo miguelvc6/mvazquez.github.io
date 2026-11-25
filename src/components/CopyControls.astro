@@ -1,0 +1,55 @@
+<script>
+  function addCopyButton(container: HTMLElement, label: string) {
+    if (container.querySelector('[data-copy]')) return;
+    const bar = document.createElement('div');
+    bar.className = 'copy-bar';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.copy = '';
+    button.textContent = label;
+    const status = document.createElement('span');
+    status.dataset.copyStatus = '';
+    status.setAttribute('role', 'status');
+    bar.append(button, status);
+    container.prepend(bar);
+  }
+
+  if (navigator.clipboard?.writeText) {
+    for (const pre of document.querySelectorAll<HTMLPreElement>('.article-body pre')) {
+      if (!pre.querySelector('code') || pre.closest('[data-copy-container]')) continue;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-frame';
+      wrapper.dataset.copyContainer = '';
+      pre.before(wrapper);
+      wrapper.append(pre);
+      addCopyButton(wrapper, 'Copy code');
+    }
+
+    for (const container of document.querySelectorAll<HTMLElement>('[data-copy-container]')) {
+      const button = container.querySelector<HTMLButtonElement>('[data-copy]');
+      const status = container.querySelector<HTMLElement>('[data-copy-status]');
+      const code = container.querySelector('pre code');
+      if (!button || !status || !code) continue;
+      button.hidden = false;
+      let reset: number | undefined;
+      button.addEventListener('click', async () => {
+        clearTimeout(reset);
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? '');
+          status.textContent = 'Copied.';
+        } catch {
+          status.textContent = 'Copy unavailable. Select the text to copy it.';
+        }
+        reset = window.setTimeout(() => { status.textContent = ''; }, 3000);
+      });
+    }
+  }
+</script>
+<style is:global>
+  .copy-bar { display: flex; align-items: center; justify-content: flex-end; gap: .65rem; flex-wrap: wrap; }
+  .copy-bar:has(button[hidden]) { display: none; }
+  .copy-bar button { min-height: 1.8rem; padding: .15rem .55rem; font-size: .8rem; }
+  .copy-bar button:hover { color: var(--accent); border-color: var(--accent); }
+  .copy-bar [role='status'] { color: var(--muted); font-size: .8rem; }
+  .copy-bar [role='status']:empty { display: none; }
+</style>

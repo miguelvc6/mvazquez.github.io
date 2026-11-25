@@ -1,0 +1,64 @@
+---
+import { profile } from '../data/profile';
+
+const links = [
+  ['Research', '/research/'],
+  ['Publications', '/publications/'],
+  ['Teaching', '/teaching/'],
+  ['Projects', '/projects/'],
+  ['Writing', '/writing/'],
+  ['About', '/about/'],
+] as const;
+const current = Astro.url.pathname;
+const isCurrent = (url: string) => current.startsWith(url) || (url === '/writing/' && current.startsWith('/blog/'));
+---
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-current={current === "/" ? "page" : undefined}>
+      <span class="brand-mark" aria-hidden="true">m</span><span>{profile.name}</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {links.map(([label, url]) => <a href={url} aria-current={isCurrent(url) ? 'page' : undefined}>{label}</a>)}
+      <a class="nav-cv" href={profile.cv}>CV <span aria-hidden="true">↗</span></a>
+    </nav>
+    <div class="header-controls">
+      <button class="theme-button" type="button" aria-label="Dark theme" aria-pressed="false" data-theme-toggle hidden>
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path class="moon" d="M20.2 15.8a8.7 8.7 0 0 1-12-12 8.8 8.8 0 1 0 12 12Z"/>
+          <g class="sun"><circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/></g>
+        </svg>
+      </button>
+      <details class="mobile-nav">
+        <summary>Menu</summary>
+        <nav aria-label="Main navigation">
+          {links.map(([label, url]) => <a href={url} aria-current={isCurrent(url) ? 'page' : undefined}>{label}</a>)}
+          <a href={profile.cv}>Academic CV (PDF) <span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+<script>
+  const control = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => document.documentElement.dataset.theme === 'dark' ||
+    (!document.documentElement.dataset.theme && systemTheme.matches);
+  const update = () => control?.setAttribute('aria-pressed', String(isDark()));
+  if (control) control.hidden = false;
+  update();
+  systemTheme.addEventListener('change', update);
+  control?.addEventListener('click', () => {
+    const theme = isDark() ? 'light' : 'dark';
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('mv-theme', theme); } catch { /* Storage may be unavailable. */ }
+    update();
+  });
+
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-nav');
+  menu?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.open) {
+      menu.open = false;
+      menu.querySelector('summary')?.focus();
+    }
+  });
+</script>

@@ -1,0 +1,51 @@
+---
+import { type Publication, bibtex } from '../data/publications';
+import { profile } from '../data/profile';
+import ResourceLinks from './ResourceLinks.astro';
+
+interface Props { item: Publication; compact?: boolean }
+const { item, compact = false } = Astro.props;
+const links = [
+  ...(item.doi ? [{ label: 'DOI', url: `https://doi.org/${item.doi}` }] : []),
+  ...(item.paper ? [{ label: 'Paper (PDF)', url: item.paper }] : []),
+  ...item.links,
+];
+---
+<article class="paper-row row" id={item.id}>
+  <div class="paper-meta">
+    <p class="meta">{item.shortVenue} · {item.year}</p>
+    <p class="status">{item.status}</p>
+  </div>
+  <div>
+    <h3>{compact ? <a href={`/publications/#${item.id}`}>{item.title}</a> : item.title}</h3>
+    <p class="authors">{item.authors.map((author, index) => (
+      <>{index ? (index === item.authors.length - 1 ? ' & ' : ', ') : ''}{author === profile.name ? <strong>{author}</strong> : author}</>
+    ))}</p>
+    {!compact && <>
+      <p class="venue">{item.status === 'Submitted manuscript' ? 'Submitted to ' : ''}<cite>{item.venue}</cite>{item.details && ` · ${item.details}`}</p>
+      <p>{item.description}</p>
+    </>}
+    <ResourceLinks links={links} />
+    {!compact && (
+      <details class="citation" data-copy-container>
+        <summary>BibTeX citation</summary>
+        <div class="copy-bar"><button type="button" data-copy hidden>Copy BibTeX</button><span role="status" data-copy-status></span></div>
+        <pre><code>{bibtex(item)}</code></pre>
+      </details>
+    )}
+  </div>
+</article>
+<style>
+  .paper-row { display: grid; grid-template-columns: minmax(10rem, .32fr) minmax(0, 1fr); gap: clamp(1rem, 4vw, 4.25rem); }
+  .paper-meta p { margin-bottom: .35rem; }
+  .status { color: var(--accent); font-size: .88rem; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+  .authors, .venue { color: var(--muted); font-size: .94rem; }
+  .authors { margin-bottom: .4rem; }
+  .authors strong { color: var(--ink); font-weight: 650; }
+  .citation { margin-top: 1rem; font-size: .92rem; }
+  .citation summary { width: fit-content; min-height: 1.6rem; color: var(--accent); font-weight: 650; }
+  .citation pre { margin: 0; border: 1px solid var(--rule); background: var(--panel); padding: .8rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  @media (max-width: 640px) { .paper-row { grid-template-columns: minmax(0, 1fr); gap: .5rem; } }
+</style>

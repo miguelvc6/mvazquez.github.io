@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import CourseEntry from '../../components/CourseEntry.astro';
+import { teaching } from '../../data/teaching';
+import { profile } from '../../data/profile';
+---
+<Base title="Teaching" description="University courses, summer school teaching, and bachelor’s thesis supervision by Miguel Vázquez.">
+  <PageIntro label="Courses and supervision" title="Teaching" intro="I teach artificial intelligence and information systems at WU Vienna. In my AI course, I pair lectures with exercises that let students work through the ideas for themselves." />
+  <div class="wrap page-body">
+    <section class="row-list split teaching-block" aria-labelledby="courses">
+      <div class="flow"><h2 id="courses">Courses</h2><p class="muted">University teaching and the European Summer School on Artificial Intelligence.</p></div>
+      <div>{teaching.filter(({ category }) => category === 'course').map((item) => <CourseEntry item={item} />)}</div>
+    </section>
+    <section class="row-list split teaching-block" aria-labelledby="supervision">
+      <div class="flow"><h2 id="supervision">Supervision</h2><a class="text-link" href={`mailto:${profile.email}`}>Contact me about teaching <span aria-hidden="true">↗</span></a></div>
+      <div>{teaching.filter(({ category }) => category === 'supervision').map((item) => <CourseEntry item={item} />)}</div>
+    </section>
+  </div>
+</Base>
+<style>
+  .teaching-block { padding-top: var(--space-row); }
+  .teaching-block + .teaching-block { margin-top: clamp(2.4rem, 7vw, 5.5rem); }
+  .teaching-block :global(.course:first-child) { padding-top: 0; }
+</style>
